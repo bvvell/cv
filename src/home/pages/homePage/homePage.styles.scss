@@ -87,3 +87,10 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .home-data {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+}
