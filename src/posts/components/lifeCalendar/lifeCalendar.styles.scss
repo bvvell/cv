@@ -1,0 +1,149 @@
+.life-calendar {
+  --cell-size: 16px;
+  --cell-gap: 2px;
+
+  margin: 2rem 0;
+  padding: 1.5rem;
+  max-width: max-content;
+  border-radius: 18px;
+  background: var(--color-home-bg-soft);
+  border: 1px solid var(--color-tag-border);
+
+  &__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--color-text-subtle);
+  }
+
+  &__input {
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-tag-border);
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--color-text);
+
+    &.is-invalid {
+      border-color: #d35a4a;
+      box-shadow: 0 0 0 1px rgba(211, 90, 74, 0.2);
+    }
+  }
+
+  &__error {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #d35a4a;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  &__grid {
+    display: grid;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  &__rows {
+    display: grid;
+    gap: 6px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: clamp(64px, 10vw, 70px) 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__row-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-subtle);
+    letter-spacing: 0.02em;
+    text-align: right;
+  }
+
+  &__weeks {
+    display: grid;
+    grid-template-columns: repeat(52, var(--cell-size));
+    gap: var(--cell-gap);
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  &__cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border-radius: 2px;
+    background: #e4e8ef;
+    
+    &.is-lived {
+      background: #1c8b3a;
+    }
+
+    &.is-current {
+      background: var(--color-home-accent);
+    }
+
+    &.is-future {
+      background: #dfe3ea;
+    }
+
+    &.is-prebirth {
+      background: #f4d8b9;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .life-calendar {
+    --cell-size: clamp(6px, calc((100vw - 88px) / 52), 13px);
+    --cell-gap: clamp(1px, 0.2vw, 2px);
+    padding: 1rem;
+
+    &__row {
+      grid-template-columns: clamp(40px, 8vw, 80px) 1fr;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .life-calendar {
+    --cell-size: 3px;
+    --cell-gap: 2px;
+
+    &__controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__row {
+      grid-template-columns: 48px 1fr;
+      gap: 6px;
+    }
+
+    &__row-label {
+      font-size: 0.8rem;
+    }
+
+    &__cell {
+      border-radius: 50%;
+    }
+  }
+}

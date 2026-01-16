@@ -9,7 +9,7 @@
           class="posts-back"
           to="/posts"
         >
-          Back to posts
+          Назад да запісаў
         </router-link>
         <article
           v-if="post"
@@ -18,27 +18,25 @@
           <header class="post-header">
             <p class="post-meta">
               <span>{{ formatDate(post.date) }}</span>
-              <span v-if="post.readingTime">· {{ post.readingTime }}</span>
             </p>
             <h1>{{ post.title }}</h1>
             <p class="post-excerpt">
               {{ post.excerpt }}
             </p>
           </header>
-          <!-- Content comes from local data, so v-html is safe here. -->
-          <div
+          <component
+            :is="post.component"
             class="post-content"
-            v-html="post.content"
           />
         </article>
         <div
           v-else
           class="post-missing"
         >
-          <h1>Post not found</h1>
-          <p>That page is not available. Pick another entry from the posts list.</p>
+          <h1>Запіс не знойдзены</h1>
+          <p>Старонка недаступная. Абяры іншы запіс са спісу.</p>
           <router-link to="/posts">
-            Go to posts index
+            Да спісу запісаў
           </router-link>
         </div>
       </div>
@@ -57,16 +55,16 @@ const route = useRoute()
 const slug = computed(() => String(route.params.slug ?? ''))
 const post = computed(() => POSTS.find((item) => item.slug === slug.value))
 
-const formatDate = (value: string) => new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium'
+const formatDate = (value: string) => new Intl.DateTimeFormat('be-BY', {
+  dateStyle: 'medium'
 }).format(new Date(value))
 
 watchEffect(() => {
-    if (post.value) {
-        document.title = `${post.value.title} — Posts`
-    } else {
-        document.title = 'Post not found — Posts'
-    }
+  if (post.value) {
+    document.title = `${post.value.title} — Posts`
+  } else {
+    document.title = 'Post not found — Posts'
+  }
 })
 
 usePageLoader('page', 100)

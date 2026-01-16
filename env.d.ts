@@ -6,3 +6,9 @@ declare module '*.vue' {
   export default component
 }
 
+declare module '*.md' {
+  import type { DefineComponent } from 'vue'
+  export const frontmatter: Record<string, any>
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}

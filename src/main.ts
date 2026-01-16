@@ -1,10 +1,16 @@
-import {createApp} from 'vue'
+import {createHead} from '@unhead/vue/legacy'
+import {ViteSSG} from 'vite-ssg'
+import {lifeCalendar} from '@/posts/components'
 import App from './App.vue'
-import router from './router'
-import './style.css'
+import {routes} from './router'
 import 'highlight.js/styles/github.css'
+import './style.css'
 
-const app = createApp(App)
-
-app.use(router)
-app.mount('#app')
+export const createApp = ViteSSG(
+    App,
+    {routes},
+    ({app}) => {
+        app.use(createHead())
+        app.component('LifeCalendar', lifeCalendar)
+    }
+)
