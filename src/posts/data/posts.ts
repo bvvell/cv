@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import markdownItHighlightjs from 'markdown-it-highlightjs'
 
-export type BlogPost = {
+export type Post = {
     slug: string
     title: string
     date: string
@@ -66,12 +66,13 @@ const extractSlug = (path: string) => {
     return match ? match[1] : path
 }
 
-const modules = import.meta.glob('/src/blog/posts/*.md', {
+const modules = import.meta.glob('/src/posts/posts/*.md', {
     eager: true,
-    as: 'raw'
+    query: '?raw',
+    import: 'default'
 }) as Record<string, string>
 
-export const BLOG_POSTS: BlogPost[] = Object.entries(modules)
+export const POSTS: Post[] = Object.entries(modules)
     .map(([path, raw]) => {
         const slug = extractSlug(path)
         const {frontMatter, body} = parseFrontMatter(raw)

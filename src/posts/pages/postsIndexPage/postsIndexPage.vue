@@ -1,26 +1,26 @@
 <template>
   <div
     id="page"
-    class="blog-page"
+    class="posts-page"
   >
     <div class="wrapp">
       <div class="content">
         <router-link
-          class="blog-back"
+          class="posts-back"
           to="/"
         >
           Back
         </router-link>
-        <header class="blog-hero">
+        <header class="posts-hero">
           <p class="eyebrow">
             Notes
           </p>
-          <h1>Blog</h1>
+          <h1>Posts</h1>
           <p class="intro">
             Short updates on design, frontend work, and small improvements.
           </p>
         </header>
-        <section class="blog-list">
+        <section class="posts-list">
           <article
             v-for="(post, index) in posts"
             :key="post.slug"
@@ -32,7 +32,7 @@
               <span v-if="post.readingTime">· {{ post.readingTime }}</span>
             </p>
             <h2>
-              <router-link :to="`/blog/${post.slug}`">
+              <router-link :to="`/posts/${post.slug}`">
                 {{ post.title }}
               </router-link>
             </h2>
@@ -49,9 +49,9 @@
 <script setup lang="ts">
 import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
-import {BLOG_POSTS} from '@/blog/data/blogPosts'
+import {POSTS} from '@/posts/data/posts'
 
-const posts = computed(() => [...BLOG_POSTS].sort((a, b) => {
+const posts = computed(() => [...POSTS].sort((a, b) => {
     const dateA = new Date(a.date).getTime()
     const dateB = new Date(b.date).getTime()
     return dateB - dateA
@@ -69,5 +69,5 @@ usePageLoader('page', 100)
 </script>
 
 <style scoped lang="scss">
-@use 'blogIndexPage.styles';
+@use 'postsIndexPage.styles';
 </style>

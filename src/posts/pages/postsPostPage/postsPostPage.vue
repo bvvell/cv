@@ -1,15 +1,15 @@
 <template>
   <div
     id="page"
-    class="blog-post"
+    class="posts-post"
   >
     <div class="wrapp">
       <div class="content">
         <router-link
-          class="blog-back"
-          to="/blog"
+          class="posts-back"
+          to="/posts"
         >
-          Back to blog
+          Back to posts
         </router-link>
         <article
           v-if="post"
@@ -36,9 +36,9 @@
           class="post-missing"
         >
           <h1>Post not found</h1>
-          <p>That page is not available. Pick another entry from the blog list.</p>
-          <router-link to="/blog">
-            Go to blog index
+          <p>That page is not available. Pick another entry from the posts list.</p>
+          <router-link to="/posts">
+            Go to posts index
           </router-link>
         </div>
       </div>
@@ -49,13 +49,13 @@
 <script setup lang="ts">
 import {computed, watchEffect} from 'vue'
 import {useRoute} from 'vue-router'
-import {BLOG_POSTS} from '@/blog/data/blogPosts'
+import {POSTS} from '@/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
 
 const route = useRoute()
 
 const slug = computed(() => String(route.params.slug ?? ''))
-const post = computed(() => BLOG_POSTS.find((item) => item.slug === slug.value))
+const post = computed(() => POSTS.find((item) => item.slug === slug.value))
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('en-US', {
     dateStyle: 'medium'
@@ -63,9 +63,9 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('en-US', {
 
 watchEffect(() => {
     if (post.value) {
-        document.title = `${post.value.title} — Blog`
+        document.title = `${post.value.title} — Posts`
     } else {
-        document.title = 'Post not found — Blog'
+        document.title = 'Post not found — Posts'
     }
 })
 
@@ -73,5 +73,5 @@ usePageLoader('page', 100)
 </script>
 
 <style scoped lang="scss">
-@use 'blogPostPage.styles';
+@use 'postsPostPage.styles';
 </style>

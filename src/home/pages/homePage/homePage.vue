@@ -12,8 +12,8 @@
           </router-link>
         </h2>
         <h2>
-          <router-link to="/blog">
-            Blog
+          <router-link to="/posts">
+            Posts
           </router-link>
         </h2>
         <div class="contact">

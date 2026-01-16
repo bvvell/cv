@@ -1,15 +1,15 @@
-.blog-page {
+.posts-page {
   min-height: 100vh;
   background: linear-gradient(180deg, #ffffff 0%, #f4f6fb 100%);
 
-  .blog-back {
+  .posts-back {
     display: inline-flex;
     margin: 0 0 1.5rem;
     font-weight: 600;
     border: none;
   }
 
-  .blog-hero {
+  .posts-hero {
     max-width: 60ch;
     margin-bottom: 2.5rem;
     opacity: 0;
@@ -30,7 +30,7 @@
     color: #444;
   }
 
-  .blog-list {
+  .posts-list {
     display: grid;
     gap: 1.75rem;
   }
@@ -57,7 +57,7 @@
   }
 
   &.loaded {
-    .blog-hero,
+    .posts-hero,
     .post-card {
       opacity: 1;
       transform: translateY(0);
@@ -66,7 +66,7 @@
 }
 
 @media (max-width: 768px) {
-  .blog-page {
+  .posts-page {
     .post-card {
       padding: 1.25rem;
     }
