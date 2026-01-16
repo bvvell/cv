@@ -29,6 +29,14 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Check secrets presence (masked)
+        run: |
+          if [ -z "${{ secrets.SSH_HOST }}" ]; then echo "SSH_HOST is EMPTY"; else echo "SSH_HOST is set"; fi
+          if [ -z "${{ secrets.SSH_PORT }}" ]; then echo "SSH_PORT is EMPTY"; else echo "SSH_PORT is set"; fi
+          if [ -z "${{ secrets.SSH_USER }}" ]; then echo "SSH_USER is EMPTY"; else echo "SSH_USER is set"; fi
+          if [ -z "${{ secrets.SSH_PASSWORD }}" ]; then echo "SSH_PASSWORD is EMPTY"; else echo "SSH_PASSWORD is set"; fi
+          if [ -z "${{ secrets.SSH_TARGET }}" ]; then echo "SSH_TARGET is EMPTY"; else echo "SSH_TARGET is set"; fi
+
       - name: Upload dist via SFTP (SSH debug)
         uses: appleboy/scp-action@v0.1.7
         with:
