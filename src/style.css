@@ -146,6 +146,13 @@ dl dd {
     }
 }
 
+@media (max-width: 768px) {
+    .wrapp {
+        min-height: 100svh;
+        min-height: 100dvh;
+    }
+}
+
 /* ---------- print (A4, margins 18–20 mm) ---------- */
 @page {
     size: A4;

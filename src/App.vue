@@ -15,4 +15,11 @@ provideCvData()
   width: 100%;
   min-height: 100vh;
 }
+
+@media (max-width: 768px) {
+  #app {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+}
 </style>
