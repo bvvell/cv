@@ -1,6 +1,6 @@
 import {createHead} from '@unhead/vue/legacy'
 import {ViteSSG} from 'vite-ssg'
-import LifeCalendar from '@/posts/components/lifeCalendar/lifeCalendar.vue'
+import {lifeCalendar} from '@/posts/components'
 import App from './App.vue'
 import {routes} from './router'
 import 'highlight.js/styles/github.css'
@@ -11,6 +11,6 @@ export const createApp = ViteSSG(
     {routes},
     ({app}) => {
         app.use(createHead())
-        app.component('LifeCalendar', LifeCalendar)
+        app.component('LifeCalendar', lifeCalendar)
     }
 )
