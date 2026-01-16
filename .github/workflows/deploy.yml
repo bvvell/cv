@@ -1,4 +1,4 @@
-name: Deploy Vite to hoster.by (FTPS)
+name: Deploy Vite to hoster.by (FTPS) via pnpm
 
 on:
   push:
@@ -16,20 +16,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Upload dist via FTPS (mirror --delete)
         env:
-          FTP_HOST: ${{ secrets.SFTP_HOST }}   # ftp.bvvell.ru
-          FTP_USER: ${{ secrets.SFTP_USER }}   # bvvellru
+          FTP_HOST: ${{ secrets.SFTP_HOST }}     # ftp.bvvell.ru
+          FTP_USER: ${{ secrets.SFTP_USER }}     # bvvellru
           FTP_PASS: ${{ secrets.SFTP_PASS }}
-          REMOTE_DIR: ${{ secrets.REMOTE_DIR }} # public_html
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}  # public_html
         run: |
           sudo apt-get update
           sudo apt-get install -y lftp
