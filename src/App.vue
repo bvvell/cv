@@ -51,6 +51,13 @@ const resolvedMeta = computed(() => {
         type
       }
     }
+    return {
+      title: 'Post not found — Posts',
+      description: 'Page not found.',
+      url: baseUrl.value ? `${baseUrl.value}/posts/${slug}` : '',
+      image,
+      type: 'website'
+    }
   }
 
   return {title, description, url, image, type}

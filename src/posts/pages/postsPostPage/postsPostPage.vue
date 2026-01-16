@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, watchEffect} from 'vue'
+import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {POSTS} from '@/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
@@ -58,14 +58,6 @@ const post = computed(() => POSTS.find((item) => item.slug === slug.value))
 const formatDate = (value: string) => new Intl.DateTimeFormat('be-BY', {
   dateStyle: 'medium'
 }).format(new Date(value))
-
-watchEffect(() => {
-  if (post.value) {
-    document.title = `${post.value.title} — Posts`
-  } else {
-    document.title = 'Post not found — Posts'
-  }
-})
 
 usePageLoader('page', 100)
 </script>

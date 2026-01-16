@@ -1,4 +1,3 @@
-import {createHead} from '@unhead/vue/legacy'
 import {ViteSSG} from 'vite-ssg'
 import {lifeCalendar} from '@/posts/components'
 import App from './App.vue'
@@ -10,7 +9,6 @@ export const createApp = ViteSSG(
     App,
     {routes},
     ({app}) => {
-        app.use(createHead())
         app.component('LifeCalendar', lifeCalendar)
     }
 )
