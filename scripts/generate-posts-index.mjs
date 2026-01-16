@@ -90,4 +90,4 @@ const posts = files.map((file) => {
 posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 fs.mkdirSync(path.dirname(outputPath), {recursive: true})
-fs.writeFileSync(outputPath, `${JSON.stringify(posts, null, 2)}\n`)
+fs.writeFileSync(outputPath, JSON.stringify(posts, null, 2))
