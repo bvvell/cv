@@ -19,8 +19,14 @@
     color: var(--color-notfound-eyebrow);
   }
 
+  h1 {
+    margin: 0 0 0.4rem;
+    font-size: calc(2.25vw + 0.5em);
+  }
+
   .intro {
     margin: 0.5rem 0 1.5rem;
+    font-size: calc(1.67vw + 0.5em);
     color: var(--color-text-subtle);
   }
 
