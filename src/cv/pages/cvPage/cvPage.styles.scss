@@ -4,6 +4,12 @@
   margin: 18mm;
 }
 
+.cv-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+  position: relative;
+}
+
 .cv-back {
   display: inline-flex;
   align-items: center;

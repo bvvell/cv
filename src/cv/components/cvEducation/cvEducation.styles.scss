@@ -3,6 +3,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 60px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
   }
 
   dl dd {
@@ -11,4 +16,5 @@
     margin-top: .3rem;
   }
 }
+
 

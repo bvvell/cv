@@ -6,7 +6,7 @@
   }
 
   .muted {
-    color: #666;
+    color: var(--color-text-muted);
   }
 
   .tags {
@@ -16,10 +16,9 @@
       display: inline-block;
       margin: .1rem .4rem .1rem 0;
       padding: .15rem .5rem;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--color-tag-border);
       border-radius: 999px;
       font-size: .85rem;
     }
   }
 }
-

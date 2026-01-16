@@ -9,10 +9,9 @@
 .contacts {
   margin: .25rem 0 1.25rem;
   font-size: .95rem;
-  color: #444;
+  color: var(--color-text-subtle);
 
   span {
     margin-right: 12px;
   }
 }
-

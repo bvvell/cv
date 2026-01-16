@@ -1,4 +1,21 @@
 .home-data {
+  min-height: 100vh;
+  color: var(--color-home-ink);
+  background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 48vw;
+    height: 48vw;
+    right: -18vw;
+    top: -12vw;
+    background: radial-gradient(circle, rgb(var(--color-home-accent-rgb) / 0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
   h1 {
     font-size: calc(2.25vw + .5em);
@@ -9,6 +26,7 @@
 
   h2 {
     font-size: calc(1.67vw + .5em);
+    color: var(--color-home-accent);
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
     opacity: 0;
@@ -37,6 +55,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
     opacity: 0;
+    color: var(--color-text-muted);
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
     margin-top: 1.5em;

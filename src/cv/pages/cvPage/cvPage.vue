@@ -1,7 +1,7 @@
 <template>
   <div
     id="page"
-    class="wrapp"
+    class="wrapp cv-page"
   >
     <div class="content">
       <router-link
