@@ -1,4 +1,4 @@
-name: Deploy Vite to hoster.by (SFTP SSH debug) via pnpm
+name: Deploy Vite to hoster.by (SFTP) via pnpm
 
 on:
   push:
@@ -9,43 +9,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
 
-      - name: Build
-        run: pnpm run build
-
-      - name: Check secrets presence (masked)
+      - name: Load HOSTERBY secret into env
         run: |
-          if [ -z "${{ secrets.SSH_HOST }}" ]; then echo "SSH_HOST is EMPTY"; else echo "SSH_HOST is set"; fi
-          if [ -z "${{ secrets.SSH_PORT }}" ]; then echo "SSH_PORT is EMPTY"; else echo "SSH_PORT is set"; fi
-          if [ -z "${{ secrets.SSH_USER }}" ]; then echo "SSH_USER is EMPTY"; else echo "SSH_USER is set"; fi
-          if [ -z "${{ secrets.SSH_PASSWORD }}" ]; then echo "SSH_PASSWORD is EMPTY"; else echo "SSH_PASSWORD is set"; fi
-          if [ -z "${{ secrets.SSH_TARGET }}" ]; then echo "SSH_TARGET is EMPTY"; else echo "SSH_TARGET is set"; fi
+          echo "${{ secrets.HOSTERBY }}" >> $GITHUB_ENV
+
+      - name: Check loaded vars (masked)
+        run: |
+          if [ -z "$SSH_HOST" ]; then echo "SSH_HOST EMPTY"; else echo "SSH_HOST set"; fi
+          if [ -z "$SSH_PORT" ]; then echo "SSH_PORT EMPTY"; else echo "SSH_PORT set"; fi
+          if [ -z "$SSH_USER" ]; then echo "SSH_USER EMPTY"; else echo "SSH_USER set"; fi
+          if [ -z "$SSH_PASSWORD" ]; then echo "SSH_PASSWORD EMPTY"; else echo "SSH_PASSWORD set"; fi
+          if [ -z "$SSH_TARGET" ]; then echo "SSH_TARGET EMPTY"; else echo "SSH_TARGET set"; fi
 
       - name: Upload dist via SFTP (SSH debug)
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }}          # vh152.hoster.by
-          port: ${{ secrets.SSH_PORT }}          # 22
-          username: ${{ secrets.SSH_USER }}      # bvvellru
-          password: ${{ secrets.SSH_PASSWORD }}  # пароль от SSH
+          host: ${{ env.SSH_HOST }}
+          port: ${{ env.SSH_PORT }}
+          username: ${{ env.SSH_USER }}
+          password: ${{ env.SSH_PASSWORD }}
           source: "dist/*"
-          target: ${{ secrets.SSH_TARGET }}      # /home/bvvellru/public_html
+          target: ${{ env.SSH_TARGET }}
           strip_components: 1
           overwrite: true
           debug: true
