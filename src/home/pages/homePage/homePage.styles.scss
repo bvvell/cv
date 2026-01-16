@@ -33,7 +33,7 @@
   }
 
   a {
-    color: currentColor;
+    color: var(--color-home-accent);
     border-bottom: 1px solid currentColor;
 
     &:hover {
@@ -55,7 +55,6 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
     opacity: 0;
-    color: var(--color-text-muted);
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
     margin-top: 1.5em;

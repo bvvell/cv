@@ -30,6 +30,10 @@ p, li {
     max-width: 75ch
 }
 
+li + li {
+    margin-top: 0.35rem
+}
+
 h1 {
     margin: 0 0 .4rem
 }
