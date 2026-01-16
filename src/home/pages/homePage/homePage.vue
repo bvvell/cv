@@ -5,7 +5,7 @@
   >
     <div class="wrapp">
       <div class="content">
-        <h1>{{ HOME_TITLE }} 1</h1>
+        <h1>{{ HOME_TITLE }}</h1>
         <h2>
           <router-link to="/cv">
             {{ HOME_SUBTITLE }}
