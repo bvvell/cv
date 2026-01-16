@@ -1,0 +1,74 @@
+.posts-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f6fb 100%);
+
+  .posts-back {
+    display: inline-flex;
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+    border: none;
+  }
+
+  .posts-hero {
+    max-width: 60ch;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    color: #6a6a6a;
+    margin: 0 0 0.5rem;
+  }
+
+  .intro {
+    margin: 0.75rem 0 0;
+    color: #444;
+  }
+
+  .posts-list {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .post-card {
+    padding: 1.5rem 1.75rem;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(25, 36, 66, 0.08);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .post-meta {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: #6c6c6c;
+  }
+
+  .excerpt {
+    margin: 0.5rem 0 0;
+    color: #333;
+  }
+
+  &.loaded {
+    .posts-hero,
+    .post-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .posts-page {
+    .post-card {
+      padding: 1.25rem;
+    }
+  }
+}

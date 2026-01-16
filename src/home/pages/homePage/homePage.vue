@@ -11,6 +11,11 @@
             {{ HOME_SUBTITLE }}
           </router-link>
         </h2>
+        <h2>
+          <router-link to="/posts">
+            Posts
+          </router-link>
+        </h2>
         <div class="contact">
           <a
             :href="SOCIAL_LINKS.telegram"
