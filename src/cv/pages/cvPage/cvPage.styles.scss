@@ -1,0 +1,38 @@
+/* Page layout */
+@page {
+  size: A4;
+  margin: 18mm;
+}
+
+.cv-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0 0 1rem;
+  padding: 0.25rem 0;
+  border: none;
+  border-radius: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.cv-back__icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: 0 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.cv-back:hover .cv-back__icon,
+.cv-back:focus-visible .cv-back__icon {
+  transform: translateX(-4px);
+}
+
+@media print {
+  .cv-back {
+    display: none;
+  }
+}

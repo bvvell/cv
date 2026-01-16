@@ -1,0 +1,153 @@
+/* ---------- base ---------- */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+    color: #111
+}
+
+p, li {
+    max-width: 75ch
+}
+
+h1 {
+    margin: 0 0 .4rem
+}
+
+h2 {
+    margin: 2rem 0 .75rem
+}
+
+h3 {
+    margin: 1.25rem 0 .25rem
+}
+
+a {
+    color: #1e88e5;
+    text-decoration: none;
+    border-bottom: 1px solid #1e88e5;
+    transition: border-color .2s
+}
+
+a:hover, a:focus {
+    border-bottom-color: transparent
+}
+
+a:visited {
+    color: #0c6ad9;
+    border-bottom-color: #0c6ad9
+}
+
+.wrapp {
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative
+}
+
+.content {
+    position: relative;
+    z-index: 1
+}
+
+.columns {
+    display: grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap: 60px
+}
+
+dl dd {
+    margin-left: 0;
+    margin-bottom: 1rem;
+    margin-top: .3rem
+}
+
+.muted {
+    color: #666
+}
+
+.tags {
+    margin-top: 0.5rem
+}
+
+.tags .tag {
+    display: inline-block;
+    margin: .1rem .4rem .1rem 0;
+    padding: .15rem .5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 999px;
+    font-size: .85rem
+}
+
+/* contacts under name */
+.contacts {
+    margin: .25rem 0 1.25rem;
+    font-size: .95rem;
+    color: #444
+}
+
+.contacts span {
+    margin-right: 12px
+}
+
+/* footer avatar */
+.avatar {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    width: 96px;
+    height: 96px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0, .6, .1, 1)
+}
+
+.loaded .avatar {
+    opacity: 1;
+    transform: translateY(0)
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    p, li {
+        line-height: 1.5
+    }
+
+    .columns {
+        display: block
+    }
+
+    .avatar {
+        width: 48px;
+        height: auto
+    }
+}
+
+/* ---------- print (A4, margins 18–20 mm) ---------- */
+@page {
+    size: A4;
+    margin: 18mm
+}
+
+@media print {
+    .wrapp {
+        padding: 0
+    }
+
+    .contact, .avatar {
+        display: none
+    }
+
+    a {
+        border: 0;
+        text-decoration: underline
+    }
+
+    h2 {
+        margin: 1rem 0 .5rem
+    }
+
+    h3 {
+        margin: .75rem 0 .25rem
+    }
+}

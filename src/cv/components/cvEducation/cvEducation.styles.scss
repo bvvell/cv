@@ -1,0 +1,14 @@
+.cv-education {
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+  }
+
+  dl dd {
+    margin-left: 0;
+    margin-bottom: 1rem;
+    margin-top: .3rem;
+  }
+}
+

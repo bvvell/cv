@@ -1,0 +1,112 @@
+{
+  "personal": {
+    "name": "Uladzimir Biarnatski",
+    "title": "Frontend Developer",
+    "homeSubtitle": "HTML coder / Front-end developer",
+    "location": "Belarus / Remote",
+    "contacts": {
+      "email": "vvbernacky@gmail.com",
+      "linkedin": "https://www.linkedin.com/in/ubiarnatski/",
+      "telegram": "https://t.me/bvvell"
+    }
+  },
+  "summary": "I'm a frontend developer with 9+ years of experience building responsive websites and modern web applications. I work mostly with Vue 3, TypeScript, and a modern frontend stack — Vite, Webpack, ESLint, Git. I enjoy creating clean and adaptive user interfaces, integrating REST APIs, and building components that make products fast and pleasant to use. I value clean code, thoughtful architecture, and good collaboration within a team.",
+  "skills": {
+    "title": "Skills",
+    "items": [
+      "Responsive / adaptive layout, accessibility basics (a11y)",
+      "UI component development, state management, routing",
+      "REST API integration, error handling, data fetching",
+      "Performance & bundle-size optimization",
+      "Code quality: ESLint/Prettier, Git flow, PR reviews",
+      "Basic CI/CD & environment setup for front-end apps"
+    ]
+  },
+  "technologies": {
+    "title": "Technologies",
+    "items": [
+      "Vue 3, TypeScript, JavaScript (ES6+), Pinia, Vue Router",
+      "Vite, Webpack, npm / yarn / pnpm",
+      "HTML5, CSS3, SCSS/SASS",
+      "ESLint, Prettier, Git",
+      "WordPress (templates/ACF) — basic when needed",
+      "Figma / Zeplin handoff"
+    ]
+  },
+  "education": [
+    {
+      "school": "Belarusian State University",
+      "degree": "Engineer–programmer",
+      "period": "2008 — 2013"
+    }
+  ],
+  "courses": [
+    {
+      "title": "JavaScript / Front-end (RS School)",
+      "url": "https://rs.school/js/",
+      "year": "2020"
+    },
+    {
+      "title": "English — A2 (improving)",
+      "year": ""
+    }
+  ],
+  "experience": [
+    {
+      "company": "Mindtech",
+      "position": "Frontend Developer",
+      "period": "Apr 2019 — Present",
+      "description": [
+        "Maintained and enhanced an existing project built with AngularJS",
+        "Developed an online showcase for virtual products using Vue 2",
+        "Built internal systems for the marketing team leveraging Vue 2, Vue 3, and TypeScript",
+        "Created interactive user interface elements",
+        "Integrated charts for data visualization",
+        "Optimized performance and improved user experience",
+        "Collaborated closely with the marketing team to analyze and implement requirements"
+      ],
+      "tags": [
+        "Vue 3",
+        "TypeScript",
+        "Pinia",
+        "Vite",
+        "SCSS",
+        "REST API"
+      ]
+    },
+    {
+      "company": "Expatel Mobile",
+      "position": "HTML-coder",
+      "period": "Sep 2016 — Feb 2019",
+      "description": [
+        "Developed and maintained websites, including a blog on the WordPress platform",
+        "Designed and implemented email templates for cross-browser and responsive compatibility",
+        "Worked with AWS S3 for storing and uploading media files, optimizing data access",
+        "Designed and implemented a user dashboard using AngularJS, HTML, and CSS",
+        "Created filters for convenient data search and sorting",
+        "Integrated charts for data visualization",
+        "Generated and exported reports in PDF format using wkhtmltopdf",
+        "Implemented user authentication via Google, Facebook, and email",
+        "Built a responsive and user-friendly interface optimized for mobile devices",
+        "Optimized graphics to improve performance and reduce page load times",
+        "Enhanced code quality and introduced improvements for stable and efficient application performance",
+        "Integrated Firebase for data retrieval and writing, setting up real-time data synchronization between clients"
+      ],
+      "tags": [
+        "Vue",
+        "AngularJs",
+        "TypeScript",
+        "SCSS",
+        "REST API"
+      ]
+    },
+    {
+      "company": "Qulix Systems",
+      "position": "HTML-coder",
+      "period": "Apr 2012 — Sep 2016",
+      "description": [
+        "Cross-browser semantic layout, e-mail templates, basic JS"
+      ]
+    }
+  ]
+}
