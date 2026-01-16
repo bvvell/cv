@@ -1,4 +1,4 @@
-name: Deploy Vite to hoster.by (FTP) via pnpm
+name: Deploy Vite to hoster.by (SFTP/SSH) via pnpm
 
 on:
   push:
@@ -29,23 +29,14 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Upload dist via FTP
-        env:
-          FTP_HOST: ${{ secrets.SFTP_HOST }}      # ftp.bvvell.ru
-          FTP_USER: ${{ secrets.SFTP_USER }}      # gitbvvell@bvvell.ru
-          FTP_PASS: ${{ secrets.SFTP_PASS }}
-          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}   # public_html (или .)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lftp
-          lftp -e "
-            set ftp:passive-mode true;
-            set ftp:ssl-allow no;
-            set net:max-retries 2;
-            set net:timeout 20;
-            open -u $FTP_USER,$FTP_PASS ftp://$FTP_HOST:21;
-            pwd;
-            ls;
-            mirror -R --delete --verbose dist/ $REMOTE_DIR/;
-            bye
-          "
+      - name: Upload dist via SFTP (over SSH)
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          source: "dist/*"
+          target: ${{ secrets.SSH_TARGET }}
+          strip_components: 1
+          overwrite: true
