@@ -1,89 +1,36 @@
-import MarkdownIt from 'markdown-it'
-import markdownItHighlightjs from 'markdown-it-highlightjs'
+import type {DefineComponent} from 'vue'
+import postsIndex from '@/posts/posts-index.json'
 
 export type Post = {
     slug: string
     title: string
     date: string
     excerpt: string
-    readingTime?: string
-    content: string
+    cover?: string
+    component: DefineComponent
 }
 
-type FrontMatter = {
-    title?: string
-    date?: string
-    excerpt?: string
-    readingTime?: string
-}
+type PostsIndexItem = Omit<Post, 'component'>
 
-const markdown = new MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: true
-}).use(markdownItHighlightjs)
-
-const parseFrontMatter = (raw: string) => {
-    if (!raw.startsWith('---')) {
-        return {frontMatter: {}, body: raw}
-    }
-
-    const lines = raw.split(/\r?\n/)
-    const frontMatter: FrontMatter = {}
-    let bodyStartIndex = 0
-
-    for (let i = 1; i < lines.length; i += 1) {
-        const line = lines[i]
-        if (line.trim() === '---') {
-            bodyStartIndex = i + 1
-            break
-        }
-        const [key, ...rest] = line.split(':')
-        if (!key) {
-            continue
-        }
-        const value = rest.join(':').trim()
-        if (!value) {
-            continue
-        }
-        if (key === 'title') {
-            frontMatter.title = value
-        } else if (key === 'date') {
-            frontMatter.date = value
-        } else if (key === 'excerpt') {
-            frontMatter.excerpt = value
-        } else if (key === 'readingTime') {
-            frontMatter.readingTime = value
-        }
-    }
-
-    const body = lines.slice(bodyStartIndex).join('\n').trim()
-    return {frontMatter, body}
-}
+const modules = import.meta.glob('/src/posts/posts/*.md', {
+    eager: true
+}) as Record<string, {default: DefineComponent}>
 
 const extractSlug = (path: string) => {
     const match = path.match(/\/([^/]+)\.md$/)
     return match ? match[1] : path
 }
 
-const modules = import.meta.glob('/src/posts/posts/*.md', {
-    eager: true,
-    query: '?raw',
-    import: 'default'
-}) as Record<string, string>
+const moduleEntries = Object.entries(modules).map(([path, module]) => ({
+    slug: extractSlug(path),
+    component: module.default
+}))
 
-export const POSTS: Post[] = Object.entries(modules)
-    .map(([path, raw]) => {
-        const slug = extractSlug(path)
-        const {frontMatter, body} = parseFrontMatter(raw)
+const componentBySlug = new Map(moduleEntries.map((entry) => [entry.slug, entry.component]))
 
-        return {
-            slug,
-            title: frontMatter.title ?? slug,
-            date: frontMatter.date ?? '1970-01-01',
-            excerpt: frontMatter.excerpt ?? '',
-            readingTime: frontMatter.readingTime,
-            content: markdown.render(body)
-        }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export const POSTS: Post[] = (postsIndex as PostsIndexItem[])
+    .map((item) => ({
+        ...item,
+        component: componentBySlug.get(item.slug) as DefineComponent
+    }))
+    .filter((item) => item.component)

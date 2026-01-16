@@ -1,35 +1,26 @@
-import fs from 'fs'
 import path from 'path'
-import {createRequire} from 'module'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import Markdown from 'unplugin-vue-markdown/vite'
+import markdownItHighlightjs from 'markdown-it-highlightjs'
 
-const require = createRequire(import.meta.url)
-const vitePrerenderModule = require('vite-plugin-prerender')
-const vitePrerender = vitePrerenderModule.default ?? vitePrerenderModule
-const JSDOMRenderer = require('@prerenderer/renderer-jsdom')
-
-const postsDirectory = path.resolve(__dirname, 'src/posts/posts')
-const postRoutes = fs.existsSync(postsDirectory)
-    ? fs.readdirSync(postsDirectory)
-        .filter((file) => file.endsWith('.md'))
-        .map((file) => `/posts/${path.basename(file, '.md')}`)
-    : []
-
-const prerenderRoutes = ['/', '/cv', '/posts', ...postRoutes]
-const enablePrerender = process.env.PRERENDER !== '0' && process.env.PRERENDER !== 'false'
-
-export default defineConfig({
+export default defineConfig(() => ({
     plugins: [
-        vue(),
-        enablePrerender
-            ? vitePrerender({
-                staticDir: path.join(__dirname, 'dist'),
-                routes: prerenderRoutes,
-                renderer: new JSDOMRenderer()
-            })
-            : null
-    ].filter(Boolean),
+        vue({
+            include: [/\.vue$/, /\.md$/]
+        }),
+        Markdown({
+            markdownItOptions: {
+                html: true,
+                linkify: true,
+                typographer: true
+            },
+            markdownItSetup: (md) => {
+                md.use(markdownItHighlightjs)
+            },
+            frontmatter: true
+        }),
+    ],
     css: {
         preprocessorOptions: {
             scss: {
@@ -49,13 +40,6 @@ export default defineConfig({
     build: {
         target: 'esnext',
         minify: 'esbuild',
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    'vue-vendor': ['vue', 'vue-router']
-                }
-            }
-        },
         chunkSizeWarningLimit: 1000
     }
-})
+}))
