@@ -18,6 +18,12 @@ const routes = [
         name: 'cv',
         component: () => import('@/cv/pages/cvPage/cvPage.vue'),
         meta: {title: 'Uladzimir Biarnatski — CV'}
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/notFound/pages/notFoundPage/notFoundPage.vue'),
+        meta: {title: '404 — Uladzimir Biarnatski'}
     }
 ]
 
