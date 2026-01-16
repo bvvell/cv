@@ -27,6 +27,18 @@ const routes = [
         name: 'not-found',
         component: notFoundPage,
         meta: {title: '404 — Uladzimir Biarnatski'}
+    },
+    {
+        path: '/blog',
+        name: 'blog',
+        component: () => import('@/blog/pages/blogIndexPage/blogIndexPage.vue'),
+        meta: {title: 'Blog — Uladzimir Biarnatski'}
+    },
+    {
+        path: '/blog/:slug',
+        name: 'blog-post',
+        component: () => import('@/blog/pages/blogPostPage/blogPostPage.vue'),
+        meta: {title: 'Blog — Uladzimir Biarnatski'}
     }
 ]
 
