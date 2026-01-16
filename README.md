@@ -2,27 +2,32 @@
 
 Modern CV website built with **Vue 3**, **TypeScript**, **Vue Router**, and **Vite**.
 
+## ✅ Requirements
+
+- **Node.js**: `>=20 <22` (SSG build relies on this range)
+- Package manager: `pnpm` recommended (lockfile is `pnpm-lock.yaml`)
+
 ## 🚀 Quick Start
 
 ### Install dependencies
 ```bash
-npm install
+pnpm install
 ```
 
 ### Run dev server
 ```bash
-npm run dev
+pnpm dev
 ```
 Opens at `http://localhost:5173`
 
 ### Build for production
 ```bash
-npm run build
+pnpm build
 ```
 
 ### Preview production build
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## 📁 Project Structure
@@ -93,11 +98,18 @@ To update your CV, simply edit the `cv.json` file.
 
 ## 🛠️ Scripts
 
-- `npm run dev` - Start dev server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Lint code
-- `npm run lint:fix` - Auto-fix linting errors
+- `pnpm dev` - Start dev server
+- `pnpm build` - Static build (SSG) to `dist/`
+- `pnpm preview` - Preview production build
+- `pnpm lint` - Lint code
+- `pnpm lint:fix` - Auto-fix linting errors
+
+## 🧠 SEO / `<head>`
+
+- `<title>`, Open Graph, and Twitter meta are managed via `@unhead/vue` in `src/App.vue`.
+- Per-route `title` / `description` live in `src/router/index.ts` (`route.meta`).
+- Set `VITE_SITE_URL` to generate absolute `og:url`, `og:image` and canonical URLs during SSG.
+- Avoid direct `document`/`window` access during SSG/SSR; guard with `if (!import.meta.env.SSR)` or run DOM code in `onMounted()`.
 
 ## 📦 Dependencies
 
