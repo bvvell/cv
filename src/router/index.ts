@@ -1,4 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {homePage} from '@/home/pages'
+import {CVPage} from '@/cv/pages'
+import {NotFoundPage as notFoundPage} from '@/notFound/pages'
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -10,19 +13,19 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/home/pages/homePage/homePage.vue'),
+        component: homePage,
         meta: {title: 'Uladzimir Biarnatski - HTML coder / Front-end developer'}
     },
     {
         path: '/cv',
         name: 'cv',
-        component: () => import('@/cv/pages/cvPage/cvPage.vue'),
+        component: CVPage,
         meta: {title: 'Uladzimir Biarnatski — CV'}
     },
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
-        component: () => import('@/notFound/pages/notFoundPage/notFoundPage.vue'),
+        component: notFoundPage,
         meta: {title: '404 — Uladzimir Biarnatski'}
     }
 ]
