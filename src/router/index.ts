@@ -17,7 +17,7 @@ export const routes = [
         component: homePage,
         meta: {
             title: 'Uladzimir Biarnatski - HTML coder / Front-end developer',
-            description: 'Front-end developer. CV, selected work, and short posts.'
+            description: 'Front-end developer with 9+ years of experience building responsive websites and modern web apps. CV, selected work, and short posts.'
         }
     },
     {
@@ -26,7 +26,7 @@ export const routes = [
         component: CVPage,
         meta: {
             title: 'Uladzimir Biarnatski — CV',
-            description: 'Experience, skills, and education.'
+            description: 'Experience, skills, and education — Vue/TypeScript, responsive UI, performance, and real-world product work.'
         }
     },
     {
@@ -44,7 +44,7 @@ export const routes = [
         component: PostsIndexPage,
         meta: {
             title: 'Posts — Uladzimir Biarnatski',
-            description: 'Short updates on design, frontend work, and small improvements.'
+            description: 'Short posts about design, frontend work, and small improvements — notes on building clean UI, performance, and everyday dev practice.'
         }
     },
     {

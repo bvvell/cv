@@ -32,7 +32,8 @@ const fallbackImage = computed(() => {
 
 const resolvedMeta = computed(() => {
   const title = (route.meta?.title as string) || 'Uladzimir Biarnatski'
-  const description = (route.meta?.description as string) || 'Front-end developer.'
+  const description = (route.meta?.description as string)
+    || 'Front-end developer focused on clean UI, responsive layouts, and Vue/TypeScript. CV, selected work, and short posts.'
   const url = baseUrl.value ? `${baseUrl.value}${route.fullPath || '/'}` : ''
   let image = fallbackImage.value
   let type: 'website' | 'article' = 'website'
@@ -43,16 +44,20 @@ const resolvedMeta = computed(() => {
     if (post) {
       type = 'article'
       image = post.cover && baseUrl.value ? `${baseUrl.value}${post.cover}` : image
+      const baseDescription = post.excerpt || description
+      const descriptionForShare = baseDescription.length >= 110
+        ? baseDescription
+        : `${baseDescription} Поўны тэкст і прыклады — на маім сайце.`
       return {
-        title: `${post.title} — Posts`,
-        description: post.excerpt || description,
+        title: `${post.title} — Нататкі — Uladzimir Biarnatski`,
+        description: descriptionForShare,
         url: baseUrl.value ? `${baseUrl.value}/posts/${slug}` : '',
         image,
         type
       }
     }
     return {
-      title: 'Post not found — Posts',
+      title: 'Post not found — Posts — Uladzimir Biarnatski',
       description: 'Page not found.',
       url: baseUrl.value ? `${baseUrl.value}/posts/${slug}` : '',
       image,
