@@ -3,7 +3,6 @@ import path from 'path'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Markdown from 'unplugin-vue-markdown/vite'
-import markdownItHighlightjs from 'markdown-it-highlightjs'
 
 const postsIndexPath = path.resolve(__dirname, 'src/posts/posts-index.json')
 const postsIndex = fs.existsSync(postsIndexPath)
@@ -23,9 +22,6 @@ export default defineConfig(() => ({
                 html: true,
                 linkify: true,
                 typographer: true
-            },
-            markdownItSetup: (md) => {
-                md.use(markdownItHighlightjs)
             },
             frontmatter: true
         }),

@@ -1,11 +1,22 @@
 /* ---------- base ---------- */
 :root {
+    color-scheme: light dark;
+
     --color-text: #101418;
     --color-text-muted: #616a72;
     --color-text-subtle: #3b434a;
     --color-link: #0f766e;
     --color-link-visited: #0b5c56;
     --color-tag-border: #d7dde3;
+    --color-surface: #ffffff;
+    --shadow-card: 0 6px 18px rgba(25, 36, 66, 0.06);
+    --color-danger: #d35a4a;
+
+    --color-life-cell: #e4e8ef;
+    --color-life-lived: #1c8b3a;
+    --color-life-future: #dfe3ea;
+    --color-life-prebirth: #f4d8b9;
+
     --color-notfound-eyebrow: #6a737c;
     --color-notfound-ghost: rgba(16, 20, 24, 0.08);
     --color-notfound-bg-strong: #f6efe4;
@@ -17,6 +28,37 @@
     --color-home-glow: #f1e4d6;
     --color-home-accent: #0f766e;
     --color-home-accent-rgb: 15 118 110;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text: #e6edf3;
+        --color-text-muted: #9aa6b2;
+        --color-text-subtle: #cbd5df;
+        --color-link: #2dd4bf;
+        --color-link-visited: #22c1ad;
+        --color-tag-border: #2a3642;
+        --color-surface: #0f1722;
+        --shadow-card: 0 10px 22px rgba(0, 0, 0, 0.35);
+        --color-danger: #ff7b72;
+
+        --color-life-cell: #263240;
+        --color-life-lived: #2ea043;
+        --color-life-future: #1a2430;
+        --color-life-prebirth: #5a3a1e;
+
+        --color-notfound-eyebrow: #9aa6b2;
+        --color-notfound-ghost: rgba(230, 237, 243, 0.08);
+        --color-notfound-bg-strong: #0b0f13;
+        --color-notfound-bg: #0b0f13;
+        --color-notfound-bg-soft: #101823;
+        --color-home-ink: #e6edf3;
+        --color-home-bg: #0b0f13;
+        --color-home-bg-soft: #101823;
+        --color-home-glow: #143043;
+        --color-home-accent: #2dd4bf;
+        --color-home-accent-rgb: 45 212 191;
+    }
 }
 
 *,
