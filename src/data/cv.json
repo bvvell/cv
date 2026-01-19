@@ -7,7 +7,9 @@
     "contacts": {
       "email": "vvbernacky@gmail.com",
       "linkedin": "https://www.linkedin.com/in/ubiarnatski/",
-      "telegram": "https://t.me/bvvell"
+      "telegram": "https://t.me/bvvell",
+      "instagram": "https://www.instagram.com/biarnky/",
+      "threads": "https://www.threads.net/@biarnky"
     }
   },
   "summary": "I'm a frontend developer with 9+ years of experience building responsive websites and modern web applications. I work mostly with Vue 3, TypeScript, and a modern frontend stack — Vite, Webpack, ESLint, Git. I enjoy creating clean and adaptive user interfaces, integrating REST APIs, and building components that make products fast and pleasant to use. I value clean code, thoughtful architecture, and good collaboration within a team.",

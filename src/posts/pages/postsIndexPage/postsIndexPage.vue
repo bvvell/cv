@@ -19,6 +19,34 @@
           <p class="intro">
             Невялікія нататкі пра жыццё, творчасць і не толькі.
           </p>
+          <div
+            v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
+            class="posts-socials"
+          >
+            <a
+              v-if="SOCIAL_LINKS.instagram"
+              :href="SOCIAL_LINKS.instagram"
+              target="_blank"
+              rel="noopener"
+            >
+              Instagram
+            </a>
+            <span
+              v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
+              class="dot"
+              aria-hidden="true"
+            >
+              •
+            </span>
+            <a
+              v-if="SOCIAL_LINKS.threads"
+              :href="SOCIAL_LINKS.threads"
+              target="_blank"
+              rel="noopener"
+            >
+              Threads
+            </a>
+          </div>
         </header>
         <section class="posts-list">
           <article
@@ -48,7 +76,11 @@
 <script setup lang="ts">
 import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
+import {useCvData} from '@/composables/useCvData'
 import {POSTS} from '@/posts/data/posts'
+
+const cvData = useCvData()
+const SOCIAL_LINKS = cvData.personal.contacts
 
 const posts = computed(() => [...POSTS].sort((a, b) => {
   const dateA = new Date(a.date).getTime()

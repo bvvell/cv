@@ -11,6 +11,34 @@
         >
           Назад да запісаў
         </router-link>
+        <div
+          v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
+          class="posts-socials"
+        >
+          <a
+            v-if="SOCIAL_LINKS.instagram"
+            :href="SOCIAL_LINKS.instagram"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+          <span
+            v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
+            class="dot"
+            aria-hidden="true"
+          >
+            •
+          </span>
+          <a
+            v-if="SOCIAL_LINKS.threads"
+            :href="SOCIAL_LINKS.threads"
+            target="_blank"
+            rel="noopener"
+          >
+            Threads
+          </a>
+        </div>
         <article
           v-if="post"
           class="post-body"
@@ -49,8 +77,12 @@ import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {POSTS} from '@/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
+import {useCvData} from '@/composables/useCvData'
 
 const route = useRoute()
+
+const cvData = useCvData()
+const SOCIAL_LINKS = cvData.personal.contacts
 
 const slug = computed(() => String(route.params.slug ?? ''))
 const post = computed(() => POSTS.find((item) => item.slug === slug.value))
