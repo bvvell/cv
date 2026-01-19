@@ -18,13 +18,13 @@
   .post-meta {
     margin: 0 0 0.5rem;
     font-size: 0.9rem;
-    color: #6c6c6c;
+    color: var(--color-text-muted);
   }
 
   .post-excerpt {
     margin: 0.75rem 0 1.5rem;
     font-size: 1.05rem;
-    color: #444;
+    color: var(--color-text-subtle);
   }
 
 
