@@ -6,6 +6,12 @@
   position: relative;
   overflow: hidden;
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -19,6 +25,7 @@
 
   h1 {
     font-size: calc(2.25vw + .5em);
+    margin: 0;
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
     opacity: 0;
@@ -27,6 +34,7 @@
   h2 {
     font-size: calc(1.67vw + .5em);
     color: var(--color-home-accent);
+    margin: 0;
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
     opacity: 0;
@@ -57,7 +65,6 @@
     opacity: 0;
     transition: opacity 1s ease-out, transform 1s cubic-bezier(0, 1, 0.6, 1);
     transform: translate(0px, 40px);
-    margin-top: 1.5em;
     font-size: calc(1.2vw + .5em);
   }
 

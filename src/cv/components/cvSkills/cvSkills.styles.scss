@@ -2,12 +2,11 @@
   .columns {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
+    gap: var(--space-8);
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: var(--space-6);
     }
   }
 }
-
 

@@ -4,11 +4,14 @@
     <div class="contacts">
       <span>📍 {{ personal.location }}</span>
       <span>✉️ <a :href="`mailto:${personal.contacts.email}`">{{ personal.contacts.email }}</a></span>
-      <span>in: <a
-        :href="personal.contacts.linkedin"
-        target="_blank"
-        rel="noopener"
-      >{{ personal.contacts.linkedin }}</a></span>
+      <span>
+        in:
+        <a
+          :href="personal.contacts.linkedin"
+          target="_blank"
+          rel="noopener"
+        >LinkedIn</a>
+      </span>
     </div>
   </div>
 </template>
@@ -24,4 +27,3 @@ defineProps<{
 <style scoped lang="scss">
 @use './cvHeader.styles.scss';
 </style>
-

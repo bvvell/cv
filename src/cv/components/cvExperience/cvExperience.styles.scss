@@ -1,8 +1,8 @@
 .cv-experience {
   dl dd {
     margin-left: 0;
-    margin-bottom: 1rem;
-    margin-top: .3rem;
+    margin-bottom: var(--space-4);
+    margin-top: var(--space-2);
   }
 
   .muted {
@@ -10,12 +10,12 @@
   }
 
   .tags {
-    margin-top: 0.5rem;
+    margin-top: var(--space-2);
 
     .tag {
       display: inline-block;
-      margin: .1rem .4rem .1rem 0;
-      padding: .15rem .5rem;
+      margin: var(--space-1) var(--space-2) var(--space-1) 0;
+      padding: var(--space-1) var(--space-2);
       border: 1px solid var(--color-tag-border);
       border-radius: 999px;
       font-size: .85rem;

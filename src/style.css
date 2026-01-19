@@ -2,6 +2,16 @@
 :root {
     color-scheme: light dark;
 
+    --space-1: 0.25rem; /* 4px */
+    --space-2: 0.5rem; /* 8px */
+    --space-3: 0.75rem; /* 12px */
+    --space-4: 1rem; /* 16px */
+    --space-5: 1.5rem; /* 24px */
+    --space-6: 2rem; /* 32px */
+    --space-7: 3rem; /* 48px */
+    --space-8: 4rem; /* 64px */
+    --page-padding: clamp(14px, 3.5vw, 40px);
+
     --color-text: #101418;
     --color-text-muted: #616a72;
     --color-text-subtle: #3b434a;
@@ -112,13 +122,10 @@ a:visited {
 }
 
 .wrapp {
-    padding: 40px;
+    padding: var(--page-padding);
     min-height: 100vh;
     box-sizing: border-box;
     position: relative;
-    @media (max-width: 1024px) {
-        padding: 14px;
-    }
 }
 
 .content {
@@ -169,8 +176,8 @@ dl dd {
 /* footer avatar */
 .avatar {
     position: absolute;
-    right: 40px;
-    bottom: 40px;
+    right: var(--page-padding);
+    bottom: var(--page-padding);
     width: 96px;
     height: 96px;
     opacity: 0;
