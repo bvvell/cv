@@ -25,7 +25,7 @@
 .cv-back {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.25rem;
   margin: 0;
   padding: 0.25rem 0;
@@ -35,9 +35,6 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1;
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-  }
 }
 
 .cv-back__icon {
