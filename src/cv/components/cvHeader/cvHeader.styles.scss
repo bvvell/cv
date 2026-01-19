@@ -1,17 +1,21 @@
 .cv-header {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 
   h1 {
-    margin: 0 0 .4rem;
+    margin: 0;
   }
 }
 
 .contacts {
-  margin: .25rem 0 1.25rem;
+  margin: 0;
   font-size: .95rem;
   color: var(--color-text-subtle);
 
   span {
-    margin-right: 12px;
+    margin-right: var(--space-3);
+    display: inline-block;
+    vertical-align: middle;
   }
 }
