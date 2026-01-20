@@ -3,8 +3,8 @@
     "name": "Uladzimir Biarnatski",
     "title": "Frontend Developer",
     "homeSubtitle": "UI Engineer / Front-end Developer",
-    "homeMeta": "9+ years · Remote · Based in Belarus · Open for remote roles",
-    "location": "Belarus / Remote",
+    "homeMeta": "9+ years · Remote · Based in Europe · Open for remote roles",
+    "location": "Europe / Remote",
     "contacts": {
       "email": "vvbernacky@gmail.com",
       "linkedin": "https://www.linkedin.com/in/ubiarnatski/",
@@ -13,27 +13,27 @@
       "threads": "https://www.threads.net/@biarnky"
     }
   },
-  "summary": "I'm a frontend developer with 9+ years of experience building responsive websites and modern web applications. I work mostly with Vue 3, TypeScript, and a modern frontend stack — Vite, Webpack, ESLint, Git. I enjoy creating clean and adaptive user interfaces, integrating REST APIs, and building components that make products fast and pleasant to use. I value clean code, thoughtful architecture, and good collaboration within a team.",
+  "summary": "Front-end developer with 9+ years of experience building web applications and interfaces. Working mainly with Vue 3, TypeScript, and a modern frontend stack. Focused on clean UI, maintainable architecture, and reliable integrations with backend APIs. Comfortable working with design systems, performance optimization, and collaborative development in distributed teams.",
   "skills": {
     "title": "Skills",
     "items": [
-      "Responsive / adaptive layout, accessibility basics (a11y)",
+      "Responsive and adaptive layout, accessibility (a11y)",
       "UI component development, state management, routing",
-      "REST API integration, error handling, data fetching",
-      "Performance & bundle-size optimization",
-      "Code quality: ESLint/Prettier, Git flow, PR reviews",
-      "Basic CI/CD & environment setup for front-end apps"
+      "REST API integration, error handling, and data fetching",
+      "Performance optimization and bundle size control",
+      "Code quality practices: ESLint, Prettier, Git, code reviews",
+      "CI/CD pipelines and environment configuration for front-end projects"
     ]
   },
   "technologies": {
     "title": "Technologies",
     "items": [
       "Vue 3, TypeScript, JavaScript (ES6+), Pinia, Vue Router",
-      "Vite, Webpack, npm / yarn / pnpm",
-      "HTML5, CSS3, SCSS/SASS",
+      "Vite, Webpack, npm, yarn, pnpm",
+      "HTML5, CSS3, SCSS / SASS",
       "ESLint, Prettier, Git",
-      "WordPress (templates/ACF) — basic when needed",
-      "Figma / Zeplin handoff"
+      "WordPress (custom themes, ACF)",
+      "Figma, Zeplin"
     ]
   },
   "education": [
@@ -50,7 +50,7 @@
       "year": "2020"
     },
     {
-      "title": "English — A2 (improving)",
+      "title": "English: A2 (improving), can read docs / async communication",
       "year": ""
     }
   ],
@@ -60,13 +60,13 @@
       "position": "Frontend Developer",
       "period": "Apr 2019 — Present",
       "description": [
-        "Maintained and enhanced an existing project built with AngularJS",
-        "Developed an online showcase for virtual products using Vue 2",
-        "Built internal systems for the marketing team leveraging Vue 2, Vue 3, and TypeScript",
-        "Created interactive user interface elements",
-        "Integrated charts for data visualization",
-        "Optimized performance and improved user experience",
-        "Collaborated closely with the marketing team to analyze and implement requirements"
+        "Develop and maintain internal backoffice tools (Vue 2/3 + TypeScript) for marketing and support teams",
+        "Built admin workflows for campaigns/achievements, referral program settings and rewards, lootbox game configuration, and offer/order management",
+        "Implemented dashboards for user participation/progress and statistics (tables, filters, charts) plus reporting views with download/export",
+        "Implemented role-based access control (RBAC): gated features by user roles/permissions; integrated authentication/authorization with Keycloak",
+        "Integrated REST APIs with resilient loading/error states and client-side data flows",
+        "Participated in performance optimization and code quality improvements (ESLint/Prettier, reviews)",
+        "Collaborated with designers, product managers, and backend developers"
       ],
       "tags": [
         "Vue 3",
@@ -74,42 +74,70 @@
         "Pinia",
         "Vite",
         "SCSS",
-        "REST API"
+        "REST API",
+        "Keycloak"
       ]
     },
     {
       "company": "Expatel Mobile",
-      "position": "HTML-coder",
+      "position": "Front-end Developer",
       "period": "Sep 2016 — Feb 2019",
       "description": [
-        "Developed and maintained websites, including a blog on the WordPress platform",
-        "Designed and implemented email templates for cross-browser and responsive compatibility",
-        "Worked with AWS S3 for storing and uploading media files, optimizing data access",
-        "Designed and implemented a user dashboard using AngularJS, HTML, and CSS",
-        "Created filters for convenient data search and sorting",
-        "Integrated charts for data visualization",
-        "Generated and exported reports in PDF format using wkhtmltopdf",
-        "Implemented user authentication via Google, Facebook, and email",
-        "Built a responsive and user-friendly interface optimized for mobile devices",
-        "Optimized graphics to improve performance and reduce page load times",
-        "Enhanced code quality and introduced improvements for stable and efficient application performance",
-        "Integrated Firebase for data retrieval and writing, setting up real-time data synchronization between clients"
+        "Developed and maintained websites and internal web applications",
+        "Worked with WordPress and content-driven platforms",
+        "Built responsive email templates",
+        "Implemented UI with AngularJS and modern CSS",
+        "Integrated authentication and reporting features",
+        "Worked with AWS S3 and Firebase for data storage and synchronization"
       ],
       "tags": [
         "Vue",
-        "AngularJs",
+        "AngularJS",
         "TypeScript",
         "SCSS",
-        "REST API"
+        "REST API",
+        "WordPress",
+        "AWS",
+        "Firebase"
       ]
     },
     {
       "company": "Qulix Systems",
-      "position": "HTML-coder",
+      "position": "Front-end Developer (HTML / CSS)",
       "period": "Apr 2012 — Sep 2016",
       "description": [
-        "Cross-browser semantic layout, e-mail templates, basic JS"
+        "Cross-browser and responsive layout for enterprise web projects",
+        "Development of email templates",
+        "JavaScript for UI interactions and form validation",
+        "Collaboration with designers and backend engineers"
       ]
     }
-  ]
+  ],
+  "projects": {
+    "title": "Projects",
+    "items": [
+      {
+        "name": "Backoffice suite (Mindtech)",
+        "summary": "Internal web apps for marketing and support teams: campaigns/achievements, offers/orders, referral rewards, lootbox configuration, and reporting.",
+        "contribution": [
+          "Built admin workflows for campaigns/achievements, referral rewards, lootbox rules/configuration, and offer/order management",
+          "Implemented reporting dashboards: user progress/participation, bonuses statistics, and downloadable reports",
+          "Implemented RBAC with Keycloak: role-based UI access and permission-aware flows",
+          "Integrated REST APIs with resilient loading/error states and consistent UI patterns across apps"
+        ],
+        "impact": "Business-critical tooling: downtime blocks managing settings (offers, lootboxes, referrals), issuing rewards, and accessing reports; helped improve delivery speed by introducing reusable UI patterns.",
+        "stack": "Vue 3, TypeScript, Pinia, Vite, SCSS"
+      },
+      {
+        "name": "Store (internal shop)",
+        "summary": "Storefront for internal currency “coins” (catalog, checkout, orders history).",
+        "contribution": [
+          "Built reusable UI components and checkout flow (forms, validation, state, async API)",
+          "Implemented performance and image optimizations for faster browsing on mobile"
+        ],
+        "impact": "Improved perceived load time and reduced UI regressions via component reuse.",
+        "stack": "Vue, Webpack, HTML, Sass"
+      }
+    ]
+  }
 }

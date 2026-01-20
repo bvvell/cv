@@ -4,7 +4,7 @@ import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Markdown from 'unplugin-vue-markdown/vite'
 
-const postsIndexPath = path.resolve(__dirname, 'src/posts/posts-index.json')
+const postsIndexPath = path.resolve(__dirname, 'src/modules/posts/posts-index.json')
 const postsIndex = fs.existsSync(postsIndexPath)
     ? JSON.parse(fs.readFileSync(postsIndexPath, 'utf-8'))
     : []
