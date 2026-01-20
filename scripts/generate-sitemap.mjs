@@ -5,8 +5,40 @@ const root = process.cwd()
 const distDir = path.join(root, 'dist')
 const postsDir = path.join(root, 'src', 'posts', 'posts')
 
-const siteUrl = (process.env.SITE_URL || 'https://example.com').replace(/\/$/, '')
-const basePathRaw = process.env.SITE_BASE || ''
+const readEnvFile = (filePath) => {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8')
+    const env = {}
+    for (const line of content.split('\n')) {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('#')) continue
+      const idx = trimmed.indexOf('=')
+      if (idx === -1) continue
+      const key = trimmed.slice(0, idx).trim()
+      const rawValue = trimmed.slice(idx + 1).trim()
+      const value = rawValue.replace(/^['"]|['"]$/g, '')
+      env[key] = value
+    }
+    return env
+  } catch {
+    return {}
+  }
+}
+
+const fileEnv = {
+  ...readEnvFile(path.join(root, '.env')),
+  ...readEnvFile(path.join(root, '.env.production'))
+}
+
+const siteUrl = (
+  process.env.SITE_URL
+  || process.env.VITE_SITE_URL
+  || fileEnv.SITE_URL
+  || fileEnv.VITE_SITE_URL
+  || 'https://example.com'
+).replace(/\/$/, '')
+
+const basePathRaw = process.env.SITE_BASE || fileEnv.SITE_BASE || ''
 const basePath = basePathRaw
     ? `/${basePathRaw.replace(/^\/|\/$/g, '')}`
     : ''
@@ -37,3 +69,9 @@ Sitemap: ${baseUrl}/sitemap.xml
 fs.mkdirSync(distDir, {recursive: true})
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap)
 fs.writeFileSync(path.join(distDir, 'robots.txt'), robots)
+
+const htaccessSrc = path.join(root, 'public', '.htaccess')
+const htaccessDest = path.join(distDir, '.htaccess')
+if (fs.existsSync(htaccessSrc)) {
+  fs.copyFileSync(htaccessSrc, htaccessDest)
+}
