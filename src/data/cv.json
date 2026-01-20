@@ -29,6 +29,7 @@
     "title": "Technologies",
     "items": [
       "Vue 3, TypeScript, JavaScript (ES6+), Pinia, Vue Router",
+      "Element Plus",
       "Vite, Webpack, npm, yarn, pnpm",
       "HTML5, CSS3, SCSS / SASS",
       "ESLint, Prettier, Git",
@@ -68,14 +69,15 @@
         "Participated in performance optimization and code quality improvements (ESLint/Prettier, reviews)",
         "Collaborated with designers, product managers, and backend developers"
       ],
-      "tags": [
-        "Vue 3",
-        "TypeScript",
-        "Pinia",
-        "Vite",
-        "SCSS",
-        "REST API",
-        "Keycloak"
+        "tags": [
+          "Vue 3",
+          "TypeScript",
+          "Element Plus",
+          "Pinia",
+          "Vite",
+          "SCSS",
+          "REST API",
+          "Keycloak"
       ]
     },
     {
@@ -126,7 +128,7 @@
           "Integrated REST APIs with resilient loading/error states and consistent UI patterns across apps"
         ],
         "impact": "Business-critical tooling: downtime blocks managing settings (offers, lootboxes, referrals), issuing rewards, and accessing reports; helped improve delivery speed by introducing reusable UI patterns.",
-        "stack": "Vue 3, TypeScript, Pinia, Vite, SCSS"
+        "stack": "Vue 3, TypeScript, Element Plus, Pinia, Vite, SCSS"
       },
       {
         "name": "Store (internal shop)",
