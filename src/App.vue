@@ -74,30 +74,52 @@ const resolvedMeta = computed(() => {
 
 useHead(() => {
   const meta = resolvedMeta.value
-  const ldJson: unknown[] = []
+  const ldGraph: Record<string, unknown>[] = []
+  const base = baseUrl.value
+  const personId = base ? `${base}/#person` : '#person'
+  const websiteId = base ? `${base}/#website` : '#website'
+
+  const sameAs = [
+    cvData.personal.contacts.linkedin,
+    cvData.personal.contacts.telegram,
+    cvData.personal.contacts.instagram,
+    cvData.personal.contacts.threads
+  ].filter(Boolean)
+
+  ldGraph.push({
+    '@id': personId,
+    '@type': 'Person',
+    name: cvData.personal.name,
+    jobTitle: cvData.personal.homeSubtitle || cvData.personal.title,
+    description: cvData.summary,
+    email: `mailto:${cvData.personal.contacts.email}`,
+    url: base || undefined,
+    image: fallbackImage.value,
+    sameAs,
+    knowsAbout: [
+      ...(cvData.skills?.items ?? []),
+      ...(cvData.technologies?.items ?? [])
+    ]
+  })
+
+  ldGraph.push({
+    '@id': websiteId,
+    '@type': 'WebSite',
+    name: cvData.personal.name,
+    url: base || undefined,
+    inLanguage: 'en',
+    author: {'@id': personId},
+    publisher: {'@id': personId}
+  })
 
   if (route.name === 'cv') {
-    const base = baseUrl.value || ''
-    const person = {
-      '@type': 'Person',
-      name: cvData.personal.name,
-      jobTitle: cvData.personal.title,
-      description: cvData.summary,
-      email: `mailto:${cvData.personal.contacts.email}`,
-      sameAs: [
-        cvData.personal.contacts.linkedin,
-        cvData.personal.contacts.telegram,
-        cvData.personal.contacts.instagram,
-        cvData.personal.contacts.threads
-      ].filter(Boolean)
-    }
-
-    ldJson.push({
-      '@context': 'https://schema.org',
+    ldGraph.push({
+      '@id': base ? `${base}/cv#profile` : '#profile',
       '@type': 'ProfilePage',
       name: `${cvData.personal.name} — CV`,
       url: base ? `${base}/cv` : undefined,
-      mainEntity: person
+      isPartOf: {'@id': websiteId},
+      mainEntity: {'@id': personId}
     })
   }
 
@@ -121,12 +143,13 @@ useHead(() => {
     title: meta.title,
     link: meta.url ? [{rel: 'canonical', href: meta.url}] : [],
     meta: metaTags,
-    script: ldJson.length
-      ? [{
-        type: 'application/ld+json',
-        children: JSON.stringify(ldJson.length === 1 ? ldJson[0] : ldJson)
-      }]
-      : []
+    script: [{
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': ldGraph
+      })
+    }]
   }
 })
 </script>

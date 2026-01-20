@@ -14,7 +14,7 @@ export const routes = [
         name: 'home',
         component: homePage,
         meta: {
-            title: 'Uladzimir Biarnatski - HTML coder / Front-end developer',
+            title: 'Uladzimir Biarnatski — UI Engineer / Front-end Developer',
             description: 'Front-end developer with 9+ years of experience building responsive websites and modern web apps. CV, selected work, and short posts.'
         }
     },
