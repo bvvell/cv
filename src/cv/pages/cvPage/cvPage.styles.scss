@@ -7,8 +7,6 @@
 }
 
 .cv-page {
-  @include m.home-page-background;
-
   .content {
     display: flex;
     flex-direction: column;

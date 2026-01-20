@@ -98,6 +98,27 @@ useHead(() => {
 #app {
   width: 100%;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+}
+
+#app::before {
+  content: '';
+  position: absolute;
+  width: 48vw;
+  height: 48vw;
+  right: -18vw;
+  top: -12vw;
+  background: radial-gradient(circle, rgb(var(--color-home-accent-rgb) / 0.12) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {

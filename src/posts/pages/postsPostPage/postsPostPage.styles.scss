@@ -1,8 +1,4 @@
-@use '@/styles/mixins' as m;
-
 .posts-post {
-  @include m.home-page-background;
-
   .content {
     display: flex;
     flex-direction: column;
