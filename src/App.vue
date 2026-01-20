@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <a
-      class="skip-link"
-      href="#page"
-    >
-      Skip to content
-    </a>
     <router-view />
   </div>
 </template>
@@ -162,23 +156,6 @@ useHead(() => {
 #app > * {
   position: relative;
   z-index: 1;
-}
-
-.skip-link {
-  position: absolute;
-  left: var(--space-4);
-  top: var(--space-4);
-  padding: var(--space-2) var(--space-3);
-  border-radius: 10px;
-  background: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-200%);
-  transition: transform 0.2s ease;
-}
-
-.skip-link:focus {
-  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
