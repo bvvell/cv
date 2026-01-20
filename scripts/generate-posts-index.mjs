@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const postsDir = path.join(root, 'src', 'posts', 'posts')
-const outputPath = path.join(root, 'src', 'posts', 'posts-index.json')
+const postsDir = path.join(root, 'src', 'modules', 'posts', 'posts')
+const outputPath = path.join(root, 'src', 'modules', 'posts', 'posts-index.json')
 
 const stripFrontmatter = (raw) => {
   if (!raw.startsWith('---')) {

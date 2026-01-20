@@ -9,7 +9,7 @@ import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import {provideCvData} from '@/composables/useCvData'
-import postsIndex from '@/posts/posts-index.json'
+import postsIndex from '@/modules/posts/posts-index.json'
 import cvData from '@/data/cv.json'
 
 provideCvData()

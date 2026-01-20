@@ -3,7 +3,7 @@ import path from 'node:path'
 
 const root = process.cwd()
 const distDir = path.join(root, 'dist')
-const postsDir = path.join(root, 'src', 'posts', 'posts')
+const postsDir = path.join(root, 'src', 'modules', 'posts', 'posts')
 
 const readEnvFile = (filePath) => {
   try {
