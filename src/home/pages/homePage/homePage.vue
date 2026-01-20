@@ -6,10 +6,18 @@
     <div class="wrapp">
       <div class="content">
         <h1>{{ HOME_TITLE }}</h1>
-        <h2>
+        <h2 class="home-subtitle">
           <router-link to="/cv">
             {{ HOME_SUBTITLE }}
           </router-link>
+          <a
+            class="home-subtitle__pdf"
+            href="/cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            PDF
+          </a>
         </h2>
         <div class="contact">
           <a
