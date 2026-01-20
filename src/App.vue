@@ -9,7 +9,7 @@ import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import {provideCvData} from '@/composables/useCvData'
-import {POSTS} from '@/posts/data/posts'
+import postsIndex from '@/posts/posts-index.json'
 
 provideCvData()
 
@@ -40,10 +40,13 @@ const resolvedMeta = computed(() => {
 
   if (route.name === 'posts-post') {
     const slug = String(route.params?.slug ?? '')
-    const post = POSTS.find((item) => item.slug === slug)
+    const post = (postsIndex as {slug: string; title: string; excerpt: string; cover?: string}[])
+      .find((item) => item.slug === slug)
     if (post) {
       type = 'article'
-      image = post.cover && baseUrl.value ? `${baseUrl.value}${post.cover}` : image
+      image = post.cover
+        ? (baseUrl.value ? `${baseUrl.value}${post.cover}` : post.cover)
+        : image
       const baseDescription = post.excerpt || description
       const descriptionForShare = baseDescription.length >= 110
         ? baseDescription

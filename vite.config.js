@@ -52,6 +52,13 @@ export default defineConfig(() => ({
     build: {
         target: 'esnext',
         minify: 'esbuild',
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    return id.includes('node_modules') ? 'vendor' : undefined
+                }
+            }
+        },
         chunkSizeWarningLimit: 1000
     }
 }))

@@ -88,16 +88,15 @@
 import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'
-import {POSTS} from '@/posts/data/posts'
+import postsIndex from '@/posts/posts-index.json'
 
 const cvData = useCvData()
 const SOCIAL_LINKS = cvData.personal.contacts
 
-const posts = computed(() => [...POSTS].sort((a, b) => {
-  const dateA = new Date(a.date).getTime()
-  const dateB = new Date(b.date).getTime()
-  return dateB - dateA
-}))
+const posts = computed(() => {
+  const items = postsIndex as {slug: string; title: string; date: string; excerpt: string}[]
+  return [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+})
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('be-BY', {
   dateStyle: 'medium'
