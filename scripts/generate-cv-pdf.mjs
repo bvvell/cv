@@ -49,7 +49,7 @@ async function main() {
     await page.goto(url, {waitUntil: 'networkidle'})
     await page.pdf({
       path: outPath,
-      printBackground: true,
+      printBackground: false,
       preferCSSPageSize: true
     })
     await browser.close()
