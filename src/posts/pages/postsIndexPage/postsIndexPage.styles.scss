@@ -96,10 +96,8 @@
       transform: translateY(0);
     }
   }
-}
 
-@media (max-width: 768px) {
-  .posts-page {
+  @media (max-width: 768px) {
     .posts-list {
       grid-template-columns: 1fr;
     }

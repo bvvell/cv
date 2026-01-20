@@ -92,10 +92,8 @@
       transform: translate(0, 0);
     }
   }
-}
 
-@media (max-width: 768px) {
-  .home-data {
+  @media (max-width: 768px) {
     min-height: 100svh;
     min-height: 100dvh;
   }

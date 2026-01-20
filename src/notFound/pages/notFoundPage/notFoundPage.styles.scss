@@ -61,10 +61,8 @@
       transform: translateY(0);
     }
   }
-}
 
-@media (max-width: 768px) {
-  .not-found {
+  @media (max-width: 768px) {
     min-height: 100svh;
     min-height: 100dvh;
 
