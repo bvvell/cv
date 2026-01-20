@@ -121,6 +121,11 @@ a:visited {
     border-bottom-color: var(--color-link-visited)
 }
 
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+    outline: 2px solid var(--color-home-accent);
+    outline-offset: 3px;
+}
+
 .wrapp {
     padding: var(--page-padding);
     min-height: 100vh;

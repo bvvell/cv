@@ -15,14 +15,14 @@
           <a
             :href="SOCIAL_LINKS.telegram"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
           >
             Telegram
           </a>
           <a
             :href="SOCIAL_LINKS.linkedin"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
           >
             LinkedIn
           </a>

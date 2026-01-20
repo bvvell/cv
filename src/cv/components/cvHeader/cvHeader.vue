@@ -9,7 +9,7 @@
         <a
           :href="personal.contacts.linkedin"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="me noopener noreferrer"
         >LinkedIn</a>
       </span>
     </div>

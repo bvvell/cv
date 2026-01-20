@@ -16,6 +16,7 @@ import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import {provideCvData} from '@/composables/useCvData'
 import postsIndex from '@/posts/posts-index.json'
+import cvData from '@/data/cv.json'
 
 provideCvData()
 
@@ -79,6 +80,33 @@ const resolvedMeta = computed(() => {
 
 useHead(() => {
   const meta = resolvedMeta.value
+  const ldJson: unknown[] = []
+
+  if (route.name === 'cv') {
+    const base = baseUrl.value || ''
+    const person = {
+      '@type': 'Person',
+      name: cvData.personal.name,
+      jobTitle: cvData.personal.title,
+      description: cvData.summary,
+      email: `mailto:${cvData.personal.contacts.email}`,
+      sameAs: [
+        cvData.personal.contacts.linkedin,
+        cvData.personal.contacts.telegram,
+        cvData.personal.contacts.instagram,
+        cvData.personal.contacts.threads
+      ].filter(Boolean)
+    }
+
+    ldJson.push({
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      name: `${cvData.personal.name} — CV`,
+      url: base ? `${base}/cv` : undefined,
+      mainEntity: person
+    })
+  }
+
   const metaTags = [
     {name: 'description', content: meta.description},
     {property: 'og:title', content: meta.title},
@@ -98,7 +126,13 @@ useHead(() => {
   return {
     title: meta.title,
     link: meta.url ? [{rel: 'canonical', href: meta.url}] : [],
-    meta: metaTags
+    meta: metaTags,
+    script: ldJson.length
+      ? [{
+        type: 'application/ld+json',
+        children: JSON.stringify(ldJson.length === 1 ? ldJson[0] : ldJson)
+      }]
+      : []
   }
 })
 </script>

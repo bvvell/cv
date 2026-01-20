@@ -30,7 +30,7 @@
             v-if="SOCIAL_LINKS.instagram"
             :href="SOCIAL_LINKS.instagram"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             aria-label="Instagram"
           >
             Instagram
@@ -46,7 +46,7 @@
             v-if="SOCIAL_LINKS.threads"
             :href="SOCIAL_LINKS.threads"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             aria-label="Threads"
           >
             Threads

@@ -5,7 +5,7 @@
         :href="contacts.linkedin"
         target="_blank"
         aria-label="LinkedIn"
-        rel="noopener noreferrer"
+        rel="me noopener noreferrer"
       >
         LinkedIn
       </a>
@@ -21,7 +21,7 @@
         :href="`${contacts.telegram}`"
         aria-label="Telegram"
         target="_blank"
-        rel="noopener noreferrer"
+        rel="me noopener noreferrer"
       >Telegram</a>
     </p>
   </div>
