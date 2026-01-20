@@ -47,7 +47,7 @@ cv/
 └── src/
     ├── main.ts                   # Vue app initialization
     ├── App.vue                   # Root component
-    ├── style.css                 # Global styles
+    ├── style.scss                # Global styles
     │
     ├── home/                     # Home page module
     │   ├── pages/
