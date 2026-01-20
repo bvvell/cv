@@ -1,10 +1,7 @@
+@use '@/styles/mixins' as m;
+
 .not-found {
-  background: radial-gradient(
-    circle at 20% 20%,
-    var(--color-notfound-bg-strong) 0%,
-    var(--color-notfound-bg) 55%,
-    var(--color-notfound-bg-soft) 100%
-  );
+  @include m.home-page-background;
 
   .content {
     max-width: 56ch;

@@ -8,6 +8,24 @@ $bp-lg: 1024px;
   }
 }
 
+@mixin home-page-background {
+  background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 48vw;
+    height: 48vw;
+    right: -18vw;
+    top: -12vw;
+    background: radial-gradient(circle, rgb(var(--color-home-accent-rgb) / 0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+}
+
 @mixin two-col-to-one($gap-desktop, $gap-mobile, $bp: $bp-lg) {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

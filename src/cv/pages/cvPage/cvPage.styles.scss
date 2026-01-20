@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as m;
+
 /* Page layout */
 @page {
   size: A4;
@@ -5,8 +7,7 @@
 }
 
 .cv-page {
-  position: relative;
-  background: linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+  @include m.home-page-background;
 
   .content {
     display: flex;
