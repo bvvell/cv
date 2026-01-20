@@ -8,6 +8,45 @@ $bp-lg: 1024px;
   }
 }
 
+@mixin back-link(
+  $font-weight: 600,
+  $font-size: null,
+  $letter-spacing: null,
+  $line-height: null
+) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.25rem 0;
+  border: none;
+  font-weight: $font-weight;
+
+  @if $font-size != null {
+    font-size: $font-size;
+  }
+
+  @if $letter-spacing != null {
+    letter-spacing: $letter-spacing;
+  }
+
+  @if $line-height != null {
+    line-height: $line-height;
+  }
+
+  &__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    flex: 0 0 auto;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover &__icon,
+  &:focus-visible &__icon {
+    transform: translateX(-4px);
+  }
+}
+
 @mixin home-page-background {
   background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
     linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);

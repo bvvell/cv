@@ -22,29 +22,12 @@
 }
 
 .cv-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0.25rem 0;
-  border: none;
-
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1;
-
-  &__icon {
-    width: 1.6rem;
-    height: 1.6rem;
-    flex: 0 0 auto;
-    transition: transform 0.2s ease;
-  }
-
-  &:hover &__icon,
-  &:focus-visible &__icon {
-    transform: translateX(-4px);
-  }
+  @include m.back-link(
+    $font-weight: 700,
+    $font-size: 0.95rem,
+    $letter-spacing: 0.02em,
+    $line-height: 1
+  );
 
   @media print {
     display: none;
