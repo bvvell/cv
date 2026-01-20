@@ -24,6 +24,19 @@
     opacity: 0;
   }
 
+  .home-subtitle {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+
+    &__pdf {
+      font-size: 0.85em;
+      opacity: 0.8;
+      border-bottom-style: dotted;
+    }
+  }
+
   a {
     color: var(--color-home-accent);
     border-bottom: 1px solid currentColor;

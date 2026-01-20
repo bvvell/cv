@@ -25,7 +25,7 @@
               v-if="course.url"
               :href="course.url"
               target="_blank"
-              rel="nofollow noopener"
+              rel="nofollow noopener noreferrer"
             >
               {{ course.title }}
             </a>
@@ -50,4 +50,3 @@ defineProps<{
 <style scoped lang="scss">
 @use './cvEducation.styles.scss';
 </style>
-
