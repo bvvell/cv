@@ -5,7 +5,7 @@
         :href="contacts.linkedin"
         target="_blank"
         aria-label="LinkedIn"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         LinkedIn
       </a>
@@ -14,12 +14,14 @@
         :href="`mailto:${contacts.email}`"
         aria-label="Email"
         target="_blank"
+        rel="noopener noreferrer"
       >Email</a>
       &nbsp;•&nbsp;
       <a
         :href="`${contacts.telegram}`"
         aria-label="Telegram"
         target="_blank"
+        rel="noopener noreferrer"
       >Telegram</a>
     </p>
   </div>
@@ -38,4 +40,3 @@ defineProps<{
 <style scoped lang="scss">
 @use './cvFooter.styles.scss';
 </style>
-
