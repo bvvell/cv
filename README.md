@@ -5,7 +5,7 @@ Modern CV website built with **Vue 3**, **TypeScript**, **Vue Router**, and **Vi
 ## ✅ Requirements
 
 - **Node.js**: `>=20 <22` (SSG build relies on this range)
-- Package manager: `pnpm` recommended (lockfile is `pnpm-lock.yaml`)
+- Package manager: `pnpm` (see `packageManager` in `package.json`)
 
 ## 🚀 Quick Start
 
@@ -84,6 +84,7 @@ cv/
 
 - **Home** (`/`) - Landing page with animation
 - **CV** (`/cv`) - Full CV with work experience, skills, education
+- **Posts** (`/posts`) - Short posts (SSG)
 
 ## 📊 CV Data
 
@@ -99,7 +100,7 @@ To update your CV, simply edit the `cv.json` file.
 ## 🛠️ Scripts
 
 - `pnpm dev` - Start dev server
-- `pnpm build` - Static build (SSG) to `dist/`
+- `pnpm build` - Static build (SSG) to `dist/` (also generates `sitemap.xml` + `robots.txt`)
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Lint code
 - `pnpm lint:fix` - Auto-fix linting errors
@@ -109,6 +110,7 @@ To update your CV, simply edit the `cv.json` file.
 - `<title>`, Open Graph, and Twitter meta are managed via `@unhead/vue` in `src/App.vue`.
 - Per-route `title` / `description` live in `src/router/index.ts` (`route.meta`).
 - Set `VITE_SITE_URL` to generate absolute `og:url`, `og:image` and canonical URLs during SSG.
+- `sitemap.xml` and `robots.txt` are generated in `pnpm build` via `scripts/generate-sitemap.mjs`.
 - Avoid direct `document`/`window` access during SSG/SSR; guard with `if (!import.meta.env.SSR)` or run DOM code in `onMounted()`.
 
 ## 📦 Dependencies
