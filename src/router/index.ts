@@ -1,7 +1,5 @@
 import {homePage} from '@/home/pages'
-import {CVPage} from '@/cv/pages'
 import {NotFoundPage} from '@/notFound/pages'
-import {PostsIndexPage, PostsPostPage} from '@/posts/pages'
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -23,7 +21,7 @@ export const routes = [
     {
         path: '/cv',
         name: 'cv',
-        component: CVPage,
+        component: () => import('@/cv/pages/cvPage/cvPage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — CV',
             description: 'Experience, skills, and education — Vue/TypeScript, responsive UI, performance, and real-world product work.'
@@ -41,7 +39,7 @@ export const routes = [
     {
         path: '/posts',
         name: 'posts',
-        component: PostsIndexPage,
+        component: () => import('@/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Posts — Uladzimir Biarnatski',
             description: 'Short posts about design, frontend work, and small improvements — notes on building clean UI, performance, and everyday dev practice.'
@@ -50,7 +48,7 @@ export const routes = [
     {
         path: '/posts/:slug',
         name: 'posts-post',
-        component: PostsPostPage,
+        component: () => import('@/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
             title: 'Posts — Uladzimir Biarnatski',
             description: 'A short post.'

@@ -1,12 +1,4 @@
 .not-found {
-  min-height: 100vh;
-  background: radial-gradient(
-    circle at 20% 20%,
-    var(--color-notfound-bg-strong) 0%,
-    var(--color-notfound-bg) 55%,
-    var(--color-notfound-bg-soft) 100%
-  );
-
   .content {
     max-width: 56ch;
     display: flex;
@@ -61,13 +53,8 @@
       transform: translateY(0);
     }
   }
-}
 
-@media (max-width: 768px) {
-  .not-found {
-    min-height: 100svh;
-    min-height: 100dvh;
-
+  @media (max-width: 768px) {
     .actions {
       flex-direction: column;
       align-items: flex-start;

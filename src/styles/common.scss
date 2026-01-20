@@ -14,6 +14,10 @@ body {
 p,
 li {
   max-width: 75ch;
+
+  @media (max-width: 768px) {
+    line-height: 1.5;
+  }
 }
 
 h1 {
@@ -53,44 +57,46 @@ a {
   z-index: 1;
 }
 
-.muted {
-  color: var(--color-text-muted);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  p,
-  li {
-    line-height: 1.5;
-  }
-
-  .avatar {
+.avatar {
+  @media (max-width: 768px) {
     width: 48px;
     height: auto;
   }
 }
 
+.muted {
+  color: var(--color-text-muted);
+}
+
 /* Print */
-@media print {
-  .wrapp {
+.wrapp {
+  @media print {
     padding: 0;
   }
+}
 
-  .contact,
-  .avatar {
+.contact,
+.avatar {
+  @media print {
     display: none;
   }
+}
 
-  a {
+a {
+  @media print {
     border: 0;
     text-decoration: underline;
   }
+}
 
-  h2 {
+h2 {
+  @media print {
     margin: 1rem 0 .5rem;
   }
+}
 
-  h3 {
+h3 {
+  @media print {
     margin: .75rem 0 .25rem;
   }
 }

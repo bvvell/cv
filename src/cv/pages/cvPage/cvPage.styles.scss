@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as m;
+
 /* Page layout */
 @page {
   size: A4;
@@ -5,16 +7,11 @@
 }
 
 .cv-page {
-  min-height: 100vh;
-  background: linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
-  position: relative;
-
   .content {
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
     max-width: 980px;
-    margin: 0 auto;
   }
 
   @media (max-width: 768px) {
@@ -23,41 +20,14 @@
 }
 
 .cv-back {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0.25rem 0;
-  border: none;
-  border-radius: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1;
-}
+  @include m.back-link(
+    $font-weight: 700,
+    $font-size: 0.95rem,
+    $letter-spacing: 0.02em,
+    $line-height: 1
+  );
 
-.cv-back__icon {
-  width: 1.6rem;
-  height: 1.6rem;
-  flex: 0 0 auto;
-  transition: transform 0.2s ease;
-}
-
-.cv-back:hover .cv-back__icon,
-.cv-back:focus-visible .cv-back__icon {
-  transform: translateX(-4px);
-}
-
-@media print {
-  .cv-back {
+  @media print {
     display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .cv-page {
-    min-height: 100svh;
-    min-height: 100dvh;
   }
 }

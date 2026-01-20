@@ -3,10 +3,10 @@
     margin: 0 0 var(--space-3);
   }
 
-  dl dd {
-    margin-left: 0;
-    margin-bottom: var(--space-4);
-    margin-top: var(--space-2);
+  dl {
+    dd {
+      margin: var(--space-2) 0 var(--space-4);
+    }
   }
 
   .muted {

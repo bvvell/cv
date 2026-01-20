@@ -9,6 +9,17 @@
           class="posts-back"
           to="/"
         >
+          <svg
+            class="posts-back__icon"
+            viewBox="0 0 1024 1024"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              fill="currentColor"
+              d="M609.408 149.376 277.76 489.6a32 32 0 0 0 0 44.672l331.648 340.352a29.12 29.12 0 0 0 41.728 0 30.59 30.59 0 0 0 0-42.752L339.264 511.936l311.872-319.872a30.59 30.59 0 0 0 0-42.688 29.12 29.12 0 0 0-41.728 0"
+            />
+          </svg>
           Назад
         </router-link>
         <header class="posts-hero">
@@ -77,16 +88,15 @@
 import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'
-import {POSTS} from '@/posts/data/posts'
+import postsIndex from '@/posts/posts-index.json'
 
 const cvData = useCvData()
 const SOCIAL_LINKS = cvData.personal.contacts
 
-const posts = computed(() => [...POSTS].sort((a, b) => {
-  const dateA = new Date(a.date).getTime()
-  const dateB = new Date(b.date).getTime()
-  return dateB - dateA
-}))
+const posts = computed(() => {
+  const items = postsIndex as {slug: string; title: string; date: string; excerpt: string}[]
+  return [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+})
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('be-BY', {
   dateStyle: 'medium'

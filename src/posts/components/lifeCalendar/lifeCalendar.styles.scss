@@ -92,7 +92,7 @@
     height: var(--cell-size);
     border-radius: 2px;
     background: var(--color-life-cell);
-    
+
     &.is-lived {
       background: var(--color-life-lived);
     }
@@ -109,10 +109,8 @@
       background: var(--color-life-prebirth);
     }
   }
-}
 
-@media (max-width: 1024px) {
-  .life-calendar {
+  @media (max-width: 1024px) {
     --cell-size: clamp(6px, calc((100vw - 88px) / 52), 13px);
     --cell-gap: clamp(1px, 0.2vw, 2px);
     padding: 1rem;
@@ -121,10 +119,8 @@
       grid-template-columns: clamp(40px, 8vw, 80px) 1fr;
     }
   }
-}
 
-@media (max-width: 600px) {
-  .life-calendar {
+  @media (max-width: 600px) {
     --cell-size: 3px;
     --cell-gap: 2px;
 
