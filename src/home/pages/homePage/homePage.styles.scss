@@ -1,5 +1,4 @@
 .home-data {
-  min-height: 100vh;
   color: var(--color-home-ink);
   background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
     linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
@@ -93,8 +92,4 @@
     }
   }
 
-  @media (max-width: 768px) {
-    min-height: 100svh;
-    min-height: 100dvh;
-  }
 }

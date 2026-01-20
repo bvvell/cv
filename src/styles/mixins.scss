@@ -1,0 +1,20 @@
+$bp-xs: 600px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+@mixin down($bp) {
+  @media (max-width: $bp) {
+    @content;
+  }
+}
+
+@mixin two-col-to-one($gap-desktop, $gap-mobile, $bp: $bp-lg) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $gap-desktop;
+
+  @include down($bp) {
+    grid-template-columns: 1fr;
+    gap: $gap-mobile;
+  }
+}

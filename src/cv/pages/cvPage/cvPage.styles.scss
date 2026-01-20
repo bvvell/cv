@@ -6,7 +6,6 @@
 
 .cv-page {
   position: relative;
-  min-height: 100vh;
   background: linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
 
   .content {
@@ -17,8 +16,6 @@
   }
 
   @media (max-width: 768px) {
-    min-height: 100svh;
-    min-height: 100dvh;
     padding-bottom: 80px;
   }
 }
