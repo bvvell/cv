@@ -2,6 +2,13 @@
   <div class="cv-footer">
     <p class="contact">
       <a
+        :href="`mailto:${contacts.email}`"
+        aria-label="Email"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Email</a>
+      &nbsp;•&nbsp;
+      <a
         :href="contacts.linkedin"
         target="_blank"
         aria-label="LinkedIn"
@@ -9,13 +16,6 @@
       >
         LinkedIn
       </a>
-      &nbsp;•&nbsp;
-      <a
-        :href="`mailto:${contacts.email}`"
-        aria-label="Email"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Email</a>
       &nbsp;•&nbsp;
       <a
         :href="`${contacts.telegram}`"
