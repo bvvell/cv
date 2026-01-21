@@ -4,7 +4,7 @@ Modern CV website built with **Vue 3**, **TypeScript**, **Vue Router**, and **Vi
 
 ## ✅ Requirements
 
-- **Node.js**: `>=20 <22` (SSG build relies on this range)
+- **Node.js**: `^20.19.0 || >=22.12.0` (SSG build relies on modern Node; Node 22 support starts at 22.12)
 - Package manager: `pnpm` (see `packageManager` in `package.json`)
 
 ## 🚀 Quick Start
