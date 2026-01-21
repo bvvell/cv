@@ -87,6 +87,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: list view reads the generated posts index and renders lightweight cards.
 import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'

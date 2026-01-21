@@ -2,6 +2,13 @@ import {spawn} from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 
+/**
+ * Generates `dist/cv.pdf` by printing the rendered `/cv` page via Playwright.
+ *
+ * Why:
+ * - The HTML CV is the single source of truth (styles/layout).
+ * - We generate a PDF from that page to keep the PDF always in sync with the site.
+ */
 const DEFAULT_URL = 'http://127.0.0.1:4173/cv/'
 const DEFAULT_OUT = path.join(process.cwd(), 'dist', 'cv.pdf')
 

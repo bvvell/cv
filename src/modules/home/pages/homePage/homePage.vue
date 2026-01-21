@@ -82,7 +82,8 @@
         class="avatar"
         src="/av.png"
         alt="Uladzimir Biarnatski"
-        loading="lazy"
+        loading="eager"
+        fetchpriority="high"
         decoding="async"
       >
     </div>
@@ -90,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: landing page with quick CTA (download CV / contact) and primary links.
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
 

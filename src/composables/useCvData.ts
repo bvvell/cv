@@ -5,6 +5,13 @@ export type CvData = typeof cvData
 
 const CvDataKey: InjectionKey<DeepReadonly<CvData>> = Symbol('cvData')
 
+/**
+ * Provides read-only CV data from `src/data/cv.json` via Vue DI.
+ *
+ * Why:
+ * - Keep components dumb: they consume typed data instead of importing JSON everywhere.
+ * - Prevent accidental mutation by exposing a `readonly()` DeepReadonly.
+ */
 export function provideCvData() {
     provide(CvDataKey, readonly(cvData))
 }

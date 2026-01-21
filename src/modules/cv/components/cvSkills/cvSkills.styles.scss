@@ -1,3 +1,4 @@
+/* Why: shared mixins keep CV sections consistently responsive (2-col → 1-col). */
 @use '@/styles/mixins' as m;
 
 .cv-skills {

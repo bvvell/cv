@@ -1,3 +1,9 @@
+/**
+ * Types for projects section.
+ *
+ * Why:
+ * - Keeps the project data structure consistent and explicit (name, impact, stack, etc.).
+ */
 export interface ProjectsSection {
   title: string
   items: readonly Project[]

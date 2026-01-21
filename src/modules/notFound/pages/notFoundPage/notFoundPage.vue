@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: friendly catch-all page for unknown routes (both in SPA and SSG output).
 import {usePageLoader} from '@/composables/usePageLoader'
 
 usePageLoader('page', 100)

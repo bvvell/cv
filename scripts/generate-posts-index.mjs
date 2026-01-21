@@ -1,6 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+/**
+ * Generates `src/modules/posts/posts-index.json` from Markdown files.
+ *
+ * Why:
+ * - The app needs a lightweight index for list pages and `<head>` meta (title/excerpt/cover).
+ * - SSG needs the list of `/posts/:slug` routes (see `vite.config.js`).
+ */
 const root = process.cwd()
 const postsDir = path.join(root, 'src', 'modules', 'posts', 'posts')
 const outputPath = path.join(root, 'src', 'modules', 'posts', 'posts-index.json')
@@ -47,6 +54,7 @@ const parseFrontmatter = (raw) => {
 }
 
 const extractExcerpt = (body, maxLength = 180) => {
+  // Excerpt = first one (or two) meaningful lines, trimmed to a reasonable share/snippet length.
   const lines = body
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -63,7 +71,6 @@ const extractExcerpt = (body, maxLength = 180) => {
   }
   return text.replace(/\s+/g, ' ')
 }
-
 
 const extractSlug = (filename) => filename.replace(/\.md$/, '')
 

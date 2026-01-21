@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: quickly communicates strengths; driven by the JSON data to keep editing easy.
 import type { SkillsSection } from './cvSkills.types'
 
 defineProps<{
@@ -40,4 +41,3 @@ defineProps<{
 <style scoped lang="scss">
 @use './cvSkills.styles.scss';
 </style>
-

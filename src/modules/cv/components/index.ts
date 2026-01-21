@@ -1,3 +1,9 @@
+/**
+ * CV components barrel.
+ *
+ * Why:
+ * - Keeps `cvPage.vue` imports short and consistent.
+ */
 export {default as CvHeader} from './cvHeader'
 export {default as CvSummary} from './cvSummary'
 export {default as CvSkills} from './cvSkills'

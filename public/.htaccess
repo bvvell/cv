@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Why: hosting is static; we rely on rewrites to serve SSG pages and keep clean URLs.
+  # This file is copied to `dist/.htaccess` during build (see `scripts/generate-sitemap.mjs`).
+
   # Avoid content-negotiation surprises (e.g. /cv -> /cv.*)
   <IfModule mod_negotiation.c>
     Options -MultiViews

@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: top CV block — name and quick contact info.
 import type {Personal} from './cvHeader.types'
 
 defineProps<{

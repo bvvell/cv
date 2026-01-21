@@ -1,3 +1,4 @@
+/* Why: header styles are small but shared between screen + print, so they live with the component. */
 .cv-header {
   display: flex;
   flex-direction: column;

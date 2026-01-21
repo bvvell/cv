@@ -1,3 +1,4 @@
+/* Why: shared 2-column layout via mixin keeps CV sections consistent and printable. */
 @use '@/styles/mixins' as m;
 
 .cv-education {

@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: repeated contact links at the end of the CV.
 defineProps<{
   contacts: {
     email: string
