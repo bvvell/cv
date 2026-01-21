@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: highlight a few “real” things shipped, with contribution + impact.
 import type {ProjectsSection} from './cvProjects.types'
 
 defineProps<{
@@ -59,4 +60,3 @@ defineProps<{
 <style scoped lang="scss">
 @use './cvProjects.styles.scss';
 </style>
-

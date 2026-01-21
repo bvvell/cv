@@ -1,11 +1,19 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+/**
+ * Generates `dist/sitemap.xml`, `dist/robots.txt` and copies `.htaccess`.
+ *
+ * Why:
+ * - Static hosting needs real files in `dist/` (no server-side sitemap generator).
+ * - We derive routes from the Markdown posts folder to keep sitemap consistent with content.
+ */
 const root = process.cwd()
 const distDir = path.join(root, 'dist')
 const postsDir = path.join(root, 'src', 'modules', 'posts', 'posts')
 
 const readEnvFile = (filePath) => {
+  // Minimal `.env` parser (we avoid adding dotenv as a dependency for a build-only script).
   try {
     const content = fs.readFileSync(filePath, 'utf8')
     const env = {}

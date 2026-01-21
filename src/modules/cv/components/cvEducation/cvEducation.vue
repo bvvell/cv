@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: show background/education in a compact, scannable format.
 import type {Course, Education} from './cvEducation.types'
 
 defineProps<{

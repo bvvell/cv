@@ -28,10 +28,10 @@ This document describes all optimizations applied to the CV project.
 - **Benefit**: Better caching, smaller initial load
 
 ### 4. **Image Optimization**
-- **Added**: `loading="lazy"` for images
 - **Added**: `decoding="async"` for better performance
-- **Added**: Preload for critical avatar image
-- **Benefit**: Faster initial page load, better LCP score
+- **Added**: Preload for critical avatar image (`index.html`)
+- **Updated**: Above-the-fold avatar uses `loading="eager"` + `fetchpriority="high"`
+- **Benefit**: Faster initial render and better LCP for the landing/CV pages
 
 ### 5. **Data Management Optimization**
 - **Added**: `readonly()` wrapper for CV data
@@ -40,6 +40,10 @@ This document describes all optimizations applied to the CV project.
 ### 6. **Code Reusability**
 - **Created**: `usePageLoader` composable
 - **Benefit**: Removed code duplication, easier maintenance
+
+### 7. **SEO / `<head>` Centralization**
+- **Created**: `useSiteHead` composable (moved logic out of `App.vue`)
+- **Benefit**: Cleaner root component, single place for canonical/OG/Twitter/JSON-LD + language switching for posts
 
 ### 7. **CSS Code Splitting**
 - **Result**: Separate CSS files per page
@@ -88,4 +92,3 @@ This document describes all optimizations applied to the CV project.
    - Remove unused CSS
    - Critical CSS extraction
    - CSS minification improvements
-

@@ -4,6 +4,13 @@ import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Markdown from 'unplugin-vue-markdown/vite'
 
+/**
+ * Vite config + SSG route discovery.
+ *
+ * Why:
+ * - Posts are Markdown files compiled into Vue components at build time.
+ * - For SSG we must know all routes up front, so we read `posts-index.json` and include `/posts/:slug` routes.
+ */
 const postsIndexPath = path.resolve(__dirname, 'src/modules/posts/posts-index.json')
 const postsIndex = fs.existsSync(postsIndexPath)
     ? JSON.parse(fs.readFileSync(postsIndexPath, 'utf-8'))
@@ -18,6 +25,7 @@ export default defineConfig(() => ({
             include: [/\.vue$/, /\.md$/]
         }),
         Markdown({
+            // We allow a small subset of “rich text” in posts.
             markdownItOptions: {
                 html: true,
                 linkify: true,
@@ -29,6 +37,7 @@ export default defineConfig(() => ({
     ssgOptions: {
         dirStyle: 'nested',
         includedRoutes() {
+            // Keep the list explicit to avoid accidentally generating unwanted routes.
             const staticRoutes = ['/', '/cv', '/posts']
             return [...staticRoutes, ...postRoutes]
         }

@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: present experience as scannable bullet points with optional tech tags.
 import type {Experience} from './cvExperience.types'
 
 defineProps<{

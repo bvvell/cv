@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: short “elevator pitch” section at the top of the CV.
 defineProps<{
   summary: string
 }>()

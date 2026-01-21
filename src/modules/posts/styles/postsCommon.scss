@@ -1,3 +1,4 @@
+/* Why: shared styling for posts pages (back link + socials) lives in one place. */
 @use '@/styles/mixins' as m;
 
 .posts-back {

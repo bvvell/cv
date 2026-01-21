@@ -47,22 +47,17 @@ cv/
 └── src/
     ├── main.ts                   # Vue app initialization
     ├── App.vue                   # Root component
-    ├── style.scss                # Global styles
+    ├── style.scss                # Global styles / tokens
+    ├── composables/              # App-wide composables
+    │   ├── useCvData.ts
+    │   ├── usePageLoader.ts
+    │   └── useSiteHead.ts        # SEO/meta via @unhead/vue
     │
-    ├── home/                     # Home page module
-    │   ├── pages/
-    │   │   └── homePage/         # Home page
-    │
-    ├── cv/                       # CV page module
-    │   ├── pages/
-    │   │   └── cvPage/           # CV page
-    │   └── components/           # CV components
-    │       ├── cvHeader/
-    │       ├── cvSummary/
-    │       ├── cvSkills/
-    │       ├── cvEducation/
-    │       ├── cvExperience/
-    │       └── cvFooter/
+    ├── modules/                  # Feature modules
+    │   ├── home/                 # Home page
+    │   ├── cv/                   # CV page + components
+    │   ├── posts/                # Posts (Markdown + SSG)
+    │   └── notFound/             # 404 page
     │
     ├── router/
     │   └── index.ts              # Vue Router configuration
@@ -101,13 +96,14 @@ To update your CV, simply edit the `cv.json` file.
 
 - `pnpm dev` - Start dev server
 - `pnpm build` - Static build (SSG) to `dist/` (also generates `sitemap.xml` + `robots.txt`)
+- `pnpm cv:pdf` - Generate `dist/cv.pdf` from the `/cv` page (Playwright)
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Lint code
 - `pnpm lint:fix` - Auto-fix linting errors
 
 ## 🧠 SEO / `<head>`
 
-- `<title>`, Open Graph, and Twitter meta are managed via `@unhead/vue` in `src/App.vue`.
+- `<title>`, Open Graph, Twitter meta, canonical, and JSON-LD are managed via `@unhead/vue` in `src/composables/useSiteHead.ts`.
 - Per-route `title` / `description` live in `src/router/index.ts` (`route.meta`).
 - Set `VITE_SITE_URL` to generate absolute `og:url`, `og:image` and canonical URLs during SSG.
 - `sitemap.xml` and `robots.txt` are generated in `pnpm build` via `scripts/generate-sitemap.mjs`.

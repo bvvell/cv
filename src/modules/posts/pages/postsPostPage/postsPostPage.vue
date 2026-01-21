@@ -86,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: resolves the markdown component by slug and renders it as the post body.
 import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {POSTS} from '@/modules/posts/data/posts'

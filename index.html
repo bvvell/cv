@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Base HTML template used by Vite in dev and as the entry for the built app.
+      Why: most SEO tags are set dynamically via `@unhead/vue` (see `src/composables/useSiteHead.ts`),
+      but these base tags cover basic rendering and theming.
+    -->
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffaf2" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f13" />
@@ -22,6 +27,7 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <!-- Analytics: loaded after HTML to avoid blocking initial render. -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="60cf839b-abb5-4aa1-ac5e-687f15ea8a3e" data-domains="bvvell.ru,www.bvvell.ru"></script>
   </body>
 </html>

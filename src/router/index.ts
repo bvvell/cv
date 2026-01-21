@@ -1,6 +1,13 @@
 import {HomePage} from '@/modules/home/pages'
 import {NotFoundPage} from '@/modules/notFound/pages'
 
+/**
+ * Route table.
+ *
+ * Why:
+ * - `route.meta.title/description` is the single source of truth for page-level SEO text.
+ * - `src/composables/useSiteHead.ts` reads these meta fields to generate `<title>`, canonical, OG/Twitter, and JSON-LD.
+ */
 declare module 'vue-router' {
     interface RouteMeta {
         title?: string
@@ -41,8 +48,8 @@ export const routes = [
         name: 'posts',
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
-            title: 'Posts — Uladzimir Biarnatski',
-            description: 'Short posts about design, frontend work, and small improvements — notes on building clean UI, performance, and everyday dev practice.'
+            title: 'Нататкі — Uladzimir Biarnatski',
+            description: 'Невялікія нататкі пра жыццё, творчасць і не толькі.'
         }
     },
     {
@@ -50,8 +57,8 @@ export const routes = [
         name: 'posts-post',
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
-            title: 'Posts — Uladzimir Biarnatski',
-            description: 'A short post.'
+            title: 'Нататкі — Uladzimir Biarnatski',
+            description: 'Нататка.'
         }
     }
 ]

@@ -1,3 +1,10 @@
+/**
+ * ESLint flat config.
+ *
+ * Why:
+ * - TypeScript + Vue SFC parsing requires a few plugins/parsers.
+ * - We ignore generated output and helper scripts to keep lint focused on app source.
+ */
 import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
 import pluginImport from 'eslint-plugin-import';
@@ -145,4 +152,3 @@ export default typescriptEslint.config(
         },
     },
 );
-

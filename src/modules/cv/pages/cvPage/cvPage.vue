@@ -40,13 +40,15 @@
       class="avatar"
       src="/av.png"
       alt="Uladzimir Biarnatski"
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
       decoding="async"
     >
   </div>
 </template>
 
 <script setup lang="ts">
+// Why: the CV page composes a few small sections to keep content/data changes isolated.
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {CvEducation, CvExperience, CvFooter, CvHeader, CvProjects, CvSkills, CvSummary,} from '@/modules/cv/components'

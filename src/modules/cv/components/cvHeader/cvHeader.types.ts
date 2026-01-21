@@ -1,3 +1,9 @@
+/**
+ * Types for CV header props.
+ *
+ * Why:
+ * - Keeps prop shape explicit and reusable.
+ */
 export interface Personal {
     name: string
     location: string
@@ -7,4 +13,3 @@ export interface Personal {
         telegram: string
     }
 }
-

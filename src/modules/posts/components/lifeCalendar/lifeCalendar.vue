@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+// Why: interactive “life in weeks” calendar; helps visualize time and drive reflection.
 import {computed, ref} from 'vue'
 
 const weeksInYear = 52
@@ -79,6 +80,7 @@ const today = computed(() => new Date())
 const currentYear = computed(() => today.value.getFullYear())
 
 const weeksSinceBirth = computed(() => {
+    // Why: main metric for “lived” cells; recalculates whenever date changes.
     if (hasFutureDate.value) {
         return 0
     }
@@ -97,6 +99,7 @@ const livedWeeks = computed(() => Math.min(weeksSinceBirth.value, totalYears.val
 const remainingWeeks = computed(() => Math.max(0, totalYears.value * weeksInYear - livedWeeks.value))
 
 const startOffset = computed(() => {
+    // Why: align birth date to week index within its year (Monday-based week start).
     const birthDateValue = birth.value
     const yearStart = new Date(birthDateValue.getFullYear(), 0, 1)
     const msInDay = 24 * 60 * 60 * 1000
@@ -107,6 +110,7 @@ const startOffset = computed(() => {
 })
 
 const currentOffset = computed(() => {
+    // Why: same as `startOffset`, but for the current date so we can mark the current week.
     const date = today.value
     const yearStart = new Date(date.getFullYear(), 0, 1)
     const msInDay = 24 * 60 * 60 * 1000
