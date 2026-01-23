@@ -42,16 +42,20 @@
     bottom: 12vh;
     font-size: clamp(5rem, 12vw, 9rem);
     color: var(--color-notfound-ghost);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: transform 0.8s ease;
     pointer-events: none;
   }
 
-  &.loaded {
+  :global(html.js) & {
     .ghost {
-      opacity: 1;
-      transform: translateY(0);
+      transform: translateY(16px);
+      will-change: transform;
+    }
+
+    &.loaded {
+      .ghost {
+        transform: translateY(0);
+      }
     }
   }
 

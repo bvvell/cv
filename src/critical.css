@@ -1,0 +1,94 @@
+:root {
+  color-scheme: light dark;
+  --page-padding: clamp(14px, 3.5vw, 40px);
+
+  --color-text: #101418;
+  --color-text-muted: #616a72;
+  --color-text-subtle: #3b434a;
+  --color-link: #0f766e;
+  --color-link-visited: #0b5c56;
+  --color-surface: #ffffff;
+
+  --color-home-ink: #1b1f22;
+  --color-home-bg: #fffaf2;
+  --color-home-bg-soft: #eef4f6;
+  --color-home-glow: #f1e4d6;
+  --color-home-accent: #0f766e;
+  --color-home-accent-rgb: 15 118 110;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #e6edf3;
+    --color-text-muted: #9aa6b2;
+    --color-text-subtle: #cbd5df;
+    --color-link: #2dd4bf;
+    --color-link-visited: #22c1ad;
+    --color-surface: #0f1722;
+
+    --color-home-ink: #e6edf3;
+    --color-home-bg: #0b0f13;
+    --color-home-bg-soft: #101823;
+    --color-home-glow: #143043;
+    --color-home-accent: #2dd4bf;
+    --color-home-accent-rgb: 45 212 191;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-home-bg);
+}
+
+/* App shell: keep the initial viewport styled before the full CSS loads. */
+#app {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
+}
+
+.wrapp {
+  padding: var(--page-padding);
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+}
+
+h1 {
+  margin: 0 0 0.4rem;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-link);
+}
+
+/* Home hero (common LCP candidate). */
+.home-data {
+  color: var(--color-home-ink);
+}
+
+.home-data .home {
+  max-width: 65ch;
+  padding: clamp(1.5rem, 3vw, 3rem) 0;
+}
+
+.home-data h1 {
+  font-size: clamp(2.1rem, 4.1vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.home-data .home-subtitle {
+  margin: 0;
+  color: var(--color-home-accent);
+  font-size: clamp(1.15rem, 1.4vw + 0.7rem, 1.6rem);
+}

@@ -17,6 +17,9 @@
     <meta name="description" content="UI engineer / front-end developer. CV, links, and short posts." />
     <meta name="keywords" content="UI engineer, front-end developer, Vue, TypeScript" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="preload" href="/av.png" as="image" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -26,7 +29,8 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <!-- `type="module"` scripts are deferred by default; keep it explicit for audits/readability. -->
+    <script type="module" src="/src/main.ts" defer></script>
     <!-- Analytics: loaded after HTML to avoid blocking initial render. -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="60cf839b-abb5-4aa1-ac5e-687f15ea8a3e" data-domains="bvvell.ru,www.bvvell.ru"></script>
   </body>

@@ -105,7 +105,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('be-BY', {
   dateStyle: 'medium'
 }).format(new Date(value))
 
-usePageLoader('page', 100)
+usePageLoader('page')
 </script>
 
 <style scoped lang="scss">

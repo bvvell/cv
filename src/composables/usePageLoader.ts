@@ -12,13 +12,13 @@ export function usePageLoader(elementId: string = 'page', delay: number = 0) {
         await nextTick()
         const page = document.getElementById(elementId)
         if (page) {
-            if (delay > 0) {
-                setTimeout(() => {
-                    page.classList.add('loaded')
-                }, delay)
-            } else {
-                page.classList.add('loaded')
-            }
+            const addLoaded = () => page.classList.add('loaded')
+            // Why: if we add the class before the first paint, CSS transitions won’t run.
+            // Using rAF ensures the initial styles are committed before toggling.
+            requestAnimationFrame(() => {
+                if (delay > 0) setTimeout(addLoaded, delay)
+                else addLoaded()
+            })
         }
     })
 }

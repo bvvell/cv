@@ -7,9 +7,7 @@
   }
 
   .post-body {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: transform 0.8s ease;
   }
 
   .post-header {
@@ -77,10 +75,16 @@
     max-width: 60ch;
   }
 
-  &.loaded {
+  :global(html.js) & {
     .post-body {
-      opacity: 1;
-      transform: translateY(0);
+      transform: translateY(16px);
+      will-change: transform;
+    }
+
+    &.loaded {
+      .post-body {
+        transform: translateY(0);
+      }
     }
   }
 }
