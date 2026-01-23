@@ -7,7 +7,7 @@
       <div class="content">
         <router-link
           class="posts-back"
-          to="/posts/"
+          :to="{name: RouteName.Posts}"
         >
           <svg
             class="posts-back__icon"
@@ -52,7 +52,7 @@
             Threads
           </a>
         </div>
-        <article
+        <div
           v-if="post"
           class="post-body"
         >
@@ -65,18 +65,20 @@
               {{ post.excerpt }}
             </p>
           </header>
-          <component
-            :is="post.component"
-            class="post-content"
-          />
-        </article>
+          <article class="post-article">
+            <component
+              :is="post.component"
+              class="post-content"
+            />
+          </article>
+        </div>
         <div
           v-else
           class="post-missing"
         >
           <h1>Запіс не знойдзены</h1>
           <p>Старонка недаступная. Абяры іншы запіс са спісу.</p>
-          <router-link to="/posts/">
+          <router-link :to="{name: RouteName.Posts}">
             Да спісу запісаў
           </router-link>
         </div>
@@ -92,6 +94,7 @@ import {useRoute} from 'vue-router'
 import {POSTS} from '@/modules/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'
+import {RouteName} from '@/router/routeNames'
 
 const route = useRoute()
 

@@ -13,7 +13,7 @@
           This page does not exist. Try the home page
         </p>
         <div class="actions">
-          <router-link to="/">
+          <router-link :to="{name: RouteName.Home}">
             Home
           </router-link>
         </div>
@@ -28,6 +28,7 @@
 <script setup lang="ts">
 // Why: friendly catch-all page for unknown routes (both in SPA and SSG output).
 import {usePageLoader} from '@/composables/usePageLoader'
+import {RouteName} from '@/router/routeNames'
 
 usePageLoader('page')
 </script>

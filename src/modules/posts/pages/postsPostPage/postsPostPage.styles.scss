@@ -24,10 +24,13 @@
 
   h1 {
     margin: 0;
+    max-width: 72ch;
+    font-size: clamp(1.7rem, 2vw + 0.9rem, 2.4rem);
+    line-height: 1.08;
   }
 
   .post-excerpt {
-    margin: 0;
+    margin: 0 0 var(--space-4);
     font-size: 1.05rem;
     color: var(--color-text-subtle);
   }
@@ -43,8 +46,32 @@
     :deep(ul),
     :deep(ol),
     :deep(blockquote),
-    :deep(pre) {
+    :deep(pre),
+    :deep(figure),
+    :deep(img) {
       max-width: 72ch;
+    }
+
+    :deep(figure) {
+      margin: 0 0 var(--space-5);
+    }
+
+    :deep(img) {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 0 var(--space-5);
+      border-radius: 12px;
+    }
+
+    :deep(figure img) {
+      margin: 0;
+    }
+
+    :deep(figcaption) {
+      margin: var(--space-2) 0 0;
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
     }
 
     :deep(p) {

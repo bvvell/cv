@@ -151,6 +151,17 @@ export default defineConfig(() => ({
                 linkify: true,
                 typographer: true
             },
+            markdownItSetup(md) {
+                const defaultRender = md.renderer.rules.image
+                md.renderer.rules.image = (tokens, idx, options, env, self) => {
+                    const token = tokens[idx]
+                    token.attrSet('loading', 'lazy')
+                    token.attrSet('decoding', 'async')
+                    return defaultRender
+                        ? defaultRender(tokens, idx, options, env, self)
+                        : self.renderToken(tokens, idx, options)
+                }
+            },
             frontmatter: true
         }),
         ssgHtmlPerf(),
