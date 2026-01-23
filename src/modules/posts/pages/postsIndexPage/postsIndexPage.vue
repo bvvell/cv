@@ -109,7 +109,7 @@ const cardDelay = (index: number) => ({
   transitionDelay: `${150 + index * 80}ms`
 })
 
-usePageLoader('page', 100)
+usePageLoader('page')
 </script>
 
 <style scoped lang="scss">

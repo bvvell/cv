@@ -7,8 +7,7 @@
   }
 
   .post-body {
-    opacity: 1;
-    transform: translateY(0);
+    transition: transform 0.8s ease;
   }
 
   .post-header {
@@ -76,5 +75,16 @@
     max-width: 60ch;
   }
 
-  /* Keep `.loaded` class (added by JS) harmless: page content is visible immediately. */
+  :global(html.js) & {
+    .post-body {
+      transform: translateY(16px);
+      will-change: transform;
+    }
+
+    &.loaded {
+      .post-body {
+        transform: translateY(0);
+      }
+    }
+  }
 }
