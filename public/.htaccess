@@ -16,6 +16,16 @@
   RewriteCond %{THE_REQUEST} \s/([^\s?]+?)\.html(?:[\s?]|$) [NC]
   RewriteRule ^ %1 [R=301,L]
 
+  # Normalize URLs to always include a trailing slash (301) for directory-like paths.
+  # Examples:
+  # - /posts -> /posts/
+  # - /posts/some-slug -> /posts/some-slug/
+  # Note: exclude real files (favicon.ico, sitemap.xml, assets, etc.).
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !\.[^./]+$ [NC]
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.+)$ $1/ [R=301,L]
+
   # Serve pre-rendered SSG pages: /cv or /cv/ -> /cv/index.html (internal rewrite)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} -d

@@ -7,7 +7,7 @@
       <div class="content">
         <router-link
           class="posts-back"
-          to="/posts"
+          to="/posts/"
         >
           <svg
             class="posts-back__icon"
@@ -76,7 +76,7 @@
         >
           <h1>Запіс не знойдзены</h1>
           <p>Старонка недаступная. Абяры іншы запіс са спісу.</p>
-          <router-link to="/posts">
+          <router-link to="/posts/">
             Да спісу запісаў
           </router-link>
         </div>

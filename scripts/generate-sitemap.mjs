@@ -52,14 +52,19 @@ const basePath = basePathRaw
     : ''
 const baseUrl = `${siteUrl}${basePath}`
 
-const staticRoutes = ['/', '/cv', '/posts']
+const withTrailingSlash = (route) => {
+  if (route === '/') return route
+  return route.endsWith('/') ? route : `${route}/`
+}
+
+const staticRoutes = ['/', '/cv/', '/posts/']
 const postRoutes = fs.existsSync(postsDir)
     ? fs.readdirSync(postsDir)
         .filter((file) => file.endsWith('.md'))
-        .map((file) => `/posts/${path.basename(file, '.md')}`)
+        .map((file) => `/posts/${path.basename(file, '.md')}/`)
     : []
 
-const routes = Array.from(new Set([...staticRoutes, ...postRoutes]))
+const routes = Array.from(new Set([...staticRoutes, ...postRoutes])).map(withTrailingSlash)
 
 const toUrl = (route) => `${baseUrl}${route}`
 

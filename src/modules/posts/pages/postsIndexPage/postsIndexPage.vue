@@ -69,7 +69,7 @@
             :style="cardDelay(index)"
           >
             <h2>
-              <router-link :to="`/posts/${post.slug}`">
+              <router-link :to="`/posts/${post.slug}/`">
                 {{ post.title }}
               </router-link>
             </h2>

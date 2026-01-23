@@ -8,7 +8,7 @@
         <h1>{{ HOME_TITLE }}</h1>
 
         <h2 class="home-subtitle">
-          <router-link to="/cv">
+          <router-link to="/cv/">
             {{ HOME_SUBTITLE }}
           </router-link>
         </h2>
@@ -72,7 +72,7 @@
           >
             Threads
           </a>
-          <router-link to="/posts">
+          <router-link to="/posts/">
             Posts
           </router-link>
         </div>

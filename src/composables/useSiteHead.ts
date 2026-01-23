@@ -22,6 +22,20 @@ type PostIndexItem = {
 export function useSiteHead() {
     const route = useRoute()
 
+    const ensureTrailingSlash = (fullPath: string) => {
+        const hashIndex = fullPath.indexOf('#')
+        const beforeHash = hashIndex === -1 ? fullPath : fullPath.slice(0, hashIndex)
+        const hash = hashIndex === -1 ? '' : fullPath.slice(hashIndex)
+
+        const queryIndex = beforeHash.indexOf('?')
+        const pathname = queryIndex === -1 ? beforeHash : beforeHash.slice(0, queryIndex)
+        const query = queryIndex === -1 ? '' : beforeHash.slice(queryIndex)
+
+        if (pathname === '/' || pathname.endsWith('/')) return fullPath
+        if (/\.[^/]+$/.test(pathname)) return fullPath
+        return `${pathname}/${query}${hash}`
+    }
+
     const pageLang = computed(() => {
         // Posts are written in Belarusian; the rest of the site is in English.
         return String(route.name || '').startsWith('posts') ? 'be' : 'en'
@@ -49,7 +63,7 @@ export function useSiteHead() {
         const title = (route.meta?.title as string) || 'Uladzimir Biarnatski'
         const description = (route.meta?.description as string)
             || 'Front-end developer focused on clean UI, responsive layouts, and Vue/TypeScript. CV, selected work, and short posts.'
-        const url = baseUrl.value ? `${baseUrl.value}${route.fullPath || '/'}` : ''
+        const url = baseUrl.value ? `${baseUrl.value}${ensureTrailingSlash(route.fullPath || '/')}` : ''
         let image = fallbackImage.value
         let type: 'website' | 'article' = 'website'
 
@@ -57,6 +71,7 @@ export function useSiteHead() {
         if (route.name === 'posts-post') {
             const slug = String(route.params?.slug ?? '')
             const post = (postsIndex as PostIndexItem[]).find((item) => item.slug === slug)
+            const postPath = `/posts/${slug}/`
 
             if (post) {
                 type = 'article'
@@ -73,7 +88,7 @@ export function useSiteHead() {
                 return {
                     title: `${post.title} — Нататкі — Uladzimir Biarnatski`,
                     description: descriptionForShare,
-                    url: baseUrl.value ? `${baseUrl.value}/posts/${slug}` : '',
+                    url: baseUrl.value ? `${baseUrl.value}${postPath}` : '',
                     image,
                     type
                 }
@@ -82,7 +97,7 @@ export function useSiteHead() {
             return {
                 title: 'Запіс не знойдзены — Нататкі — Uladzimir Biarnatski',
                 description: 'Старонка недаступная.',
-                url: baseUrl.value ? `${baseUrl.value}/posts/${slug}` : '',
+                url: baseUrl.value ? `${baseUrl.value}${postPath}` : '',
                 image,
                 type: 'website'
             }
@@ -133,10 +148,10 @@ export function useSiteHead() {
 
         if (route.name === 'cv') {
             ldGraph.push({
-                '@id': base ? `${base}/cv#profile` : '#profile',
+                '@id': base ? `${base}/cv/#profile` : '#profile',
                 '@type': 'ProfilePage',
                 name: `${cvData.personal.name} — CV`,
-                url: base ? `${base}/cv` : undefined,
+                url: base ? `${base}/cv/` : undefined,
                 isPartOf: {'@id': websiteId},
                 mainEntity: {'@id': personId}
             })

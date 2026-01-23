@@ -136,7 +136,7 @@ const postsIndex = fs.existsSync(postsIndexPath)
     ? JSON.parse(fs.readFileSync(postsIndexPath, 'utf-8'))
     : []
 const postRoutes = Array.isArray(postsIndex)
-    ? postsIndex.map((post) => `/posts/${post.slug}`)
+    ? postsIndex.map((post) => `/posts/${post.slug}/`)
     : []
 
 export default defineConfig(() => ({
@@ -159,7 +159,7 @@ export default defineConfig(() => ({
         dirStyle: 'nested',
         includedRoutes() {
             // Keep the list explicit to avoid accidentally generating unwanted routes.
-            const staticRoutes = ['/', '/cv', '/posts']
+            const staticRoutes = ['/', '/cv/', '/posts/']
             return [...staticRoutes, ...postRoutes]
         }
     },

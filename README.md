@@ -78,8 +78,8 @@ cv/
 ## 📄 Pages
 
 - **Home** (`/`) - Landing page with animation
-- **CV** (`/cv`) - Full CV with work experience, skills, education
-- **Posts** (`/posts`) - Short posts (SSG)
+- **CV** (`/cv/`) - Full CV with work experience, skills, education
+- **Posts** (`/posts/`) - Short posts (SSG)
 
 ## 📊 CV Data
 
