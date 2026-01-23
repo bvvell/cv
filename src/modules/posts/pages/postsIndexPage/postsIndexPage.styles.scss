@@ -11,9 +11,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .eyebrow {
@@ -43,9 +42,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    opacity: 1;
+    transform: translateY(0);
 
     h2 {
       margin: 0;
@@ -61,14 +59,6 @@
   .excerpt {
     margin: 0;
     color: var(--color-text);
-  }
-
-  &.loaded {
-    .posts-hero,
-    .post-card {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   @media (max-width: 768px) {

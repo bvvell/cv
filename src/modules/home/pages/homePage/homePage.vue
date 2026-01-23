@@ -101,7 +101,7 @@ const HOME_SUBTITLE = cvData.personal.homeSubtitle
 const HOME_META = cvData.personal.homeMeta ?? ''
 const SOCIAL_LINKS = cvData.personal.contacts
 
-usePageLoader('page', 100)
+usePageLoader('page')
 </script>
 
 <style scoped lang="scss">

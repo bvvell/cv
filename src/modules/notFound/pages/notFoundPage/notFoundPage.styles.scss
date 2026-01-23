@@ -42,17 +42,9 @@
     bottom: 12vh;
     font-size: clamp(5rem, 12vw, 9rem);
     color: var(--color-notfound-ghost);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    opacity: 1;
+    transform: translateY(0);
     pointer-events: none;
-  }
-
-  &.loaded {
-    .ghost {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   @media (max-width: 768px) {
