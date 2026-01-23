@@ -1,5 +1,6 @@
 import {HomePage} from '@/modules/home/pages'
 import {NotFoundPage} from '@/modules/notFound/pages'
+import {RouteName} from './routeNames'
 
 /**
  * Route table.
@@ -18,7 +19,7 @@ declare module 'vue-router' {
 export const routes = [
     {
         path: '/',
-        name: 'home',
+        name: RouteName.Home,
         component: HomePage,
         meta: {
             title: 'Uladzimir Biarnatski — UI Engineer / Front-end Developer',
@@ -27,7 +28,12 @@ export const routes = [
     },
     {
         path: '/cv',
-        name: 'cv',
+        redirect: {name: RouteName.Cv}
+    },
+    {
+        path: '/cv/',
+        name: RouteName.Cv,
+        pathToRegexpOptions: {strict: true},
         component: () => import('@/modules/cv/pages/cvPage/cvPage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — CV',
@@ -35,17 +41,13 @@ export const routes = [
         }
     },
     {
-        path: '/:pathMatch(.*)*',
-        name: 'not-found',
-        component: NotFoundPage,
-        meta: {
-            title: '404 — Uladzimir Biarnatski',
-            description: 'Page not found.'
-        }
+        path: '/posts',
+        redirect: {name: RouteName.Posts}
     },
     {
-        path: '/posts',
-        name: 'posts',
+        path: '/posts/',
+        name: RouteName.Posts,
+        pathToRegexpOptions: {strict: true},
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Нататкі — Uladzimir Biarnatski',
@@ -54,11 +56,30 @@ export const routes = [
     },
     {
         path: '/posts/:slug',
-        name: 'posts-post',
+        redirect: (to) => ({
+            name: RouteName.PostsPost,
+            params: to.params,
+            query: to.query,
+            hash: to.hash
+        })
+    },
+    {
+        path: '/posts/:slug/',
+        name: RouteName.PostsPost,
+        pathToRegexpOptions: {strict: true},
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
             title: 'Нататкі — Uladzimir Biarnatski',
             description: 'Нататка.'
+        }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: RouteName.NotFound,
+        component: NotFoundPage,
+        meta: {
+            title: '404 — Uladzimir Biarnatski',
+            description: 'Page not found.'
         }
     }
 ]

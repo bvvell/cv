@@ -7,7 +7,7 @@
       <div class="content">
         <router-link
           class="posts-back"
-          to="/"
+          :to="{name: RouteName.Home}"
         >
           <svg
             class="posts-back__icon"
@@ -69,7 +69,7 @@
             :style="cardDelay(index)"
           >
             <h2>
-              <router-link :to="`/posts/${post.slug}/`">
+              <router-link :to="{name: RouteName.PostsPost, params: {slug: post.slug}}">
                 {{ post.title }}
               </router-link>
             </h2>
@@ -92,6 +92,7 @@ import {computed} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'
 import postsIndex from '@/modules/posts/posts-index.json'
+import {RouteName} from '@/router/routeNames'
 
 const cvData = useCvData()
 const SOCIAL_LINKS = cvData.personal.contacts

@@ -6,7 +6,7 @@
     <div class="content">
       <router-link
         class="cv-back"
-        to="/"
+        :to="{name: RouteName.Home}"
       >
         <svg
           class="cv-back__icon"
@@ -52,6 +52,7 @@
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {CvEducation, CvExperience, CvFooter, CvHeader, CvProjects, CvSkills, CvSummary,} from '@/modules/cv/components'
+import {RouteName} from '@/router/routeNames'
 
 const cvData = useCvData()
 usePageLoader()

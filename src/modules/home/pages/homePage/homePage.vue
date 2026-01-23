@@ -8,7 +8,7 @@
         <h1>{{ HOME_TITLE }}</h1>
 
         <h2 class="home-subtitle">
-          <router-link to="/cv/">
+          <router-link :to="{name: RouteName.Cv}">
             {{ HOME_SUBTITLE }}
           </router-link>
         </h2>
@@ -72,7 +72,7 @@
           >
             Threads
           </a>
-          <router-link to="/posts/">
+          <router-link :to="{name: RouteName.Posts}">
             Posts
           </router-link>
         </div>
@@ -94,6 +94,7 @@
 // Why: landing page with quick CTA (download CV / contact) and primary links.
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
+import {RouteName} from '@/router/routeNames'
 
 const cvData = useCvData()
 const HOME_TITLE = cvData.personal.name
