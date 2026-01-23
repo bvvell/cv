@@ -40,11 +40,24 @@ function findEntryFromManifest(manifest) {
 }
 
 function ssgHtmlPerf({distDir = 'dist', criticalCssPath = 'src/critical.css'} = {}) {
+    /** @type {import('vite').ResolvedConfig | null} */
+    let resolvedConfig = null
     return {
         name: 'ssg-html-perf',
         apply: 'build',
+        configResolved(config) {
+            resolvedConfig = config
+        },
         async closeBundle() {
-            const manifestPath = path.resolve(distDir, '.vite/manifest.json')
+            const outDir = resolvedConfig?.build?.outDir ? path.resolve(resolvedConfig.build.outDir) : path.resolve(distDir)
+            const manifestCandidates = [
+                path.join(outDir, '.vite/manifest.json'),
+                path.join(outDir, 'manifest.json'),
+            ]
+
+            const manifestPath = manifestCandidates.find((candidate) => fs.existsSync(candidate))
+            if (!manifestPath) return
+
             const manifestRaw = await fs.promises.readFile(manifestPath, 'utf8')
             const manifest = JSON.parse(manifestRaw)
             const entry = findEntryFromManifest(manifest)
@@ -57,7 +70,7 @@ function ssgHtmlPerf({distDir = 'dist', criticalCssPath = 'src/critical.css'} = 
             const criticalCss = await fs.promises.readFile(criticalCssAbs, 'utf8')
             const criticalStyleTag = `<style data-critical="true">${escapeHtmlStyle(criticalCss)}</style>`
 
-            const htmlFiles = (await listFilesRecursive(distDir)).filter((file) => file.endsWith('.html'))
+            const htmlFiles = (await listFilesRecursive(outDir)).filter((file) => file.endsWith('.html'))
 
             // Optional: preload local woff2 fonts if present under `public/fonts`.
             const fontsDir = path.resolve('public/fonts')
@@ -160,6 +173,7 @@ export default defineConfig(() => ({
     build: {
         target: 'esnext',
         minify: 'esbuild',
+        manifest: true,
         // Why: PSI flags multiple small CSS files as render-blocking; keeping a single CSS bundle
         // reduces the number of blocking requests during initial paint.
         cssCodeSplit: false,
