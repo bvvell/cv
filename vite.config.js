@@ -29,6 +29,10 @@ function buildNoscriptStylesheetTag(href) {
     return `<noscript><link rel="stylesheet" href="${href}"></noscript>`
 }
 
+function buildJsFlagTag() {
+    return `<script>document.documentElement.classList.add('js')</script>`
+}
+
 function findEntryFromManifest(manifest) {
     const entries = Object.entries(manifest)
         .filter(([, value]) => value && value.isEntry)
@@ -91,6 +95,11 @@ function ssgHtmlPerf({distDir = 'dist', criticalCssPath = 'src/critical.css'} = 
 
             for (const htmlPath of htmlFiles) {
                 let html = await fs.promises.readFile(htmlPath, 'utf8')
+
+                // Mark JS-capable environment for non-essential enter transitions.
+                if (!html.includes("document.documentElement.classList.add('js')")) {
+                    html = html.replace('<head>', `<head>${buildJsFlagTag()}`)
+                }
 
                 // Ensure we have critical CSS (in addition to the full stylesheet loaded via preload+swap).
                 if (!html.includes('data-critical="true"')) {
