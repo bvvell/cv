@@ -61,6 +61,9 @@ export default defineConfig(() => ({
     build: {
         target: 'esnext',
         minify: 'esbuild',
+        // Why: PSI flags multiple small CSS files as render-blocking; keeping a single CSS bundle
+        // reduces the number of blocking requests during initial paint.
+        cssCodeSplit: false,
         rollupOptions: {
             output: {
                 manualChunks(id) {
