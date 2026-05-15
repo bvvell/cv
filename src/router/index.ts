@@ -1,4 +1,3 @@
-import {HomePage} from '@/modules/home/pages'
 import {NotFoundPage} from '@/modules/notFound/pages'
 import {RouteName} from './routeNames'
 
@@ -20,7 +19,7 @@ export const routes = [
     {
         path: '/',
         name: RouteName.Home,
-        component: HomePage,
+        component: () => import('@/modules/home/pages/homePage/homePage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — UI Engineer / Front-end Developer',
             description: 'Front-end developer with 9+ years of experience building responsive websites and modern web apps. CV, selected work, and short posts.'

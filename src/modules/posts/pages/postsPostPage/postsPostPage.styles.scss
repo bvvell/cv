@@ -96,6 +96,47 @@
     :deep(h3) {
       margin: var(--space-6) 0 var(--space-2);
     }
+
+    :deep(code) {
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-size: 0.92em;
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    /* Why: Shiki emits inline `color`/`background` for the light theme and exposes a
+       parallel set of CSS variables (`--shiki-dark*`) for the dark palette. We swap to
+       those vars when the user prefers a dark scheme. */
+    :deep(pre.shiki) {
+      max-width: 72ch;
+      margin: 0 0 var(--space-5);
+      padding: var(--space-3) var(--space-4);
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    :deep(pre.shiki code) {
+      padding: 0;
+      background: transparent;
+      font-size: inherit;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .post-content :deep(.shiki),
+    .post-content :deep(.shiki span) {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+      font-style: var(--shiki-dark-font-style) !important;
+      font-weight: var(--shiki-dark-font-weight) !important;
+      text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+
+    .post-content :deep(code) {
+      background: rgba(255, 255, 255, 0.08);
+    }
   }
 
   .post-missing {

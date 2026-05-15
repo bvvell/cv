@@ -9,6 +9,7 @@ type PostIndexItem = {
     title: string
     excerpt: string
     cover?: string
+    date?: string
 }
 
 /**
@@ -155,6 +156,56 @@ export function useSiteHead() {
                 isPartOf: {'@id': websiteId},
                 mainEntity: {'@id': personId}
             })
+        }
+
+        const breadcrumb = (items: {name: string; path: string}[]) => ({
+            '@type': 'BreadcrumbList',
+            itemListElement: items.map((entry, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: entry.name,
+                item: base ? `${base}${entry.path}` : entry.path
+            }))
+        })
+
+        if (route.name === 'cv') {
+            ldGraph.push(breadcrumb([
+                {name: 'Home', path: '/'},
+                {name: 'CV', path: '/cv/'}
+            ]))
+        } else if (route.name === 'posts') {
+            ldGraph.push(breadcrumb([
+                {name: 'Home', path: '/'},
+                {name: 'Нататкі', path: '/posts/'}
+            ]))
+        } else if (route.name === 'posts-post') {
+            const slug = String(route.params?.slug ?? '')
+            const post = (postsIndex as PostIndexItem[]).find((item) => item.slug === slug)
+            if (post) {
+                ldGraph.push(breadcrumb([
+                    {name: 'Home', path: '/'},
+                    {name: 'Нататкі', path: '/posts/'},
+                    {name: post.title, path: `/posts/${slug}/`}
+                ]))
+
+                const postUrl = base ? `${base}/posts/${slug}/` : `/posts/${slug}/`
+                const postImage = post.cover
+                    ? (base ? `${base}${post.cover}` : post.cover)
+                    : fallbackImage.value
+                ldGraph.push({
+                    '@type': 'BlogPosting',
+                    '@id': `${postUrl}#article`,
+                    headline: post.title,
+                    description: post.excerpt,
+                    image: postImage,
+                    datePublished: post.date,
+                    inLanguage: 'be',
+                    author: {'@id': personId},
+                    publisher: {'@id': personId},
+                    mainEntityOfPage: {'@type': 'WebPage', '@id': postUrl},
+                    isPartOf: {'@id': websiteId}
+                })
+            }
         }
 
         const metaTags = [
