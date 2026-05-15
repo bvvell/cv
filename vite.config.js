@@ -3,6 +3,7 @@ import path from 'path'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Markdown from 'unplugin-vue-markdown/vite'
+import Shiki from '@shikijs/markdown-it'
 
 async function listFilesRecursive(dir) {
     const entries = await fs.promises.readdir(dir, {withFileTypes: true})
@@ -151,16 +152,77 @@ export default defineConfig(() => ({
                 linkify: true,
                 typographer: true
             },
-            markdownItSetup(md) {
-                const defaultRender = md.renderer.rules.image
+            async markdownItSetup(md) {
+                const publicDir = path.resolve(__dirname, 'public')
+
+                // Syntax highlighting for fenced code blocks. Why: posts may include
+                // short code samples; Shiki runs at build time, so there is no runtime cost.
+                // Dual themes emit CSS variables so the page picks the right palette under
+                // `prefers-color-scheme: dark` via stylesheet rules.
+                md.use(await Shiki({
+                    themes: {
+                        light: 'github-light',
+                        dark: 'github-dark-dimmed'
+                    },
+                    defaultColor: 'light'
+                }))
+
+                // Why: posts may use either `![alt](url.jpg)` (markdown image tokens)
+                // or raw HTML `<img>` inside `<figure>` (html_block/html_inline tokens).
+                // We want both to auto-upgrade to `<picture>` with a `.webp` source when
+                // a sibling `.webp` exists on disk. Authors who already hand-wrote
+                // `<picture>` blocks should not get double-wrapping.
+                const webpExistsFor = (src) => {
+                    if (!src || !src.startsWith('/')) return null
+                    const match = src.match(/^(.*)\.(jpe?g|png)$/i)
+                    if (!match) return null
+                    const webpUrl = `${match[1]}.webp`
+                    const absolute = path.join(publicDir, webpUrl)
+                    return fs.existsSync(absolute) ? webpUrl : null
+                }
+
+                const wrapStandaloneImgs = (html) => {
+                    // Skip everything already inside <picture>...</picture>, then wrap bare <img>.
+                    return html.replace(
+                        /<picture[\s\S]*?<\/picture>|<img\b[^>]*>/gi,
+                        (match) => {
+                            if (match.startsWith('<picture')) return match
+                            const srcMatch = match.match(/\bsrc=["']([^"']+)["']/i)
+                            if (!srcMatch) return match
+                            const webpUrl = webpExistsFor(srcMatch[1])
+                            let imgTag = match
+                            if (!/\bloading=/i.test(imgTag)) {
+                                imgTag = imgTag.replace(/<img\b/i, '<img loading="lazy" decoding="async"')
+                            }
+                            if (!webpUrl) return imgTag
+                            return `<picture><source srcset="${webpUrl}" type="image/webp">${imgTag}</picture>`
+                        }
+                    )
+                }
+
+                const defaultImage = md.renderer.rules.image
                 md.renderer.rules.image = (tokens, idx, options, env, self) => {
                     const token = tokens[idx]
                     token.attrSet('loading', 'lazy')
                     token.attrSet('decoding', 'async')
-                    return defaultRender
-                        ? defaultRender(tokens, idx, options, env, self)
+                    const src = token.attrGet('src')
+                    const webpUrl = webpExistsFor(src)
+                    const img = defaultImage
+                        ? defaultImage(tokens, idx, options, env, self)
                         : self.renderToken(tokens, idx, options)
+                    if (!webpUrl) return img
+                    return `<picture><source srcset="${webpUrl}" type="image/webp">${img}</picture>`
                 }
+
+                const wrapHtmlTokenRule = (ruleName) => {
+                    const original = md.renderer.rules[ruleName]
+                    md.renderer.rules[ruleName] = (tokens, idx, options, env, self) => {
+                        if (original) return wrapStandaloneImgs(original(tokens, idx, options, env, self))
+                        return wrapStandaloneImgs(tokens[idx].content)
+                    }
+                }
+                wrapHtmlTokenRule('html_block')
+                wrapHtmlTokenRule('html_inline')
             },
             frontmatter: true
         }),
@@ -200,7 +262,15 @@ export default defineConfig(() => ({
         rollupOptions: {
             output: {
                 manualChunks(id) {
-                    return id.includes('node_modules') ? 'vendor' : undefined
+                    // Why: split vendor by library family for better long-term caching —
+                    // Vue core and Vue Router rev independently from the rest.
+                    if (!id.includes('node_modules')) return undefined
+                    if (id.includes('/node_modules/vue-router/')) return 'router'
+                    if (
+                        id.includes('/node_modules/vue/')
+                        || id.includes('/node_modules/@vue/')
+                    ) return 'vue'
+                    return 'vendor'
                 }
             }
         },
