@@ -1,23 +1,50 @@
 [
   {
     "slug": "seryja-kazhny-dzen-2026",
+    "locale": "be",
     "title": "Як фатаграфія вярнулася ў маё жыццё",
     "date": "2026-04-14",
     "excerpt": "Пра тое, як фота зноў стала часткай майго жыцця — праз сторыс, штодзённую серыю і прагулкі.",
     "cover": "/images/posts/seryja-kazhny-dzen-2026.jpg"
   },
   {
+    "slug": "seryja-kazhny-dzen-2026",
+    "locale": "ru",
+    "title": "Как фотография вернулась в мою жизнь",
+    "date": "2026-04-14",
+    "excerpt": "О том, как фото снова стало частью моей жизни — через сторис, ежедневную серию и прогулки.",
+    "cover": "/images/posts/ru/seryja-kazhny-dzen-2026.jpg"
+  },
+  {
     "slug": "daroga-2025",
+    "locale": "be",
     "title": "2476 км паміж Мінскам і Бенгазі - мой спартыўны 2025",
     "date": "2026-01-23",
     "excerpt": "Пра тое, як выглядае год, калі паглядзець на яго праз статыстыку і сябе.",
     "cover": "/images/posts/daroga-25.jpg"
   },
   {
+    "slug": "daroga-2025",
+    "locale": "ru",
+    "title": "2476 км между Минском и Бенгази — мой спортивный 2025",
+    "date": "2026-01-23",
+    "excerpt": "О том, как выглядит год, если посмотреть на него через статистику и себя.",
+    "cover": "/images/posts/ru/daroga-25.jpg"
+  },
+  {
     "slug": "kalendar-zhyccia",
+    "locale": "be",
     "title": "Каляндар жыцця",
     "date": "2025-01-16",
     "excerpt": "Візуальны спосаб убачыць свой час у тыднях і задумацца, як яго напаўняць.",
     "cover": "/images/posts/kalendar-zhyccia.jpg"
+  },
+  {
+    "slug": "kalendar-zhyccia",
+    "locale": "ru",
+    "title": "Календарь жизни",
+    "date": "2025-01-16",
+    "excerpt": "Визуальный способ увидеть своё время в неделях и задуматься, чем его наполнять.",
+    "cover": "/images/posts/ru/kalendar-zhyccia.jpg"
   }
 ]

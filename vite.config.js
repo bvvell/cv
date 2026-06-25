@@ -136,8 +136,11 @@ const postsIndexPath = path.resolve(__dirname, 'src/modules/posts/posts-index.js
 const postsIndex = fs.existsSync(postsIndexPath)
     ? JSON.parse(fs.readFileSync(postsIndexPath, 'utf-8'))
     : []
+const toPostRoute = (post) => post.locale === 'ru'
+    ? `/posts/ru/${post.slug}/`
+    : `/posts/${post.slug}/`
 const postRoutes = Array.isArray(postsIndex)
-    ? postsIndex.map((post) => `/posts/${post.slug}/`)
+    ? postsIndex.map(toPostRoute)
     : []
 
 export default defineConfig(() => ({
@@ -232,7 +235,7 @@ export default defineConfig(() => ({
         dirStyle: 'nested',
         includedRoutes() {
             // Keep the list explicit to avoid accidentally generating unwanted routes.
-            const staticRoutes = ['/', '/cv/', '/posts/']
+            const staticRoutes = ['/', '/cv/', '/posts/', '/posts/ru/']
             return [...staticRoutes, ...postRoutes]
         }
     },
