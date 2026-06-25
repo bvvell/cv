@@ -3,20 +3,40 @@ import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import postsIndex from '@/modules/posts/posts-index.json'
 import cvData from '@/data/cv.json'
+import {
+    POST_LOCALES,
+    htmlLang,
+    indexPath,
+    isPostLocale,
+    ogLocale,
+    otherLocale,
+    postPath,
+    postsCopy,
+    type PostLocale
+} from '@/modules/posts/data/locale'
 
 type PostIndexItem = {
     slug: string
+    locale: PostLocale
     title: string
     excerpt: string
     cover?: string
     date?: string
 }
 
+const POSTS = postsIndex as PostIndexItem[]
+
+const findPost = (locale: PostLocale, slug: string) =>
+    POSTS.find((item) => item.slug === slug && item.locale === locale)
+
+const hasPost = (locale: PostLocale, slug: string) =>
+    POSTS.some((item) => item.slug === slug && item.locale === locale)
+
 /**
  * Configures document `<head>` for the whole site:
  * - title/description (route meta + post overrides)
- * - canonical + OpenGraph/Twitter cards
- * - JSON-LD (Person, WebSite, and optional ProfilePage)
+ * - canonical + hreflang alternates + OpenGraph/Twitter cards
+ * - JSON-LD (Person, WebSite, and optional ProfilePage / BlogPosting)
  *
  * Why: keep all head/SEO logic in one composable so `App.vue` stays minimal.
  */
@@ -37,10 +57,20 @@ export function useSiteHead() {
         return `${pathname}/${query}${hash}`
     }
 
-    const pageLang = computed(() => {
-        // Posts are written in Belarusian; the rest of the site is in English.
-        return String(route.name || '').startsWith('posts') ? 'be' : 'en'
+    // Posts carry a `locale` in their route meta (be/ru); the rest of the site is English.
+    const postLocale = computed<PostLocale | null>(() => {
+        const loc = route.meta?.locale
+        return isPostLocale(loc) ? loc : null
     })
+
+    const pageLang = computed(() => (postLocale.value ? htmlLang[postLocale.value] : 'en'))
+
+    const isPostPage = computed(
+        () => route.name === 'posts-post' || route.name === 'posts-ru-post'
+    )
+    const isPostsIndex = computed(
+        () => route.name === 'posts' || route.name === 'posts-ru'
+    )
 
     const baseUrl = computed(() => {
         const envUrl = import.meta.env.VITE_SITE_URL
@@ -68,11 +98,13 @@ export function useSiteHead() {
         let image = fallbackImage.value
         let type: 'website' | 'article' = 'website'
 
-        // `/posts/:slug` gets its own title/description/cover.
-        if (route.name === 'posts-post') {
+        // `/posts/:slug` (be) and `/posts/ru/:slug` (ru) get their own title/description/cover.
+        if (isPostPage.value) {
+            const locale = postLocale.value ?? 'be'
+            const copy = postsCopy[locale]
             const slug = String(route.params?.slug ?? '')
-            const post = (postsIndex as PostIndexItem[]).find((item) => item.slug === slug)
-            const postPath = `/posts/${slug}/`
+            const post = findPost(locale, slug)
+            const postUrlPath = postPath(locale, slug)
 
             if (post) {
                 type = 'article'
@@ -84,21 +116,21 @@ export function useSiteHead() {
                 // If excerpt is too short, add a small “why click” hint for social previews.
                 const descriptionForShare = baseDescription.length >= 110
                     ? baseDescription
-                    : `${baseDescription} Поўны тэкст і прыклады — на маім сайце.`
+                    : `${baseDescription} ${copy.shareHint}`
 
                 return {
-                    title: `${post.title} — Нататкі — Uladzimir Biarnatski`,
+                    title: `${post.title} — ${copy.titleSuffix}`,
                     description: descriptionForShare,
-                    url: baseUrl.value ? `${baseUrl.value}${postPath}` : '',
+                    url: baseUrl.value ? `${baseUrl.value}${postUrlPath}` : '',
                     image,
                     type
                 }
             }
 
             return {
-                title: 'Запіс не знойдзены — Нататкі — Uladzimir Biarnatski',
-                description: 'Старонка недаступная.',
-                url: baseUrl.value ? `${baseUrl.value}${postPath}` : '',
+                title: copy.seoNotFoundTitle,
+                description: copy.seoNotFoundDescription,
+                url: baseUrl.value ? `${baseUrl.value}${postUrlPath}` : '',
                 image,
                 type: 'website'
             }
@@ -142,7 +174,7 @@ export function useSiteHead() {
             '@type': 'WebSite',
             name: cvData.personal.name,
             url: base || undefined,
-            inLanguage: ['en', 'be'],
+            inLanguage: ['en', 'be', 'ru'],
             author: {'@id': personId},
             publisher: {'@id': personId}
         })
@@ -173,22 +205,24 @@ export function useSiteHead() {
                 {name: 'Home', path: '/'},
                 {name: 'CV', path: '/cv/'}
             ]))
-        } else if (route.name === 'posts') {
+        } else if (isPostsIndex.value) {
+            const locale = postLocale.value ?? 'be'
             ldGraph.push(breadcrumb([
                 {name: 'Home', path: '/'},
-                {name: 'Нататкі', path: '/posts/'}
+                {name: postsCopy[locale].eyebrow, path: indexPath[locale]}
             ]))
-        } else if (route.name === 'posts-post') {
+        } else if (isPostPage.value) {
+            const locale = postLocale.value ?? 'be'
             const slug = String(route.params?.slug ?? '')
-            const post = (postsIndex as PostIndexItem[]).find((item) => item.slug === slug)
+            const post = findPost(locale, slug)
             if (post) {
                 ldGraph.push(breadcrumb([
                     {name: 'Home', path: '/'},
-                    {name: 'Нататкі', path: '/posts/'},
-                    {name: post.title, path: `/posts/${slug}/`}
+                    {name: postsCopy[locale].eyebrow, path: indexPath[locale]},
+                    {name: post.title, path: postPath(locale, slug)}
                 ]))
 
-                const postUrl = base ? `${base}/posts/${slug}/` : `/posts/${slug}/`
+                const postUrl = base ? `${base}${postPath(locale, slug)}` : postPath(locale, slug)
                 const postImage = post.cover
                     ? (base ? `${base}${post.cover}` : post.cover)
                     : fallbackImage.value
@@ -199,7 +233,7 @@ export function useSiteHead() {
                     description: post.excerpt,
                     image: postImage,
                     datePublished: post.date,
-                    inLanguage: 'be',
+                    inLanguage: htmlLang[locale],
                     author: {'@id': personId},
                     publisher: {'@id': personId},
                     mainEntityOfPage: {'@type': 'WebPage', '@id': postUrl},
@@ -208,17 +242,55 @@ export function useSiteHead() {
             }
         }
 
+        // hreflang alternates + og:locale:alternate for bilingual posts pages.
+        const alternateLocales: {locale: PostLocale; path: string}[] = []
+        if (isPostsIndex.value) {
+            // Both index pages always exist.
+            for (const locale of POST_LOCALES) {
+                alternateLocales.push({locale, path: indexPath[locale]})
+            }
+        } else if (isPostPage.value) {
+            const slug = String(route.params?.slug ?? '')
+            for (const locale of POST_LOCALES) {
+                if (hasPost(locale, slug)) {
+                    alternateLocales.push({locale, path: postPath(locale, slug)})
+                }
+            }
+        }
+
+        const links: {rel: string; href: string; hreflang?: string}[] = []
+        if (meta.url) {
+            links.push({rel: 'canonical', href: meta.url})
+        }
+        // Only emit hreflang links when a real alternate exists (more than one locale).
+        if (base && alternateLocales.length > 1) {
+            for (const entry of alternateLocales) {
+                links.push({rel: 'alternate', hreflang: htmlLang[entry.locale], href: `${base}${entry.path}`})
+            }
+            const fallback = alternateLocales.find((entry) => entry.locale === 'be') ?? alternateLocales[0]
+            links.push({rel: 'alternate', hreflang: 'x-default', href: `${base}${fallback.path}`})
+        }
+
         const metaTags = [
             {name: 'description', content: meta.description},
             {property: 'og:title', content: meta.title},
             {property: 'og:description', content: meta.description},
             {property: 'og:type', content: meta.type},
             {property: 'og:image', content: meta.image},
+            {property: 'og:locale', content: postLocale.value ? ogLocale[postLocale.value] : 'en_US'},
             {name: 'twitter:card', content: meta.image ? 'summary_large_image' : 'summary'},
             {name: 'twitter:title', content: meta.title},
             {name: 'twitter:description', content: meta.description},
             {name: 'twitter:image', content: meta.image}
         ]
+
+        // Declare the sibling language so social scrapers know a translation exists.
+        if (postLocale.value && alternateLocales.length > 1) {
+            metaTags.push({
+                property: 'og:locale:alternate',
+                content: ogLocale[otherLocale[postLocale.value]]
+            })
+        }
 
         if (meta.url) {
             metaTags.push({property: 'og:url', content: meta.url})
@@ -229,7 +301,7 @@ export function useSiteHead() {
             htmlAttrs: {
                 lang: pageLang.value
             },
-            link: meta.url ? [{rel: 'canonical', href: meta.url}] : [],
+            link: links,
             meta: metaTags,
             script: [{
                 type: 'application/ld+json',

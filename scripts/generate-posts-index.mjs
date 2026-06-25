@@ -43,9 +43,14 @@ const parseFrontmatter = (raw) => {
     if (!key) {
       continue
     }
-    const value = rest.join(':').trim()
+    let value = rest.join(':').trim()
     if (!value) {
       continue
+    }
+    // Strip matching surrounding quotes so values stay consistent with the
+    // strict YAML parser used at build time (values may be quoted to escape `:`).
+    if (value.length >= 2 && (value[0] === '"' || value[0] === "'") && value[value.length - 1] === value[0]) {
+      value = value.slice(1, -1)
     }
     frontMatter[key] = value
   }
@@ -74,25 +79,37 @@ const extractExcerpt = (body, maxLength = 180) => {
 
 const extractSlug = (filename) => filename.replace(/\.md$/, '')
 
-const files = fs.existsSync(postsDir)
-  ? fs.readdirSync(postsDir).filter((file) => file.endsWith('.md'))
-  : []
+// Why: Belarusian posts live in `posts/`, Russian translations in `posts/ru/`.
+// The locale is derived from the folder so authors only manage Markdown files.
+const localeDirs = [
+  {locale: 'be', dir: postsDir},
+  {locale: 'ru', dir: path.join(postsDir, 'ru')}
+]
 
-const posts = files.map((file) => {
-  const slug = extractSlug(file)
-  const fullPath = path.join(postsDir, file)
-  const raw = fs.readFileSync(fullPath, 'utf-8')
-  const frontMatter = parseFrontmatter(raw)
-  const body = stripFrontmatter(raw)
+const readPosts = ({locale, dir}) => {
+  const files = fs.existsSync(dir)
+    ? fs.readdirSync(dir).filter((file) => file.endsWith('.md'))
+    : []
 
-  return {
-    slug,
-    title: frontMatter.title || slug,
-    date: frontMatter.date || '1970-01-01',
-    excerpt: frontMatter.excerpt || extractExcerpt(body),
-    cover: frontMatter.cover || `/images/posts/${slug}.jpg`
-  }
-})
+  return files.map((file) => {
+    const slug = extractSlug(file)
+    const fullPath = path.join(dir, file)
+    const raw = fs.readFileSync(fullPath, 'utf-8')
+    const frontMatter = parseFrontmatter(raw)
+    const body = stripFrontmatter(raw)
+
+    return {
+      slug,
+      locale,
+      title: frontMatter.title || slug,
+      date: frontMatter.date || '1970-01-01',
+      excerpt: frontMatter.excerpt || extractExcerpt(body),
+      cover: frontMatter.cover || `/images/posts/${slug}.jpg`
+    }
+  })
+}
+
+const posts = localeDirs.flatMap(readPosts)
 
 posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 

@@ -72,9 +72,6 @@
           >
             Threads
           </a>
-          <router-link :to="{name: RouteName.Posts}">
-            Posts
-          </router-link>
         </div>
       </div>
 

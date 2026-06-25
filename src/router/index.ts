@@ -12,6 +12,7 @@ declare module 'vue-router' {
     interface RouteMeta {
         title?: string
         description?: string
+        locale?: 'be' | 'ru'
     }
 }
 
@@ -50,7 +51,43 @@ export const routes = [
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Нататкі — Uladzimir Biarnatski',
-            description: 'Невялікія нататкі пра жыццё, творчасць і не толькі.'
+            description: 'Невялікія нататкі пра жыццё, творчасць і не толькі.',
+            locale: 'be'
+        }
+    },
+    {
+        path: '/posts/ru',
+        redirect: {name: RouteName.PostsRu}
+    },
+    {
+        path: '/posts/ru/',
+        name: RouteName.PostsRu,
+        pathToRegexpOptions: {strict: true},
+        component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
+        meta: {
+            title: 'Заметки — Uladzimir Biarnatski',
+            description: 'Небольшие заметки о жизни, творчестве и не только.',
+            locale: 'ru'
+        }
+    },
+    {
+        path: '/posts/ru/:slug',
+        redirect: (to) => ({
+            name: RouteName.PostsRuPost,
+            params: to.params,
+            query: to.query,
+            hash: to.hash
+        })
+    },
+    {
+        path: '/posts/ru/:slug/',
+        name: RouteName.PostsRuPost,
+        pathToRegexpOptions: {strict: true},
+        component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
+        meta: {
+            title: 'Заметки — Uladzimir Biarnatski',
+            description: 'Заметка.',
+            locale: 'ru'
         }
     },
     {
@@ -69,7 +106,8 @@ export const routes = [
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
             title: 'Нататкі — Uladzimir Biarnatski',
-            description: 'Нататка.'
+            description: 'Нататка.',
+            locale: 'be'
         }
     },
     {
