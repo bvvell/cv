@@ -1,5 +1,21 @@
 [
   {
+    "slug": "inst-reporter",
+    "locale": "be",
+    "title": "Я зрабіў сабе інструмент, каб зразумець свой Instagram",
+    "date": "2026-06-25",
+    "excerpt": "Люблю лічбы, заліваю ў Instagram тону кантэнту — і захацеў зразумець, што з гэтага заходзіць. Гатовага інструмента не знайшоў, сабраў свой.",
+    "cover": "/images/posts/inst-reporter.jpg"
+  },
+  {
+    "slug": "inst-reporter",
+    "locale": "ru",
+    "title": "Я сделал себе инструмент, чтобы понять свой Instagram",
+    "date": "2026-06-25",
+    "excerpt": "Люблю цифры, гружу в Instagram тонну контента — и захотел понять, что из этого заходит. Готового инструмента не нашёл, собрал свой.",
+    "cover": "/images/posts/ru/inst-reporter.jpg"
+  },
+  {
     "slug": "seryja-kazhny-dzen-2026",
     "locale": "be",
     "title": "Як фатаграфія вярнулася ў маё жыццё",
