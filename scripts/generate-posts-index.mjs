@@ -111,7 +111,10 @@ const readPosts = ({locale, dir}) => {
 
 const posts = localeDirs.flatMap(readPosts)
 
-posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+posts.sort((a, b) => {
+  const dateDiff = new Date(b.date).getTime() - new Date(a.date).getTime()
+  return dateDiff || a.slug.localeCompare(b.slug)
+})
 
 fs.mkdirSync(path.dirname(outputPath), {recursive: true})
 fs.writeFileSync(outputPath, JSON.stringify(posts, null, 2))
