@@ -75,4 +75,3 @@ jobs:
           target: ${{ env.SSH_TARGET }}
           strip_components: 1
           overwrite: true
-          debug: true

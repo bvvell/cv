@@ -34,7 +34,7 @@
     </div>
 
     <div
-      v-if="!hasFutureDate"
+      v-if="isValidDate && !hasFutureDate"
       class="life-calendar__grid"
     >
       <div class="life-calendar__rows">
@@ -74,7 +74,8 @@ const maxDate = computed(() => {
 })
 
 const birth = computed(() => new Date(`${birthDate.value}T00:00:00`))
-const hasFutureDate = computed(() => birth.value.getTime() > Date.now())
+const isValidDate = computed(() => birthDate.value !== '' && !Number.isNaN(birth.value.getTime()))
+const hasFutureDate = computed(() => isValidDate.value && birth.value.getTime() > Date.now())
 const birthYear = computed(() => birth.value.getFullYear())
 const today = computed(() => new Date())
 const currentYear = computed(() => today.value.getFullYear())

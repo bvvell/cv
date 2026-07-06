@@ -1,6 +1,6 @@
 <template>
   <div
-    id="page"
+    ref="pageRef"
     class="posts-post"
   >
     <div class="wrapp">
@@ -114,7 +114,7 @@
 
 <script setup lang="ts">
 // Why: resolves the markdown component by slug + locale and renders it as the post body.
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {findPost, hasTranslation} from '@/modules/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
@@ -150,7 +150,8 @@ const formatDate = (value: string) => new Intl.DateTimeFormat(dateLocale[locale.
   dateStyle: 'medium'
 }).format(new Date(value))
 
-usePageLoader('page')
+const pageRef = ref<HTMLElement | null>(null)
+usePageLoader(pageRef)
 </script>
 
 <style scoped lang="scss">

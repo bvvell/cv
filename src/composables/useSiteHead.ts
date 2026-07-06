@@ -3,6 +3,7 @@ import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import postsIndex from '@/modules/posts/posts-index.json'
 import cvData from '@/data/cv.json'
+import {ensureTrailingSlash} from '@/utils/url'
 import {
     POST_LOCALES,
     htmlLang,
@@ -42,20 +43,6 @@ const hasPost = (locale: PostLocale, slug: string) =>
  */
 export function useSiteHead() {
     const route = useRoute()
-
-    const ensureTrailingSlash = (fullPath: string) => {
-        const hashIndex = fullPath.indexOf('#')
-        const beforeHash = hashIndex === -1 ? fullPath : fullPath.slice(0, hashIndex)
-        const hash = hashIndex === -1 ? '' : fullPath.slice(hashIndex)
-
-        const queryIndex = beforeHash.indexOf('?')
-        const pathname = queryIndex === -1 ? beforeHash : beforeHash.slice(0, queryIndex)
-        const query = queryIndex === -1 ? '' : beforeHash.slice(queryIndex)
-
-        if (pathname === '/' || pathname.endsWith('/')) return fullPath
-        if (/\.[^/]+$/.test(pathname)) return fullPath
-        return `${pathname}/${query}${hash}`
-    }
 
     // Posts carry a `locale` in their route meta (be/ru); the rest of the site is English.
     const postLocale = computed<PostLocale | null>(() => {

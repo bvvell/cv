@@ -4,8 +4,8 @@
   "type": "module",
   "packageManager": "pnpm@10.28.1",
   "scripts": {
-    "dev": "node scripts/optimize-images.mjs && node scripts/generate-posts-index.mjs && vite",
-    "build": "node scripts/optimize-images.mjs && node scripts/generate-posts-index.mjs && vite-ssg build && node scripts/generate-sitemap.mjs && node scripts/generate-feed.mjs",
+    "dev": "node scripts/optimize-images.mjs && node scripts/generate-posts-index.mjs && node scripts/check-posts-html.mjs && vite",
+    "build": "node scripts/optimize-images.mjs && node scripts/generate-posts-index.mjs && node scripts/check-posts-html.mjs && vite-ssg build && node scripts/generate-sitemap.mjs && node scripts/generate-feed.mjs",
     "images:optimize": "node scripts/optimize-images.mjs",
     "cv:pdf": "node scripts/generate-cv-pdf.mjs",
     "preview": "vite preview",

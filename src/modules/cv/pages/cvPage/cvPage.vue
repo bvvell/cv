@@ -1,6 +1,6 @@
 <template>
   <div
-    id="page"
+    ref="pageRef"
     class="wrapp cv-page"
   >
     <div class="content">
@@ -49,13 +49,15 @@
 
 <script setup lang="ts">
 // Why: the CV page composes a few small sections to keep content/data changes isolated.
+import {ref} from 'vue'
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {CvEducation, CvExperience, CvFooter, CvHeader, CvProjects, CvSkills, CvSummary,} from '@/modules/cv/components'
 import {RouteName} from '@/router/routeNames'
 
 const cvData = useCvData()
-usePageLoader()
+const pageRef = ref<HTMLElement | null>(null)
+usePageLoader(pageRef)
 </script>
 
 <style scoped lang="scss">

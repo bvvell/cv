@@ -23,7 +23,6 @@ export default typescriptEslint.config(
             '**/dist-ssr/**',
             '**/coverage/**',
             '**/src/__V1/**' /* Vue2 app files */,
-            '**/scripts/**/*',
         ],
     },
     {
@@ -88,6 +87,18 @@ export default typescriptEslint.config(
             parserOptions: {
                 projectService: true,
             },
+        },
+    },
+    {
+        name: 'scripts/js-only',
+        files: ['scripts/**/*.mjs'],
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            globals: globals.node,
+        },
+        rules: {
+            'no-console': 'off',
         },
     },
     {
