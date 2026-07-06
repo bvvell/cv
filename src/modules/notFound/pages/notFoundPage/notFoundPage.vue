@@ -1,6 +1,6 @@
 <template>
   <div
-    id="page"
+    ref="pageRef"
     class="not-found"
   >
     <div class="wrapp">
@@ -27,10 +27,12 @@
 
 <script setup lang="ts">
 // Why: friendly catch-all page for unknown routes (both in SPA and SSG output).
+import {ref} from 'vue'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {RouteName} from '@/router/routeNames'
 
-usePageLoader('page')
+const pageRef = ref<HTMLElement | null>(null)
+usePageLoader(pageRef)
 </script>
 
 <style scoped lang="scss">

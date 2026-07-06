@@ -1,6 +1,6 @@
 <template>
   <div
-    id="page"
+    ref="pageRef"
     class="home-data"
   >
     <div class="wrapp">
@@ -89,6 +89,7 @@
 
 <script setup lang="ts">
 // Why: landing page with quick CTA (download CV / contact) and primary links.
+import {ref} from 'vue'
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {RouteName} from '@/router/routeNames'
@@ -99,7 +100,8 @@ const HOME_SUBTITLE = cvData.personal.homeSubtitle
 const HOME_META = cvData.personal.homeMeta ?? ''
 const SOCIAL_LINKS = cvData.personal.contacts
 
-usePageLoader('page')
+const pageRef = ref<HTMLElement | null>(null)
+usePageLoader(pageRef)
 </script>
 
 <style scoped lang="scss">

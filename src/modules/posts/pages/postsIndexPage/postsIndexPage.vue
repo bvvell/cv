@@ -1,6 +1,6 @@
 <template>
   <div
-    id="page"
+    ref="pageRef"
     class="posts-page"
   >
     <div class="wrapp">
@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
 // Why: list view reads the generated posts index and renders lightweight cards.
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {useCvData} from '@/composables/useCvData'
@@ -124,7 +124,8 @@ const cardDelay = (index: number) => ({
   transitionDelay: `${150 + index * 80}ms`
 })
 
-usePageLoader('page')
+const pageRef = ref<HTMLElement | null>(null)
+usePageLoader(pageRef)
 </script>
 
 <style scoped lang="scss">
