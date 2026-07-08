@@ -29,8 +29,15 @@
   border-bottom: 1px solid var(--hairline);
 }
 
+.posts-eyebrow-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.875rem;
+}
+
 .eyebrow {
-  margin: 0 0 0.875rem;
+  margin: 0;
   color: var(--accent);
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -45,7 +52,6 @@ h1 {
 }
 
 .intro {
-  max-width: 400px;
   margin: 0 0 1.375rem;
   color: var(--ink-2);
   font-size: 1.125rem;
@@ -55,10 +61,10 @@ h1 {
 .posts-socials {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: 0 0 0.875rem;
-  font-size: 0.875rem;
+  gap: 0.5rem;
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 0.04em;
 
   &__dot {
     color: var(--dot);
@@ -87,7 +93,7 @@ h1 {
   }
 
   &__link {
-    font-weight: 400;
+    font-weight: 500;
   }
 }
 
@@ -136,7 +142,7 @@ h1 {
   }
 
   &__number {
-    color: var(--accent);
+    color: var(--muted);
     font-size: 0.8125rem;
   }
 

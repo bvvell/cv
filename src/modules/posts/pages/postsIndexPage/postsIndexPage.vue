@@ -5,39 +5,41 @@
   >
     <PageShell>
       <header class="posts-hero">
-        <p class="eyebrow">
-          {{ copy.eyebrow }}
-        </p>
+        <div class="posts-eyebrow-row">
+          <p class="eyebrow">
+            {{ copy.eyebrow }}
+          </p>
+          <div
+            v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
+            class="posts-socials"
+          >
+            <a
+              v-if="SOCIAL_LINKS.instagram"
+              :href="SOCIAL_LINKS.instagram"
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
+              Instagram
+            </a>
+            <span
+              v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
+              class="posts-socials__dot"
+              aria-hidden="true"
+            >·</span>
+            <a
+              v-if="SOCIAL_LINKS.threads"
+              :href="SOCIAL_LINKS.threads"
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
+              Threads
+            </a>
+          </div>
+        </div>
         <h1>{{ copy.listTitle }}</h1>
         <p class="intro">
           {{ copy.intro }}
         </p>
-        <div
-          v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
-          class="posts-socials"
-        >
-          <a
-            v-if="SOCIAL_LINKS.instagram"
-            :href="SOCIAL_LINKS.instagram"
-            target="_blank"
-            rel="me noopener noreferrer"
-          >
-            Instagram
-          </a>
-          <span
-            v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
-            class="posts-socials__dot"
-            aria-hidden="true"
-          >·</span>
-          <a
-            v-if="SOCIAL_LINKS.threads"
-            :href="SOCIAL_LINKS.threads"
-            target="_blank"
-            rel="me noopener noreferrer"
-          >
-            Threads
-          </a>
-        </div>
         <nav
           class="posts-lang"
           :aria-label="copy.switchLabel"
