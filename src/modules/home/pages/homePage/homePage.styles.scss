@@ -1,161 +1,109 @@
-/* Why: home page gets its own “hero” styling and animations; kept local to avoid bleeding into other pages. */
-.home-data {
-  color: var(--color-home-ink);
+@use '@/styles/tokens' as t;
 
-  .home {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    max-width: 65ch;
-    padding: clamp(var(--space-5), 3vw, var(--space-7)) 0;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(2.1rem, 4.1vw, 3.6rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
-
-  .home-subtitle {
-    margin: 0;
-    font-size: clamp(1.15rem, 1.4vw + 0.7rem, 1.6rem);
-    color: var(--color-home-accent);
-  }
-
-  .home__value {
-    margin: 0;
-    color: var(--color-text-subtle);
-  }
-
-  .home__meta {
-    margin: 0;
-    color: var(--color-text-muted);
-  }
-
-  .home__links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
-    margin-top: var(--space-3);
-  }
-
-  .home__cta {
-    color: var(--color-home-accent);
-    font-weight: 600;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-    transition: border-color 0.2s ease, opacity 0.2s ease, color 0.2s ease;
-
-    &:visited {
-      color: var(--color-home-accent);
-      border-bottom-color: currentColor;
-    }
-
-    &--primary {
-      font-weight: 700;
-      border-bottom: 1px dashed currentColor;
-    }
-
-    &--secondary {
-      opacity: 0.9;
-    }
-
-    &:hover {
-      border-bottom-color: transparent;
-    }
-  }
-
-  .contact {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-
-  a {
-    color: var(--color-home-accent);
-    border-bottom: 1px solid currentColor;
-
-    &:hover {
-      border-bottom-color: transparent;
-    }
-  }
-
-  .avatar {
-    height: 100px;
-    width: 100px;
-  }
-
+.home-page {
   :global(html.js) & {
-    h1,
-    .home-subtitle,
-    .home__meta,
-    .home__value,
-    .home__links,
-    .contact {
+    .home__body,
+    .home__avatar {
       transform: translateY(18px);
       transition: transform 1s cubic-bezier(0, 1, 0.6, 1);
       will-change: transform;
     }
 
-    .avatar {
-      transition-duration: 1.5s;
-    }
-
     &.loaded {
-      h1 {
+      .home__body {
         transform: translateY(0);
       }
 
-      .home-subtitle {
-        transition-delay: 220ms;
+      .home__avatar {
         transform: translateY(0);
+        transition-delay: 700ms;
       }
-
-      .home__meta {
-        transition-delay: 320ms;
-        transform: translateY(0);
-      }
-
-      .home__value {
-        transition-delay: 340ms;
-        transform: translateY(0);
-      }
-
-      .home__links {
-        transition-delay: 440ms;
-        transform: translateY(0);
-      }
-
-      .contact {
-        transition-delay: 560ms;
-        transform: translateY(0);
-      }
-
-      .avatar {
-        transition-delay: 900ms;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .home {
-      padding: var(--space-6) 0 var(--space-7);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    h1,
-    .home-subtitle,
-    .home__meta,
-    .home__value,
-    .home__links,
-    .contact,
-    .avatar {
+    .home__body,
+    .home__avatar {
       transition: none;
       transform: none;
-      opacity: 1;
     }
   }
+}
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+
+  @media (max-width: t.$bp-mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.home__avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #efe6d8, #efe6d8 8px, #e6dccb 8px, #e6dccb 16px);
+
+  @media (max-width: t.$bp-mobile) {
+    display: none;
+  }
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: var(--fs-display);
+  line-height: 0.98;
+  color: var(--ink);
+}
+
+.home__role {
+  max-width: none;
+  margin: 0 0 1.75rem;
+  color: var(--accent);
+  font-size: clamp(1.125rem, 3.4vw, 1.4375rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.home__meta {
+  max-width: none;
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: 1.6;
+}
+
+.home__value {
+  margin: 0 0 2rem;
+  color: var(--ink-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.home__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.375rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+
+  a {
+    border-bottom-style: dashed;
+  }
+}
+
+.home__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }

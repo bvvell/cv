@@ -1,175 +1,283 @@
-/* Why: post page styles focus on readability (typography, spacing) and a gentle enter animation. */
+@use '@/styles/tokens' as t;
+@use '@/styles/mixins' as m;
+
 .posts-post {
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .post-body {
-    transition: transform 0.8s ease;
-  }
-
-  .post-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .post-meta {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-  }
-
-  h1 {
-    margin: 0;
-    max-width: 72ch;
-    font-size: clamp(1.7rem, 2vw + 0.9rem, 2.4rem);
-    line-height: 1.08;
-  }
-
-  .post-excerpt {
-    margin: 0 0 var(--space-4);
-    font-size: 1.05rem;
-    color: var(--color-text-subtle);
-  }
-
-  .post-content {
-    display: flex;
-    flex-direction: column;
-
-    :deep(p),
-    :deep(h1),
-    :deep(h2),
-    :deep(h3),
-    :deep(ul),
-    :deep(ol),
-    :deep(blockquote),
-    :deep(pre),
-    :deep(figure),
-    :deep(img) {
-      max-width: 72ch;
-    }
-
-    :deep(figure) {
-      margin: 0 0 var(--space-5);
-    }
-
-    :deep(img) {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 0 var(--space-5);
-      border-radius: 12px;
-    }
-
-    :deep(figure img) {
-      margin: 0;
-    }
-
-    :deep(figcaption) {
-      margin: var(--space-2) 0 0;
-      font-size: 0.95rem;
-      color: var(--color-text-muted);
-    }
-
-    :deep(p) {
-      margin: 0 0 var(--space-4);
-      line-height: 1.6;
-    }
-
-    :deep(ul),
-    :deep(ol) {
-      margin: 0 0 var(--space-4);
-      padding-left: 1.2rem;
-    }
-
-    :deep(li) {
-      margin: var(--space-2) 0;
-    }
-
-    :deep(h2) {
-      margin: var(--space-7) 0 var(--space-3);
-    }
-
-    :deep(h3) {
-      margin: var(--space-6) 0 var(--space-2);
-    }
-
-    :deep(code) {
-      padding: 0.1em 0.35em;
-      border-radius: 4px;
-      font-size: 0.92em;
-      background: rgba(0, 0, 0, 0.06);
-    }
-
-    /* Why: Shiki emits inline `color`/`background` for the light theme and exposes a
-       parallel set of CSS variables (`--shiki-dark*`) for the dark palette. We swap to
-       those vars when the user prefers a dark scheme. */
-    :deep(pre.shiki) {
-      max-width: 72ch;
-      margin: 0 0 var(--space-5);
-      padding: var(--space-3) var(--space-4);
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
-
-    :deep(pre.shiki code) {
-      padding: 0;
-      background: transparent;
-      font-size: inherit;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .post-content :deep(.shiki),
-    .post-content :deep(.shiki span) {
-      color: var(--shiki-dark) !important;
-      background-color: var(--shiki-dark-bg) !important;
-      font-style: var(--shiki-dark-font-style) !important;
-      font-weight: var(--shiki-dark-font-weight) !important;
-      text-decoration: var(--shiki-dark-text-decoration) !important;
-    }
-
-    .post-content :deep(code) {
-      background: rgba(255, 255, 255, 0.08);
-    }
-  }
-
-  .posts-lang {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-
-    &__current {
-      font-weight: 600;
-      color: var(--color-text);
-    }
-
-    &__sep {
-      color: var(--color-text-muted);
-    }
-  }
-
-  .post-missing {
-    max-width: 60ch;
-  }
-
   :global(html.js) & {
     .post-body {
       transform: translateY(16px);
+      transition: transform 0.8s ease;
       will-change: transform;
     }
 
-    &.loaded {
-      .post-body {
-        transform: translateY(0);
-      }
+    &.loaded .post-body {
+      transform: translateY(0);
     }
   }
+}
+
+.posts-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+
+  @media (max-width: t.$bp-mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+}
+
+.posts-back {
+  @include m.back-link($font-size: 0.9rem, $font-weight: 500);
+
+  color: var(--muted);
+  border-bottom: 0;
+
+  &:hover {
+    color: var(--ink);
+    border-bottom: 0;
+  }
+
+  &:visited {
+    color: var(--muted);
+    border-bottom: 0;
+  }
+}
+
+.posts-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+
+  &__label {
+    color: var(--muted);
+  }
+
+  &__current {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  &__sep {
+    color: var(--dot);
+  }
+
+  &__link {
+    font-weight: 400;
+  }
+}
+
+.post-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 2.5rem;
+}
+
+.post-meta {
+  display: flex;
+  gap: 0.45rem;
+  margin: 0 0 0.875rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: var(--fs-h1);
+  font-weight: t.$post-title-weight;
+  line-height: t.$post-title-leading;
+  letter-spacing: t.$post-title-tracking;
+}
+
+.post-excerpt {
+  margin: 0 0 1.875rem;
+  color: var(--ink-2);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+
+  @media (max-width: t.$bp-mobile) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.post-stats {
+  display: flex;
+  border-top: 1px solid var(--hairline-2);
+  border-bottom: 1px solid var(--hairline-2);
+  margin: 0 0 2.375rem;
+
+  &__item {
+    flex: 1 1 0;
+    padding: 1.25rem 0;
+    text-align: center;
+
+    & + & {
+      border-left: 1px solid var(--hairline-2);
+    }
+
+    @media (max-width: t.$bp-mobile) {
+      padding: 1rem 0;
+    }
+  }
+
+  strong {
+    display: block;
+    color: var(--accent);
+    font-size: 1.875rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    @media (max-width: t.$bp-mobile) {
+      font-size: 1.5rem;
+    }
+  }
+
+  span {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+
+    @media (max-width: t.$bp-mobile) {
+      font-size: 0.625rem;
+    }
+  }
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+
+  :deep(p),
+  :deep(h1),
+  :deep(h2),
+  :deep(h3),
+  :deep(ul),
+  :deep(ol),
+  :deep(blockquote),
+  :deep(pre),
+  :deep(figure),
+  :deep(img) {
+    max-width: 68ch;
+  }
+
+  :deep(figure) {
+    margin: 0 0 2.5rem;
+  }
+
+  :deep(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 0 2.5rem;
+    border-radius: t.$radius-img;
+  }
+
+  :deep(figure img) {
+    margin: 0;
+  }
+
+  :deep(figcaption) {
+    margin: 0.75rem 0 0;
+    color: var(--muted-2);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+  }
+
+  :deep(p) {
+    margin: 0 0 1.875rem;
+    color: var(--ink-body);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  :deep(ul),
+  :deep(ol) {
+    margin: 0 0 1.875rem;
+    padding-left: 1.2rem;
+    color: var(--ink-body);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  :deep(li) {
+    margin: 0.35rem 0;
+  }
+
+  :deep(h2) {
+    margin: 2.5rem 0 0.875rem;
+    color: var(--ink);
+    font-size: var(--fs-h2);
+    line-height: 1.15;
+
+    @media (max-width: t.$bp-mobile) {
+      margin-top: 2rem;
+    }
+  }
+
+  :deep(h3) {
+    margin: 2rem 0 0.75rem;
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  :deep(blockquote) {
+    margin: 0 0 1.875rem;
+    padding: 0 0 0 1rem;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-body);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  :deep(code) {
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-size: 0.92em;
+    background: var(--hairline);
+  }
+
+  // Why: Shiki emits inline color vars for light; these swap them to dark variants.
+  :deep(pre.shiki) {
+    max-width: 68ch;
+    margin: 0 0 2rem;
+    padding: 1rem 1.25rem;
+    border-radius: t.$radius-img;
+    overflow-x: auto;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  :deep(pre.shiki code) {
+    padding: 0;
+    background: transparent;
+    font-size: inherit;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .post-content :deep(.shiki),
+  .post-content :deep(.shiki span) {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+.post-missing {
+  max-width: 60ch;
 }

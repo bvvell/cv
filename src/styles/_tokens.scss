@@ -1,0 +1,144 @@
+// bvvell.ru design tokens: shared editorial redesign values.
+$font-sans: 'Public Sans', system-ui, -apple-system, sans-serif;
+
+// ── Light palette ──────────────────────────────────────────────
+$ink:        #2a271f;
+$ink-body:   #4d483d;
+$ink-2:      #6b6455;
+$muted:      #8a8374;
+$muted-2:    #9a9384;
+$accent:     #b45d3c;
+$accent-ink: #9a4a2e;
+$paper:      #f5f2ec;
+
+$link-underline: rgba(180, 93, 60, 0.3);
+$hairline:       rgba(60, 54, 42, 0.12);
+$hairline-2:     rgba(60, 54, 42, 0.14);
+$dot:            #c0b8a6;
+
+$bg-gradient:
+  radial-gradient(130% 130% at 0% 0%,    #f8ecdd 0%, rgba(248, 236, 221, 0) 46%),
+  radial-gradient(130% 130% at 100% 100%, #e4efe8 0%, rgba(228, 239, 232, 0) 52%),
+  #{$paper};
+
+// ── Dark palette ───────────────────────────────────────────────
+$dark-ink:            #f0ece3;
+$dark-ink-body:       #cdc6b8;
+$dark-ink-2:          #a8a08f;
+$dark-muted:          #8f8778;
+$dark-muted-2:        #7a7365;
+$dark-accent:         #d97a52;
+$dark-accent-ink:     #e89268;
+$dark-paper:          #17150f;
+$dark-link-underline: rgba(217, 122, 82, 0.35);
+$dark-hairline:       rgba(240, 236, 227, 0.12);
+$dark-hairline-2:     rgba(240, 236, 227, 0.14);
+$dark-dot:            #5a5448;
+$dark-bg-gradient:
+  radial-gradient(130% 130% at 0% 0%,    #2a2318 0%, rgba(42, 35, 24, 0) 46%),
+  radial-gradient(130% 130% at 100% 100%, #16221c 0%, rgba(22, 34, 28, 0) 52%),
+  #{$dark-paper};
+
+// ── Type scale ─────────────────────────────────────────────────
+$fs-display: 56px;
+$fs-title:   64px;
+$fs-h1:      42px;
+$fs-h2:      27px;
+$fs-lead:    22px;
+$fs-body:    16px;
+$fs-sm:      14px;
+$fs-meta:    12px;
+
+$weight-body:    400;
+$weight-med:     500;
+$weight-bold:    700;
+$weight-black:   800;
+$tracking-tight: -0.035em;
+
+// Post H1 — lighter weight reads better across all title lengths
+$post-title-weight:   600;
+$post-title-leading:  1.12;
+$post-title-tracking: -0.025em;
+
+// ── Motion / radius ────────────────────────────────────────────
+$radius:      20px;
+$radius-img:  10px;
+$radius-phone:30px;
+$shadow-card: 0 30px 70px -30px rgba(40, 36, 28, 0.4);
+$ease:        0.18s ease;
+
+// ── Breakpoints ────────────────────────────────────────────────
+$bp-mobile: 640px;
+$bp-tablet: 960px;
+
+// ── CSS custom properties (light) ──────────────────────────────
+:root {
+  --font-sans: #{$font-sans};
+  --ink: #{$ink};
+  --ink-body: #{$ink-body};
+  --ink-2: #{$ink-2};
+  --muted: #{$muted};
+  --muted-2: #{$muted-2};
+  --accent: #{$accent};
+  --accent-ink: #{$accent-ink};
+  --paper: #{$paper};
+  --link-underline: #{$link-underline};
+  --hairline: #{$hairline};
+  --hairline-2: #{$hairline-2};
+  --dot: #{$dot};
+  --bg-gradient: #{$bg-gradient};
+  --fs-display: #{$fs-display};
+  --fs-title: #{$fs-title};
+  --fs-h1: #{$fs-h1};
+  --fs-h2: #{$fs-h2};
+  --fs-lead: #{$fs-lead};
+  --fs-body: #{$fs-body};
+  --fs-sm: #{$fs-sm};
+  --fs-meta: #{$fs-meta};
+  --tracking-tight: #{$tracking-tight};
+  --radius: #{$radius};
+  --radius-img: #{$radius-img};
+  --radius-phone: #{$radius-phone};
+  --shadow-card: #{$shadow-card};
+  --ease: #{$ease};
+  // semantic aliases used by legacy components
+  --color-text: var(--ink);
+  --color-text-muted: var(--muted);
+  --color-text-subtle: var(--ink-body);
+  --color-link: var(--accent);
+  --color-link-visited: var(--accent-ink);
+}
+
+// ── Dark theme properties ──────────────────────────────────────
+@mixin dark-theme {
+  --ink: #{$dark-ink};
+  --ink-body: #{$dark-ink-body};
+  --ink-2: #{$dark-ink-2};
+  --muted: #{$dark-muted};
+  --muted-2: #{$dark-muted-2};
+  --accent: #{$dark-accent};
+  --accent-ink: #{$dark-accent-ink};
+  --paper: #{$dark-paper};
+  --link-underline: #{$dark-link-underline};
+  --hairline: #{$dark-hairline};
+  --hairline-2: #{$dark-hairline-2};
+  --dot: #{$dark-dot};
+  --bg-gradient: #{$dark-bg-gradient};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark-theme;
+  }
+}
+
+// ── Responsive type scale ──────────────────────────────────────
+@media (max-width: $bp-mobile) {
+  :root {
+    --fs-display: 38px;
+    --fs-title: 44px;
+    --fs-h1: 30px;
+    --fs-h2: 22px;
+    --fs-lead: 17px;
+  }
+}

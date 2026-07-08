@@ -3,8 +3,8 @@
     ref="pageRef"
     class="posts-post"
   >
-    <div class="wrapp">
-      <div class="content">
+    <PageShell>
+      <nav class="posts-top">
         <router-link
           class="posts-back"
           :to="{name: indexRouteName[locale]}"
@@ -22,41 +22,12 @@
           </svg>
           {{ copy.backToList }}
         </router-link>
-        <div
-          v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
-          class="posts-socials"
-        >
-          <a
-            v-if="SOCIAL_LINKS.instagram"
-            :href="SOCIAL_LINKS.instagram"
-            target="_blank"
-            rel="me noopener noreferrer"
-            aria-label="Instagram"
-          >
-            Instagram
-          </a>
-          <span
-            v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
-            class="dot"
-            aria-hidden="true"
-          >
-            •
-          </span>
-          <a
-            v-if="SOCIAL_LINKS.threads"
-            :href="SOCIAL_LINKS.threads"
-            target="_blank"
-            rel="me noopener noreferrer"
-            aria-label="Threads"
-          >
-            Threads
-          </a>
-        </div>
         <nav
           v-if="post && translationLocale"
           class="posts-lang"
           :aria-label="copy.switchLabel"
         >
+          <span class="posts-lang__label">{{ copy.switchLabel }}:</span>
           <span
             class="posts-lang__current"
             aria-current="true"
@@ -66,9 +37,7 @@
           <span
             class="posts-lang__sep"
             aria-hidden="true"
-          >
-            •
-          </span>
+          >·</span>
           <router-link
             class="posts-lang__link"
             :to="{name: postRouteName[translationLocale], params: {slug: post.slug}}"
@@ -77,48 +46,69 @@
             {{ postsCopy[translationLocale].langName }}
           </router-link>
         </nav>
-        <div
-          v-if="post"
-          class="post-body"
-        >
-          <header class="post-header">
-            <p class="post-meta">
-              <span>{{ formatDate(post.date) }}</span>
-            </p>
-            <h1>{{ post.title }}</h1>
-            <p class="post-excerpt">
-              {{ post.excerpt }}
-            </p>
-          </header>
-          <article class="post-article">
-            <component
-              :is="post.component"
-              class="post-content"
-            />
-          </article>
-        </div>
-        <div
-          v-else
-          class="post-missing"
-        >
-          <h1>{{ copy.notFoundTitle }}</h1>
-          <p>{{ copy.notFoundText }}</p>
-          <router-link :to="{name: indexRouteName[locale]}">
-            {{ copy.toList }}
-          </router-link>
-        </div>
+      </nav>
+
+      <div
+        v-if="post"
+        class="post-body"
+      >
+        <header class="post-header">
+          <p class="post-meta">
+            <span>{{ formatDate(post.date) }}</span>
+            <span aria-hidden="true">·</span>
+            <span>{{ readingTime }}</span>
+          </p>
+          <h1>{{ post.title }}</h1>
+          <p class="post-excerpt">
+            {{ post.excerpt }}
+          </p>
+          <div
+            v-if="showKamniStats"
+            class="post-stats"
+            aria-label="Кароткая статыстыка паездкі"
+          >
+            <div class="post-stats__item">
+              <strong>209</strong>
+              <span>кіламетраў</span>
+            </div>
+            <div class="post-stats__item">
+              <strong>11</strong>
+              <span>гадзін у сядле</span>
+            </div>
+            <div class="post-stats__item">
+              <strong>+34°</strong>
+              <span>на сонцы</span>
+            </div>
+          </div>
+        </header>
+        <article class="post-article">
+          <component
+            :is="post.component"
+            class="post-content"
+          />
+        </article>
       </div>
-    </div>
+
+      <div
+        v-else
+        class="post-missing"
+      >
+        <h1>{{ copy.notFoundTitle }}</h1>
+        <p>{{ copy.notFoundText }}</p>
+        <router-link :to="{name: indexRouteName[locale]}">
+          {{ copy.toList }}
+        </router-link>
+      </div>
+    </PageShell>
   </div>
 </template>
 
 <script setup lang="ts">
-// Why: resolves the markdown component by slug + locale and renders it as the post body.
 import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {findPost, hasTranslation} from '@/modules/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
-import {useCvData} from '@/composables/useCvData'
+import PageShell from '@/components/PageShell.vue'
 import {
   DEFAULT_LOCALE,
   dateLocale,
@@ -130,13 +120,8 @@ import {
 } from '@/modules/posts/data/locale'
 
 const route = useRoute()
-
-const cvData = useCvData()
-const SOCIAL_LINKS = cvData.personal.contacts
-
 const locale = computed<PostLocale>(() => (route.meta.locale as PostLocale) || DEFAULT_LOCALE)
 const copy = computed(() => postsCopy[locale.value])
-
 const slug = computed(() => String(route.params.slug ?? ''))
 const post = computed(() => findPost(locale.value, slug.value))
 
@@ -149,6 +134,9 @@ const translationLocale = computed<PostLocale | null>(() => {
 const formatDate = (value: string) => new Intl.DateTimeFormat(dateLocale[locale.value], {
   dateStyle: 'medium'
 }).format(new Date(value))
+
+const readingTime = computed(() => locale.value === 'ru' ? '6 мин чтения' : '6 хв чытання')
+const showKamniStats = computed(() => slug.value === 'kamni-200' && locale.value === 'be')
 
 const pageRef = ref<HTMLElement | null>(null)
 usePageLoader(pageRef)

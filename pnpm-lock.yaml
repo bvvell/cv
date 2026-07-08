@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/public-sans':
+        specifier: ^5.2.7
+        version: 5.2.7
       '@unhead/vue':
         specifier: ^2.1.2
         version: 2.1.2(vue@3.5.27(typescript@5.9.3))
@@ -498,6 +501,9 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource-variable/public-sans@5.2.7':
+    resolution: {integrity: sha512-4mvade2J3slKkvwRkS+p8T3szet/0vhWoSnuUJTVU81Uo2pRpSZY/Y8bSLRqpSwzIPxjVmRJ53oq6JKP/l/PSg==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -3792,6 +3798,8 @@ snapshots:
       levn: 0.4.1
 
   '@exodus/bytes@1.9.0': {}
+
+  '@fontsource-variable/public-sans@5.2.7': {}
 
   '@humanfs/core@0.19.1': {}
 
