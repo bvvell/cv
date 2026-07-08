@@ -55,8 +55,6 @@
         <header class="post-header">
           <p class="post-meta">
             <span>{{ formatDate(post.date) }}</span>
-            <span aria-hidden="true">·</span>
-            <span>{{ readingTime }}</span>
           </p>
           <h1>{{ post.title }}</h1>
           <p class="post-excerpt">
@@ -135,7 +133,6 @@ const formatDate = (value: string) => new Intl.DateTimeFormat(dateLocale[locale.
   dateStyle: 'medium'
 }).format(new Date(value))
 
-const readingTime = computed(() => locale.value === 'ru' ? '6 мин чтения' : '6 хв чытання')
 const showKamniStats = computed(() => slug.value === 'kamni-200' && locale.value === 'be')
 
 const pageRef = ref<HTMLElement | null>(null)
