@@ -1,9 +1,9 @@
 <template>
   <div
     ref="pageRef"
-    class="wrapp cv-page"
+    class="cv-page"
   >
-    <div class="content">
+    <PageShell>
       <router-link
         class="cv-back"
         :to="{name: RouteName.Home}"
@@ -21,39 +21,32 @@
         </svg>
         Back
       </router-link>
-      <cv-header :personal="cvData.personal" />
-      <cv-summary :summary="cvData.summary" />
-      <cv-skills
-        :skills="cvData.skills"
-        :technologies="cvData.technologies"
-      />
-      <cv-education
-        :education="cvData.education"
-        :courses="cvData.courses"
-      />
-      <cv-experience :experience="cvData.experience" />
-      <cv-projects :projects="cvData.projects" />
-      <cv-footer :contacts="cvData.personal.contacts" />
-    </div>
-
-    <img
-      class="avatar"
-      src="/av.png"
-      alt="Uladzimir Biarnatski"
-      loading="eager"
-      fetchpriority="high"
-      decoding="async"
-    >
+      <article class="cv-body">
+        <cv-header :personal="cvData.personal" />
+        <cv-summary :summary="cvData.summary" />
+        <cv-skills
+          :skills="cvData.skills"
+          :technologies="cvData.technologies"
+        />
+        <cv-experience :experience="cvData.experience" />
+        <cv-projects :projects="cvData.projects" />
+        <cv-education
+          :education="cvData.education"
+          :courses="cvData.courses"
+        />
+        <cv-footer :contacts="cvData.personal.contacts" />
+      </article>
+    </PageShell>
   </div>
 </template>
 
 <script setup lang="ts">
-// Why: the CV page composes a few small sections to keep content/data changes isolated.
 import {ref} from 'vue'
 import {useCvData} from '@/composables/useCvData'
 import {usePageLoader} from '@/composables/usePageLoader'
-import {CvEducation, CvExperience, CvFooter, CvHeader, CvProjects, CvSkills, CvSummary,} from '@/modules/cv/components'
+import {CvEducation, CvExperience, CvFooter, CvHeader, CvProjects, CvSkills, CvSummary} from '@/modules/cv/components'
 import {RouteName} from '@/router/routeNames'
+import PageShell from '@/components/PageShell.vue'
 
 const cvData = useCvData()
 const pageRef = ref<HTMLElement | null>(null)

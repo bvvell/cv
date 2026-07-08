@@ -1,37 +1,46 @@
 :root {
   color-scheme: light dark;
   --page-padding: clamp(14px, 3.5vw, 40px);
-
-  --color-text: #101418;
-  --color-text-muted: #616a72;
-  --color-text-subtle: #3b434a;
-  --color-link: #0f766e;
-  --color-link-visited: #0b5c56;
-  --color-surface: #ffffff;
-
-  --color-home-ink: #1b1f22;
-  --color-home-bg: #fffaf2;
-  --color-home-bg-soft: #eef4f6;
-  --color-home-glow: #f1e4d6;
-  --color-home-accent: #0f766e;
-  --color-home-accent-rgb: 15 118 110;
+  --font-sans: 'Public Sans', system-ui, -apple-system, sans-serif;
+  --ink: #2a271f;
+  --ink-body: #4d483d;
+  --ink-2: #6b6455;
+  --muted: #8a8374;
+  --muted-2: #9a9384;
+  --accent: #b45d3c;
+  --accent-ink: #9a4a2e;
+  --paper: #f5f2ec;
+  --link-underline: rgba(180, 93, 60, 0.3);
+  --hairline: rgba(60, 54, 42, 0.12);
+  --dot: #c0b8a6;
+  --bg-gradient:
+    radial-gradient(130% 130% at 0% 0%, #f8ecdd 0%, rgba(248, 236, 221, 0) 46%),
+    radial-gradient(130% 130% at 100% 100%, #e4efe8 0%, rgba(228, 239, 232, 0) 52%),
+    var(--paper);
+  --color-text: var(--ink);
+  --color-text-muted: var(--muted);
+  --color-text-subtle: var(--ink-body);
+  --color-link: var(--accent);
+  --color-link-visited: var(--accent-ink);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-text: #e6edf3;
-    --color-text-muted: #9aa6b2;
-    --color-text-subtle: #cbd5df;
-    --color-link: #2dd4bf;
-    --color-link-visited: #22c1ad;
-    --color-surface: #0f1722;
-
-    --color-home-ink: #e6edf3;
-    --color-home-bg: #0b0f13;
-    --color-home-bg-soft: #101823;
-    --color-home-glow: #143043;
-    --color-home-accent: #2dd4bf;
-    --color-home-accent-rgb: 45 212 191;
+    --ink: #f0ece3;
+    --ink-body: #cdc6b8;
+    --ink-2: #a8a08f;
+    --muted: #8f8778;
+    --muted-2: #7a7365;
+    --accent: #d97a52;
+    --accent-ink: #e89268;
+    --paper: #17150f;
+    --link-underline: rgba(217, 122, 82, 0.35);
+    --hairline: rgba(240, 236, 227, 0.12);
+    --dot: #5a5448;
+    --bg-gradient:
+      radial-gradient(130% 130% at 0% 0%, #2a2318 0%, rgba(42, 35, 24, 0) 46%),
+      radial-gradient(130% 130% at 100% 100%, #16221c 0%, rgba(22, 34, 28, 0) 52%),
+      var(--paper);
   }
 }
 
@@ -39,71 +48,35 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  color: var(--color-text);
-  background: var(--color-home-bg);
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--bg-gradient);
 }
 
-/* App shell: keep the initial viewport styled before the full CSS loads. */
 #app {
   width: 100%;
   min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background: radial-gradient(circle at 20% 10%, var(--color-home-glow) 0%, transparent 55%),
-    linear-gradient(160deg, var(--color-home-bg) 0%, var(--color-home-bg-soft) 100%);
 }
 
-.wrapp {
-  padding: var(--page-padding);
-  min-height: 100vh;
-  box-sizing: border-box;
-  position: relative;
-}
-
-h1 {
-  margin: 0 0 0.4rem;
-  font-size: clamp(1.85rem, 2.25vw + 0.9rem, 2.75rem);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-}
-
-h2 {
-  margin: 2rem 0 0.75rem;
-  font-size: clamp(1.35rem, 1.05vw + 0.9rem, 1.75rem);
-  line-height: 1.2;
-}
-
+h1,
+h2,
 h3 {
-  margin: 1.25rem 0 0.25rem;
-  font-size: 1.15rem;
-  line-height: 1.25;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--ink);
 }
 
 a {
-  color: var(--color-link);
+  color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid var(--color-link);
+  border-bottom: 1px solid var(--link-underline);
 }
 
-/* Home hero (common LCP candidate). */
-.home-data {
-  color: var(--color-home-ink);
-}
-
-.home-data .home {
-  max-width: 65ch;
-  padding: clamp(1.5rem, 3vw, 3rem) 0;
-}
-
-.home-data h1 {
-  font-size: clamp(2.1rem, 4.1vw, 3.6rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-
-.home-data .home-subtitle {
-  margin: 0;
-  color: var(--color-home-accent);
-  font-size: clamp(1.15rem, 1.4vw + 0.7rem, 1.6rem);
+.home-page,
+.posts-page,
+.posts-post,
+.cv-page {
+  color: var(--ink);
+  font-family: var(--font-sans);
 }

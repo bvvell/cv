@@ -1,34 +1,182 @@
-/* Why: layout + print tuning for the `/cv` page live next to the page component. */
 @use '@/styles/mixins' as m;
+@use '@/styles/tokens' as t;
 
-/* Page layout */
 @page {
   size: A4;
   margin: 18mm;
 }
 
 .cv-page {
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    max-width: 980px;
-  }
+  :global(html.js) & {
+    .cv-body {
+      transform: translateY(16px);
+      transition: transform 0.8s ease;
+      will-change: transform;
+    }
 
-  @media (max-width: 768px) {
-    padding-bottom: 80px;
+    &.loaded .cv-body {
+      transform: translateY(0);
+    }
   }
 }
 
 .cv-back {
-  @include m.back-link(
-    $font-weight: 700,
-    $font-size: 0.95rem,
-    $letter-spacing: 0.02em,
-    $line-height: 1
-  );
+  @include m.back-link($font-weight: 700, $font-size: 0.95rem, $letter-spacing: 0.02em, $line-height: 1);
+
+  display: inline-flex;
+  margin-bottom: 2rem;
+  color: var(--muted);
+  border-bottom: 0;
+
+  &:hover {
+    color: var(--ink);
+    border-bottom: 0;
+  }
+
+  &:visited {
+    color: var(--muted);
+    border-bottom: 0;
+  }
 
   @media print {
     display: none;
+  }
+}
+
+.cv-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+:deep(.cv-header) {
+  gap: 1rem;
+
+  h1 {
+    max-width: 620px;
+    margin: 0;
+    font-size: clamp(2.75rem, 7vw, 3.25rem);
+    line-height: 0.98;
+  }
+}
+
+:deep(.contacts) {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+
+  span {
+    margin-right: 0.75rem;
+  }
+}
+
+:deep(.cv-summary),
+:deep(.cv-skills),
+:deep(.cv-education),
+:deep(.cv-experience),
+:deep(.cv-projects),
+:deep(.cv-footer) {
+  color: var(--ink-body);
+}
+
+:deep(.cv-summary p),
+:deep(dd),
+:deep(li),
+:deep(.stack) {
+  color: var(--ink-body);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+:deep(.cv-summary p) {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+:deep(h2) {
+  margin: 0 0 1rem;
+  color: var(--ink);
+  font-size: 1.625rem;
+  line-height: 1.15;
+}
+
+:deep(.columns) {
+  @include m.two-col-to-one(2.5rem, 2rem);
+}
+
+:deep(dl) {
+  margin: 0;
+}
+
+:deep(dt) {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+:deep(dd) {
+  margin: 0.5rem 0 1.5rem;
+}
+
+:deep(ul) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.125rem;
+}
+
+:deep(li + li) {
+  margin-top: 0;
+}
+
+:deep(.muted) {
+  color: var(--muted);
+}
+
+:deep(.tags) {
+  margin-top: 0.75rem;
+}
+
+:deep(.tag) {
+  display: inline-block;
+  margin: 0.15rem 0.45rem 0.15rem 0;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--hairline-2);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+}
+
+:deep(a),
+a {
+  color: var(--accent);
+  border-bottom-color: var(--link-underline);
+
+  &:visited {
+    color: var(--accent-ink);
+  }
+}
+
+@media (max-width: t.$bp-mobile) {
+  .cv-body {
+    gap: 2rem;
+  }
+}
+
+@media print {
+  .cv-body {
+    gap: 1rem;
+  }
+
+  :deep(h2) {
+    margin: 1rem 0 0.5rem;
+  }
+
+  :deep(h3) {
+    margin: 0.75rem 0 0.25rem;
   }
 }

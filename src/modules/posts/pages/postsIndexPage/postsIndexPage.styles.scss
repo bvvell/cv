@@ -1,73 +1,6 @@
-/* Why: posts list has its own layout (hero + grid cards) and subtle enter animations. */
+@use '@/styles/tokens' as t;
+
 .posts-page {
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .posts-hero {
-    max-width: 60ch;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-
-  .intro {
-    margin: 0;
-    color: var(--color-text-subtle);
-  }
-
-  .posts-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-6);
-  }
-
-  .post-card {
-    padding: 1.5rem 1.75rem;
-    border-radius: 16px;
-    background: var(--color-surface);
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    transition: transform 0.7s ease;
-
-    h2 {
-      margin: 0;
-    }
-  }
-
-  .post-meta {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-  }
-
-  .excerpt {
-    margin: 0;
-    color: var(--color-text);
-  }
-
-  @media (max-width: 768px) {
-    .posts-list {
-      grid-template-columns: 1fr;
-    }
-
-    .post-card {
-      padding: 1.25rem;
-    }
-  }
-
   :global(html.js) & {
     .posts-hero,
     .post-card {
@@ -84,6 +17,173 @@
       .post-card {
         transform: translateY(0);
       }
+    }
+  }
+}
+
+.posts-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 1.875rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.eyebrow {
+  margin: 0 0 0.875rem;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 1.125rem;
+  font-size: var(--fs-title);
+  line-height: 0.95;
+}
+
+.intro {
+  max-width: 400px;
+  margin: 0 0 1.375rem;
+  color: var(--ink-2);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.posts-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &__dot {
+    color: var(--dot);
+  }
+}
+
+.posts-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+
+  &__label {
+    color: var(--muted);
+  }
+
+  &__current {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  &__sep {
+    color: var(--dot);
+  }
+
+  &__link {
+    font-weight: 400;
+  }
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-card {
+  border-bottom: 1px solid var(--hairline);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &__link {
+    display: block;
+    padding: 1.625rem 0;
+    color: inherit;
+    border-bottom: 0;
+    transition: color t.$ease;
+
+    &:visited {
+      color: inherit;
+      border-bottom: 0;
+    }
+
+    &:hover,
+    &:focus-visible {
+      h2 {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__topline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: none;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  &__number {
+    color: var(--accent);
+    font-size: 0.8125rem;
+  }
+
+  &__date {
+    color: var(--muted);
+  }
+
+  h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.35rem, 2.4vw, 1.5625rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    transition: color t.$ease;
+  }
+}
+
+.excerpt {
+  max-width: none;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.90625rem;
+  line-height: 1.55;
+}
+
+@media (max-width: t.$bp-mobile) {
+  .posts-hero {
+    padding-bottom: 1.5rem;
+
+    h1 {
+      margin-bottom: 0.875rem;
+    }
+  }
+
+  .intro {
+    margin-bottom: 1.125rem;
+    font-size: 1rem;
+  }
+
+  .post-card {
+    &__link {
+      padding: 1.375rem 0;
+    }
+
+    h2 {
+      font-size: 1.3125rem;
+      line-height: 1.14;
     }
   }
 }
