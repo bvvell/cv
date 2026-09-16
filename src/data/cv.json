@@ -22,7 +22,8 @@
       "REST API integration, error handling, and data fetching",
       "Performance optimization and bundle size control",
       "Code quality practices: ESLint, Prettier, Git, code reviews",
-      "CI/CD pipelines and environment configuration for front-end projects"
+      "CI/CD pipelines and environment configuration for front-end projects",
+      "AI-assisted development: prototyping, UI exploration, and code review (Claude Code, Claude Design)"
     ]
   },
   "technologies": {
@@ -30,9 +31,11 @@
     "items": [
       "Vue 3, TypeScript, JavaScript (ES6+), Pinia, Vue Router",
       "Element Plus",
+      "Ionic, PWA",
       "Vite, Webpack, npm, yarn, pnpm",
       "HTML5, CSS3, SCSS / SASS",
       "ESLint, Prettier, Git",
+      "Vitest, Playwright, Vue Test Utils",
       "WordPress (custom themes, ACF)",
       "Figma, Zeplin"
     ]
@@ -139,6 +142,18 @@
         ],
         "impact": "Improved perceived load time and reduced UI regressions via component reuse.",
         "stack": "Vue, Webpack, HTML, Sass"
+      },
+      {
+        "name": "I Checked (side project)",
+        "url": "https://ichecked.app/",
+        "summary": "Offline-first PWA for reusable checklists: templates, step-by-step check runs, completion history.",
+        "contribution": [
+          "Built the app end-to-end: UI, local-first data layer, backup/restore via file export/import",
+          "Implemented i18n for 4 locales (BE, UK, RU, EN), light/dark theming, and a custom Vite service-worker plugin for offline precaching",
+          "Set up GitHub Actions CI/CD: lint, unit + Playwright e2e tests, bundle budget, SFTP deploy, and a post-deploy check that production serves the deployed revision",
+          "Shipped solo from prototype to production, using AI tooling for design exploration"
+        ],
+        "stack": "Ionic, Vue 3, TypeScript, Vite, PWA, Vitest, Playwright, GitHub Actions"
       }
     ]
   }
