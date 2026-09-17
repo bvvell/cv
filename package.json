@@ -8,6 +8,7 @@
     "build": "node scripts/optimize-images.mjs && node scripts/generate-posts-index.mjs && node scripts/check-posts-html.mjs && vite-ssg build && node scripts/generate-sitemap.mjs && node scripts/generate-feed.mjs",
     "images:optimize": "node scripts/optimize-images.mjs",
     "cv:pdf": "node scripts/generate-cv-pdf.mjs",
+    "post:cover": "node scripts/generate-post-cover.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
