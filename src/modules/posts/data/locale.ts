@@ -90,7 +90,7 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         notFoundText: 'Старонка недаступная. Абяры іншы запіс са спісу.',
         switchLabel: 'Мова',
         siteName: 'Uladzimir Biarnatski',
-        titleSuffix: 'Нататкі — Uladzimir Biarnatski',
+        titleSuffix: 'bvvell.ru',
         shareHint: 'Поўны тэкст і прыклады — на маім сайце.',
         seoNotFoundTitle: 'Запіс не знойдзены — Нататкі — Uladzimir Biarnatski',
         seoNotFoundDescription: 'Старонка недаступная.'
@@ -107,7 +107,7 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         notFoundText: 'Страница недоступна. Выбери другую запись из списка.',
         switchLabel: 'Язык',
         siteName: 'Uladzimir Biarnatski',
-        titleSuffix: 'Заметки — Uladzimir Biarnatski',
+        titleSuffix: 'bvvell.ru',
         shareHint: 'Полный текст и примеры — на моём сайте.',
         seoNotFoundTitle: 'Запись не найдена — Заметки — Uladzimir Biarnatski',
         seoNotFoundDescription: 'Страница недоступна.'
