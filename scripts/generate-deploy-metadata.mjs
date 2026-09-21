@@ -38,3 +38,27 @@ fs.mkdirSync(distDir, {recursive: true})
 const target = path.join(distDir, 'version.json')
 fs.writeFileSync(target, `${JSON.stringify(metadata, null, 2)}\n`)
 console.log(`wrote ${target}`)
+
+// The upload overwrites but never deletes, so the host accumulates every file
+// any past build produced. This manifest lets the deploy prune what the current
+// build no longer contains, without guessing from timestamps.
+const MANIFEST = '.deploy-manifest'
+
+const collect = (dir, prefix = '') => {
+    const found = []
+    for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+        const relative = prefix ? `${prefix}/${entry.name}` : entry.name
+        if (entry.name === MANIFEST) continue
+        if (entry.isDirectory()) {
+            found.push(...collect(path.join(dir, entry.name), relative))
+        } else {
+            found.push(relative)
+        }
+    }
+    return found
+}
+
+const files = collect(distDir).sort()
+const manifest = path.join(distDir, MANIFEST)
+fs.writeFileSync(manifest, `${files.join('\n')}\n`)
+console.log(`wrote ${manifest} (${files.length} files)`)
