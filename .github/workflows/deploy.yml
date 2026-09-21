@@ -1,26 +1,45 @@
-name: Deploy Vite to hoster.by (SFTP) via pnpm
+name: Verify and deploy bvvell.site
 
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+env:
+  SITE_URL: https://bvvell.site
 
 jobs:
-  build-and-deploy:
+  deploy:
+    name: Verify and deploy
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://bvvell.site
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Check out the repository
+        uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4.2.0
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4.2.0
         with:
           version: 10.28.1
 
-      - uses: actions/setup-node@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
         with:
           node-version: 22.12.0
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Resolve Playwright version
         id: playwright
@@ -40,38 +59,91 @@ jobs:
           else
             pnpm exec playwright install --with-deps chromium
           fi
+
+      - name: Lint
+        run: pnpm run lint
+
       - name: Verify posts index is up to date
         run: |
           node scripts/generate-posts-index.mjs
           git diff --exit-code -- src/modules/posts/posts-index.json
-      - run: pnpm run build
+
+      - name: Build the site
+        run: pnpm run build
         env:
-          SITE_URL: ${{ secrets.SITE_URL }}
-          SITE_BASE: ${{ secrets.SITE_BASE }}
-          VITE_SITE_URL: ${{ secrets.SITE_URL }}
+          VITE_SITE_URL: ${{ env.SITE_URL }}
+
       - name: Generate CV PDF (A4)
         run: pnpm run cv:pdf
 
-      - name: Load HOSTERBY secret into env
-        run: |
-          echo "${{ secrets.HOSTERBY }}" >> $GITHUB_ENV
+      - name: Generate deployment metadata
+        run: pnpm run deploy:metadata
 
-      - name: Check loaded vars (masked)
+      - name: Check deployment configuration
+        id: deployment
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
         run: |
-          if [ -z "$SSH_HOST" ]; then echo "SSH_HOST EMPTY"; else echo "SSH_HOST set"; fi
-          if [ -z "$SSH_PORT" ]; then echo "SSH_PORT EMPTY"; else echo "SSH_PORT set"; fi
-          if [ -z "$SSH_USER" ]; then echo "SSH_USER EMPTY"; else echo "SSH_USER set"; fi
-          if [ -z "$SSH_PASSWORD" ]; then echo "SSH_PASSWORD EMPTY"; else echo "SSH_PASSWORD set"; fi
-          if [ -z "$SSH_TARGET" ]; then echo "SSH_TARGET EMPTY"; else echo "SSH_TARGET set"; fi
+          if [ -n "$SFTP_HOST" ] &&
+             [ -n "$SFTP_PORT" ] &&
+             [ -n "$SFTP_USER" ] &&
+             [ -n "$SFTP_PASSWORD" ] &&
+             [ -n "$SFTP_TARGET" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Deployment skipped until all production SFTP secrets are configured."
+          fi
 
-      - name: Upload dist via SFTP (SSH debug)
-        uses: appleboy/scp-action@v0.1.7
+      - name: Upload dist via SFTP
+        if: steps.deployment.outputs.ready == 'true'
+        uses: appleboy/scp-action@v1
         with:
-          host: ${{ env.SSH_HOST }}
-          port: ${{ env.SSH_PORT }}
-          username: ${{ env.SSH_USER }}
-          password: ${{ env.SSH_PASSWORD }}
-          source: "dist/*"
-          target: ${{ env.SSH_TARGET }}
+          host: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          # `dist` and not `dist/*`: the glob skips dotfiles, and `.htaccess`
+          # carries the trailing-slash rules and the SSG rewrites.
+          source: "dist"
+          target: ${{ secrets.SFTP_TARGET }}
           strip_components: 1
           overwrite: true
+
+      - name: Remove old hashed assets
+        if: steps.deployment.outputs.ready == 'true'
+        uses: appleboy/ssh-action@v1
+        env:
+          SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          envs: SFTP_TARGET
+          # The upload overwrites but never deletes, so every build leaves its
+          # hashed assets behind. Two weeks keeps the previous deploys loadable
+          # for anyone holding an open tab.
+          script: |
+            set -e
+            case "$SFTP_TARGET" in
+              ""|"/"|"."|".."|../*|*/../*|*/..)
+                echo "Refusing to clean an unsafe target."
+                exit 1
+                ;;
+            esac
+            TARGET_DIR="${SFTP_TARGET%/}"
+            ASSET_DIR="$TARGET_DIR/assets"
+            if [ ! -f "$TARGET_DIR/index.html" ] || [ ! -d "$ASSET_DIR" ]; then
+              echo "Refusing to clean a target without the deployed site."
+              exit 1
+            fi
+            find "$ASSET_DIR" -type f -mtime +14 -delete
+
+      - name: Verify the deployed site
+        if: steps.deployment.outputs.ready == 'true'
+        run: pnpm run deploy:check
