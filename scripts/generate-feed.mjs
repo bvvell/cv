@@ -36,13 +36,19 @@ const fileEnv = {
     ...readEnvFile(path.join(root, '.env.production'))
 }
 
-const siteUrl = (
-    process.env.SITE_URL
+const resolvedSiteUrl = process.env.SITE_URL
     || process.env.VITE_SITE_URL
     || fileEnv.SITE_URL
     || fileEnv.VITE_SITE_URL
-    || 'https://example.com'
-).replace(/\/$/, '')
+
+// Why: the old fallback was `https://example.com`, so a missing SITE_URL shipped
+// a feed pointing at a placeholder host without failing the build. Local runs
+// keep a usable default; CI must stop instead.
+if (!resolvedSiteUrl && process.env.CI) {
+    throw new Error('SITE_URL (or VITE_SITE_URL) must be set in CI: refusing to build a feed for a placeholder domain.')
+}
+
+const siteUrl = (resolvedSiteUrl || 'http://localhost:4173').replace(/\/$/, '')
 
 const basePathRaw = process.env.SITE_BASE || fileEnv.SITE_BASE || ''
 const basePath = basePathRaw ? `/${basePathRaw.replace(/^\/|\/$/g, '')}` : ''

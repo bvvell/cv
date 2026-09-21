@@ -100,6 +100,59 @@ To update your CV, simply edit the `cv.json` file.
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Lint code
 - `pnpm lint:fix` - Auto-fix linting errors
+- `pnpm deploy:metadata` - Write `dist/version.json` with the deployed revision
+- `pnpm deploy:check` - Verify the live site serves that revision
+
+## 🚀 Deployment
+
+Pushes to `main` build and deploy to **https://bvvell.site** (hoster.by, SFTP) via
+`.github/workflows/deploy.yml`. The domain is not a secret — it lives in the workflow
+as `SITE_URL` and is passed to the build as `VITE_SITE_URL`.
+
+Required secrets (repository, or scoped to the `production` environment):
+
+| Secret | Meaning |
+| --- | --- |
+| `SFTP_HOST` | SFTP host |
+| `SFTP_PORT` | SFTP port |
+| `SFTP_USER` | SFTP user |
+| `SFTP_PASSWORD` | SFTP password |
+| `SFTP_TARGET` | Absolute path to the site docroot |
+
+If any of them is missing the workflow still builds, then skips the upload with a
+notice instead of failing.
+
+`SFTP_TARGET` is the document root of the site itself (the directory that holds
+`index.html`), not the home directory — the asset cleanup step refuses to run when
+it cannot find a deployed site there.
+
+After the upload, `pnpm deploy:check` fetches the live site and asserts that
+`version.json` carries the revision just deployed and that every page, the sitemap,
+both feeds and `cv.pdf` are served under the canonical domain. The same checks run
+locally against a preview build:
+
+```bash
+pnpm preview
+SITE_URL=https://bvvell.site DEPLOY_CHECK_BASE_URL=http://127.0.0.1:4173 pnpm deploy:check
+```
+
+### The previous domain
+
+**bvvell.ru** keeps running in parallel for now, still served by the old hosting
+account from its last deploy. This repository no longer deploys there, so that copy
+is frozen and keeps its own canonical URLs — expect the two domains to look like
+duplicate content until the redirect is in place.
+
+Once bvvell.site is confirmed working, point the old domain at it with a 301 in the
+`.htaccess` of the *old* hosting account (not deployed from this repository):
+
+```apache
+RewriteEngine On
+RewriteRule ^(.*)$ https://bvvell.site/$1 [R=301,L]
+```
+
+Both domains are listed in the umami `data-domains` attribute in `index.html`, so
+analytics keeps working while they run side by side.
 
 ## 🧠 SEO / `<head>`
 

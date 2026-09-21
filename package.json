@@ -9,6 +9,8 @@
     "images:optimize": "node scripts/optimize-images.mjs",
     "cv:pdf": "node scripts/generate-cv-pdf.mjs",
     "post:cover": "node scripts/generate-post-cover.mjs",
+    "deploy:metadata": "node scripts/generate-deploy-metadata.mjs",
+    "deploy:check": "node scripts/check-deployment.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
