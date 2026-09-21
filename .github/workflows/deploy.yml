@@ -114,7 +114,7 @@ jobs:
           strip_components: 1
           overwrite: true
 
-      - name: Remove old hashed assets
+      - name: Prune files the build no longer produces
         if: steps.deployment.outputs.ready == 'true'
         uses: appleboy/ssh-action@v1
         env:
@@ -125,9 +125,9 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
           envs: SFTP_TARGET
-          # The upload overwrites but never deletes, so every build leaves its
-          # hashed assets behind. Two weeks keeps the previous deploys loadable
-          # for anyone holding an open tab.
+          # The upload overwrites but never deletes, so without this every file
+          # any past build produced stays on the host forever. `.deploy-manifest`
+          # lists what this build contains; anything else goes.
           script: |
             set -e
             case "$SFTP_TARGET" in
@@ -137,12 +137,51 @@ jobs:
                 ;;
             esac
             TARGET_DIR="${SFTP_TARGET%/}"
-            ASSET_DIR="$TARGET_DIR/assets"
-            if [ ! -f "$TARGET_DIR/index.html" ] || [ ! -d "$ASSET_DIR" ]; then
-              echo "Refusing to clean a target without the deployed site."
+            cd "$TARGET_DIR"
+
+            # Both guards must hold: a missing index.html means the upload never
+            # landed, a missing manifest means we cannot tell old from new — and
+            # deleting on a guess is how a deploy wipes a live site.
+            if [ ! -f index.html ] || [ ! -f .deploy-manifest ]; then
+              echo "Refusing to clean: index.html or .deploy-manifest is missing."
               exit 1
             fi
-            find "$ASSET_DIR" -type f -mtime +14 -delete
+
+            present="$(mktemp)"
+            expected="$(mktemp)"
+            stale="$(mktemp)"
+
+            # Never pruned:
+            #   assets/      hashed chunks, handled by age below so that tabs
+            #                opened before this deploy keep working
+            #   .well-known/ ACME challenges; losing them breaks certificate renewal
+            #   google*.html, yandex_*.html  ownership proofs uploaded by hand
+            find . -type f \
+              ! -path './assets/*' \
+              ! -path './.well-known/*' \
+              ! -name '.deploy-manifest' \
+              ! -name 'google*.html' \
+              ! -name 'yandex_*.html' \
+              | sed 's|^\./||' | LC_ALL=C sort > "$present"
+            LC_ALL=C sort .deploy-manifest > "$expected"
+            comm -23 "$present" "$expected" > "$stale"
+
+            removed=0
+            while IFS= read -r file; do
+              [ -n "$file" ] || continue
+              rm -f "$file"
+              echo "removed $file"
+              removed=$((removed + 1))
+            done < "$stale"
+            echo "pruned $removed stale file(s)"
+
+            find . -mindepth 1 -type d -empty -delete 2>/dev/null || true
+
+            # Hashed assets outlive their build on purpose: a visitor mid-session
+            # still requests the chunks of the version they loaded.
+            find ./assets -type f -mtime +14 -delete 2>/dev/null || true
+
+            rm -f .deploy-manifest "$present" "$expected" "$stale"
 
       - name: Verify the deployed site
         if: steps.deployment.outputs.ready == 'true'
