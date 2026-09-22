@@ -34,7 +34,14 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
-    <!-- Analytics: loaded after HTML to avoid blocking initial render. -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="60cf839b-abb5-4aa1-ac5e-687f15ea8a3e" data-domains="bvvell.site,www.bvvell.site"></script>
+    <!--
+      Analytics: loaded after HTML to avoid blocking initial render.
+      Why `data-auto-pageview="false"`: the tracker reports the raw initial URL, so
+      `/cv` was counted before the router normalized it to `/cv/` — one visit, two
+      pageviews. `src/main.ts` reports pageviews after navigation settles instead.
+      Why `data-performance="true"`: collects Core Web Vitals (LCP/INP/CLS/FCP/TTFB)
+      from real visits, which the dashboard shows alongside pageviews.
+    -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="60cf839b-abb5-4aa1-ac5e-687f15ea8a3e" data-domains="bvvell.site,www.bvvell.site" data-auto-pageview="false" data-performance="true"></script>
   </body>
 </html>

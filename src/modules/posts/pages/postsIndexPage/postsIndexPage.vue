@@ -99,7 +99,7 @@ import PageShell from '@/components/PageShell.vue'
 import postsIndex from '@/modules/posts/posts-index.json'
 import {
   DEFAULT_LOCALE,
-  dateLocale,
+  formatPostDate,
   indexRouteName,
   otherLocale,
   postRouteName,
@@ -121,9 +121,7 @@ const posts = computed(() => {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 })
 
-const formatDate = (value: string) => new Intl.DateTimeFormat(dateLocale[locale.value], {
-  dateStyle: 'medium'
-}).format(new Date(value))
+const formatDate = (value: string) => formatPostDate(locale.value, value)
 
 const pageRef = ref<HTMLElement | null>(null)
 usePageLoader(pageRef)
