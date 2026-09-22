@@ -146,14 +146,14 @@
       {
         "name": "I Checked (side project)",
         "url": "https://ichecked.app/",
-        "summary": "Offline-first PWA for reusable checklists: templates, step-by-step check runs, completion history.",
+        "summary": "Offline-first PWA for reusable checklists in four languages: templates, step-by-step check runs, completion history.",
         "contribution": [
-          "Built the app end-to-end: UI, local-first data layer, backup/restore via file export/import",
-          "Implemented i18n for 4 locales (BE, UK, RU, EN), light/dark theming, and a custom Vite service-worker plugin for offline precaching",
-          "Set up GitHub Actions CI/CD: lint, unit + Playwright e2e tests, bundle budget, SFTP deploy, and a post-deploy check that production serves the deployed revision",
-          "Shipped solo from prototype to production, using AI tooling for design exploration"
+          "Built and shipped solo, prototype to production: a keyboard-accessible UI, a local-first data layer, and backup/restore that validates a file before replacing local data",
+          "Offline support without Workbox: a custom Vite plugin generates the service worker and precaches hashed build output",
+          "Dependency-free static generator for the marketing site in all four locales (BE, UK, RU, EN), with no runtime JavaScript",
+          "GitHub Actions CI/CD to two hosts: lint, unit and e2e tests, an enforced bundle budget, and a post-deploy check that production serves the deployed revision"
         ],
-        "stack": "Ionic, Vue 3, TypeScript, Vite, PWA, Vitest, Playwright, GitHub Actions"
+        "stack": "Vue 3, TypeScript, Ionic, Vite, PWA, Vitest, Playwright, GitHub Actions"
       }
     ]
   }
