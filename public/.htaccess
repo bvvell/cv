@@ -1,3 +1,7 @@
+# Why: the hosting is static, so rewrites are what serve the SSG pages and keep
+# clean URLs. This file is copied to `dist/.htaccess` during the build
+# (see `scripts/generate-sitemap.mjs`).
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
@@ -9,42 +13,81 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Why: hosting is static; we rely on rewrites to serve SSG pages and keep clean URLs.
-  # This file is copied to `dist/.htaccess` during build (see `scripts/generate-sitemap.mjs`).
-
-  # Avoid content-negotiation surprises (e.g. /cv -> /cv.*)
+  # Avoid content-negotiation surprises
   <IfModule mod_negotiation.c>
     Options -MultiViews
   </IfModule>
 
-  # Canonical host: www -> apex (301), so URLs, canonicals and analytics agree.
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+  # No directory listings: `assets/` carries no index.html, so on a host with
+  # listings enabled /assets/ serves the full inventory of hashed chunks.
+  Options -Indexes
 
-  # Redirect explicit /index.html -> /
-  RewriteRule ^index\.html$ / [R=301,L]
+  # --------------------------------------------------
+  # Canonical host: www -> apex
+  # --------------------------------------------------
+  RewriteCond %{HTTP_HOST} ^www\.bvvell\.site$ [NC]
+  RewriteRule ^ https://bvvell.site%{REQUEST_URI} [R=301,L,NE]
 
-  # Redirect *.html -> without extension (301), only for real client requests
+  # --------------------------------------------------
+  # Explicit index.html -> the directory itself
+  #
+  # /index.html           -> /
+  # /posts/foo/index.html -> /posts/foo/
+  #
+  # The trailing slash is already in the target, so this is one hop, not two.
+  # `(.*?/)?` keeps the match anchored on a path segment: /myindex.html is a
+  # page named "myindex", not a directory index.
+  #
+  # IMPORTANT:
+  # Match THE_REQUEST, not the rewritten URI. The SPA fallback below rewrites
+  # internally to /index.html and the ruleset runs again — without this guard
+  # that second pass matches here and the request 301s in a loop.
+  # --------------------------------------------------
+  RewriteCond %{THE_REQUEST} \s/+(.*?/)?index\.html(?:[\s?]|$) [NC]
+  RewriteRule ^ https://bvvell.site/%1 [R=301,L,NE]
+
+  # --------------------------------------------------
+  # Explicit *.html -> extensionless URL
+  #
+  # Ownership proofs uploaded by hand are served as they are: redirecting one
+  # sends the verifier through the trailing-slash rule into the SPA fallback,
+  # which answers 200 with the app instead of the token. The deploy prune step
+  # keeps these same names for the same reason.
+  #
+  # Order matters: %1 is the capture of the LAST condition that matched, so the
+  # exclusion has to come first.
+  # --------------------------------------------------
+  RewriteCond %{REQUEST_URI} !^/(google[^/]*|yandex_[^/]*)\.html$ [NC]
   RewriteCond %{THE_REQUEST} \s/([^\s?]+?)\.html(?:[\s?]|$) [NC]
-  RewriteRule ^ %1 [R=301,L]
+  RewriteRule ^ https://bvvell.site/%1 [R=301,L,NE]
 
-  # Normalize URLs to always include a trailing slash (301) for directory-like paths.
-  # Examples:
-  # - /posts -> /posts/
-  # - /posts/some-slug -> /posts/some-slug/
-  # Note: exclude real files (favicon.ico, sitemap.xml, assets, etc.).
+  # --------------------------------------------------
+  # Add trailing slash
+  #
+  # /posts              -> /posts/
+  # /posts/some-post    -> /posts/some-post/
+  #
+  # IMPORTANT:
+  # Build redirect from REQUEST_URI, not filesystem path.
+  # --------------------------------------------------
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} !\.[^./]+$ [NC]
   RewriteCond %{REQUEST_URI} !/$
-  RewriteRule ^(.+)$ $1/ [R=301,L]
+  RewriteRule ^ https://bvvell.site%{REQUEST_URI}/ [R=301,L,NE]
 
-  # Serve pre-rendered SSG pages: /cv or /cv/ -> /cv/index.html (internal rewrite)
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteCond %{REQUEST_FILENAME}/index.html -f
-  RewriteRule ^(.+?)/?$ $1/index.html [L]
+  # --------------------------------------------------
+  # Existing SSG directories
+  #
+  # /posts/foo/ corresponds to:
+  # /posts/foo/index.html
+  #
+  # Apache/DirectoryIndex serves index.html automatically.
+  # --------------------------------------------------
 
+  # --------------------------------------------------
   # SPA fallback
+  # Only when neither a real file nor directory exists.
+  # --------------------------------------------------
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]

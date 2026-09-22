@@ -138,21 +138,15 @@ SITE_URL=https://bvvell.site DEPLOY_CHECK_BASE_URL=http://127.0.0.1:4173 pnpm de
 
 ### The previous domain
 
-**bvvell.ru** keeps running in parallel for now, still served by the old hosting
-account from its last deploy. This repository no longer deploys there, so that copy
-is frozen and keeps its own canonical URLs — expect the two domains to look like
-duplicate content until the redirect is in place.
+**bvvell.ru** is retired: the old hosting account answers every path with a 301 to
+the matching URL on bvvell.site, so nothing is deployed or served there any more.
+That redirect lives in the `.htaccess` of the *old* account and is not managed from
+this repository.
 
-Once bvvell.site is confirmed working, point the old domain at it with a 301 in the
-`.htaccess` of the *old* hosting account (not deployed from this repository):
-
-```apache
-RewriteEngine On
-RewriteRule ^(.*)$ https://bvvell.site/$1 [R=301,L]
-```
-
-Both domains are listed in the umami `data-domains` attribute in `index.html`, so
-analytics keeps working while they run side by side.
+One leftover: `index.html` carries two `google-site-verification` tokens. The first
+belongs to the bvvell.ru property, which Google re-checks through the 301 — so the
+tag has to stay on this site until the Search Console Change of Address is done.
+Drop it afterwards.
 
 ## 🧠 SEO / `<head>`
 
