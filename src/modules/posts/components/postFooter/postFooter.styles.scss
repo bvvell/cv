@@ -1,0 +1,142 @@
+@use '@/styles/tokens' as t;
+
+.post-footer {
+  max-width: 68ch;
+  margin: 3.5rem 0 0;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--hairline);
+
+  @media (max-width: t.$bp-mobile) {
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+  }
+
+  &__author {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  &__avatar {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    background: repeating-linear-gradient(135deg, #efe6d8, #efe6d8 8px, #e6dccb 8px, #e6dccb 16px);
+  }
+
+  &__name {
+    max-width: none;
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__role {
+    max-width: none;
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+
+  &__note {
+    max-width: 52ch;
+    margin: 0.65rem 0 0;
+    color: var(--ink-body);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  &__cv {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-bottom-style: dashed;
+  }
+
+  &__more {
+    margin-top: 2.5rem;
+  }
+
+  &__more-title {
+    margin: 0 0 0.5rem;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      border-bottom: 1px solid var(--hairline);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 0;
+    color: inherit;
+    border-bottom: 0;
+    transition: color t.$ease;
+
+    &:visited {
+      color: inherit;
+      border-bottom: 0;
+    }
+
+    &:hover,
+    &:focus-visible {
+      .post-footer__item-title {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: color t.$ease;
+  }
+
+  &__item-date {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+  }
+
+  &__links {
+    max-width: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  &__dot {
+    color: var(--dot);
+  }
+}

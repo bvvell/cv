@@ -42,6 +42,7 @@
             class="posts-lang__link"
             :to="{name: postRouteName[translationLocale], params: {slug: post.slug}}"
             :hreflang="translationLocale"
+            @click="trackEvent('lang-switch', {from: locale, to: translationLocale, slug: post.slug, source: 'top'})"
           >
             {{ postsCopy[translationLocale].langName }}
           </router-link>
@@ -79,12 +80,30 @@
             </div>
           </div>
         </header>
+        <p
+          v-if="hintLocale"
+          class="post-translation"
+        >
+          <span>{{ postsCopy[hintLocale].translationHint }}</span>
+          <router-link
+            :to="{name: postRouteName[hintLocale], params: {slug: post.slug}}"
+            :hreflang="hintLocale"
+            @click="trackEvent('lang-switch', {from: locale, to: hintLocale, slug: post.slug, source: 'hint'})"
+          >
+            {{ postsCopy[hintLocale].translationCta }}
+          </router-link>
+        </p>
         <article class="post-article">
           <component
             :is="post.component"
             class="post-content"
           />
         </article>
+
+        <PostFooter
+          :locale="locale"
+          :slug="post.slug"
+        />
       </div>
 
       <div
@@ -102,14 +121,16 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {findPost, hasTranslation} from '@/modules/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
+import {trackEvent} from '@/utils/analytics'
 import PageShell from '@/components/PageShell.vue'
+import {PostFooter} from '@/modules/posts/components'
 import {
   DEFAULT_LOCALE,
-  dateLocale,
+  formatPostDate,
   indexRouteName,
   otherLocale,
   postRouteName,
@@ -129,9 +150,30 @@ const translationLocale = computed<PostLocale | null>(() => {
   return hasTranslation(slug.value, other) ? other : null
 })
 
-const formatDate = (value: string) => new Intl.DateTimeFormat(dateLocale[locale.value], {
-  dateStyle: 'medium'
-}).format(new Date(value))
+// Why: most readers arrive from a social link in one language while their browser is
+// set to the other. The switch at the top is easy to miss, so when a translation
+// exists we say so in their language. Resolved after mount, so the prerendered HTML
+// stays the same for everyone (and for crawlers).
+const browserLocale = ref<PostLocale | null>(null)
+
+onMounted(() => {
+  const language = navigator.language?.toLowerCase() ?? ''
+  if (language.startsWith('be')) {
+    browserLocale.value = 'be'
+    return
+  }
+  if (language.startsWith('ru')) {
+    browserLocale.value = 'ru'
+  }
+})
+
+const hintLocale = computed<PostLocale | null>(() => (
+  translationLocale.value && browserLocale.value === translationLocale.value
+    ? translationLocale.value
+    : null
+))
+
+const formatDate = (value: string) => formatPostDate(locale.value, value)
 
 const showKamniStats = computed(() => slug.value === 'kamni-200' && locale.value === 'be')
 
