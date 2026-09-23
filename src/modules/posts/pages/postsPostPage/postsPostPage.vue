@@ -140,9 +140,9 @@ import {
   POST_LOCALES,
   postPath,
   postRouteName,
-  postsCopy,
-  type PostLocale
+  postsCopy
 } from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 
 const route = useRoute()
 const locale = computed<PostLocale>(() => (route.meta.locale as PostLocale) || DEFAULT_LOCALE)
@@ -170,7 +170,7 @@ const selectLocale = (next: PostLocale, postSlug: string) => {
 // hydrates unchanged. Switching the language of the same post keeps the origin.
 const cameFromHome = ref(false)
 const readOrigin = () => {
-  const back = window.history.state?.back
+  const back: unknown = (window.history.state as {back?: unknown} | null)?.back
   const fromTranslation = typeof back === 'string' && back === postPath(otherLocale[locale.value], slug.value)
   cameFromHome.value = fromTranslation ? postOrigin.fromHome : back === '/'
   postOrigin.fromHome = cameFromHome.value

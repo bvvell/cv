@@ -8,7 +8,8 @@
  */
 import type {DefineComponent} from 'vue'
 import postsIndex from '@/modules/posts/posts-index.json'
-import {DEFAULT_LOCALE, type PostLocale} from '@/modules/posts/data/locale'
+import {DEFAULT_LOCALE} from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 
 export type Post = {
     slug: string
@@ -23,12 +24,12 @@ export type Post = {
 type PostsIndexItem = Omit<Post, 'component'>
 
 // Why: `*.md` does not cross `/`, so the be glob excludes files under `ru/`.
-const beModules = import.meta.glob('/src/modules/posts/posts/*.md', {
+const beModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/*.md', {
     eager: true
-}) as Record<string, {default: DefineComponent}>
-const ruModules = import.meta.glob('/src/modules/posts/posts/ru/*.md', {
+})
+const ruModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/ru/*.md', {
     eager: true
-}) as Record<string, {default: DefineComponent}>
+})
 
 // Why: Vite's glob keys are full paths; we map them to the URL slug.
 const extractSlug = (path: string) => {

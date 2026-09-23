@@ -1,4 +1,5 @@
-import {type Ref, nextTick, onMounted} from 'vue'
+import {nextTick, onMounted} from 'vue'
+import type {Ref} from 'vue'
 
 /**
  * Adds a `loaded` CSS class after mount (optionally delayed).

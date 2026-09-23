@@ -7,17 +7,18 @@
  */
 import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
-import pluginImport from 'eslint-plugin-import';
+import pluginImport from 'eslint-plugin-import-x';
 import eslint from '@eslint/js';
 import eslintPluginVue from 'eslint-plugin-vue';
 import vitest from '@vitest/eslint-plugin';
 import vueParser from 'vue-eslint-parser';
+import {defineConfig} from 'eslint/config';
 
-export default typescriptEslint.config(
+export default defineConfig(
     {
         name: 'app/files-to-ignore',
         ignores: [
-            '*.d.ts',
+            '**/*.d.ts',
             '**/coverage',
             '**/dist/**',
             '**/dist-ssr/**',
@@ -30,7 +31,7 @@ export default typescriptEslint.config(
             import: pluginImport,
         },
         extends: [eslint.configs.recommended, ...typescriptEslint.configs.recommended],
-        files: ['**/*.{js,ts,mts,tsx}'],
+        files: ['**/*.{js,ts,mts,tsx,vue}'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
@@ -57,7 +58,9 @@ export default typescriptEslint.config(
             'import/no-named-as-default': 'off',
             'import/prefer-default-export': 'off',
             'import/no-unresolved': 'off',
-            'import/named': 'warn',
+            // No 'import/named': TypeScript already checks named imports, and the rule
+            // cannot follow Vue's re-exports, so it only produced false warnings in CI.
+            'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
             'import/order': [
                 'error',
                 {
@@ -86,6 +89,18 @@ export default typescriptEslint.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
+            },
+        },
+    },
+    {
+        // Why type-aware rules only here: app code is typed, while configs and
+        // scripts are plain JS where every plugin import is `any`.
+        name: 'app/type-checked',
+        files: ['src/**/*.{ts,vue}'],
+        extends: [...typescriptEslint.configs.recommendedTypeChecked],
+        languageOptions: {
+            parserOptions: {
+                extraFileExtensions: ['.vue'],
             },
         },
     },

@@ -92,9 +92,9 @@ import {
     formatPostDate,
     indexRouteName,
     postRouteName,
-    postsCopy,
-    type PostLocale
+    postsCopy
 } from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 
 type PostsIndexItem = {
     slug: string

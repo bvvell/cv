@@ -12,9 +12,9 @@ import {
     ogLocale,
     otherLocale,
     postPath,
-    postsCopy,
-    type PostLocale
+    postsCopy
 } from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 
 type PostIndexItem = {
     slug: string

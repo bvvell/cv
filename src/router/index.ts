@@ -1,3 +1,4 @@
+import type {RouteLocation} from 'vue-router'
 import {NotFoundPage} from '@/modules/notFound/pages'
 import {RouteName} from './routeNames'
 
@@ -72,7 +73,7 @@ export const routes = [
     },
     {
         path: '/posts/ru/:slug',
-        redirect: (to) => ({
+        redirect: (to: RouteLocation) => ({
             name: RouteName.PostsRuPost,
             params: to.params,
             query: to.query,
@@ -92,7 +93,7 @@ export const routes = [
     },
     {
         path: '/posts/:slug',
-        redirect: (to) => ({
+        redirect: (to: RouteLocation) => ({
             name: RouteName.PostsPost,
             params: to.params,
             query: to.query,
