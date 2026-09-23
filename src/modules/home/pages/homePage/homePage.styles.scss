@@ -141,6 +141,28 @@ h1 {
   font-weight: 500;
 }
 
+// Stands in the same slot as the notes list, on the English page only.
+.home__notes-hint {
+  margin: 2.5rem 0 0;
+  padding-top: 1.75rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: 1.6;
+  border-top: 1px solid var(--hairline);
+
+  a {
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom-style: dashed;
+  }
+
+  @media (max-width: t.$bp-mobile) {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+}
+
 .home__notes {
   margin-top: 2.5rem;
   padding-top: 1.75rem;

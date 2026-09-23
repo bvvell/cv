@@ -41,6 +41,13 @@ export const ogLocale: Record<PostLocale, string> = {
     ru: 'ru_RU'
 }
 
+// The author's name as each language spells it. The Latin spelling belongs to the CV
+// and lives in `src/data/cv.json`; it also stays the site's name in search and shares.
+export const authorName: Record<PostLocale, string> = {
+    be: 'Уладзімір Бярнацкі',
+    ru: 'Владимир Бернацкий'
+}
+
 // `<html lang>` / `hreflang` value per language.
 export const htmlLang: Record<PostLocale, string> = {
     be: 'be',
@@ -91,11 +98,8 @@ export type PostsCopy = {
     notFoundTitle: string
     notFoundText: string
     switchLabel: string
-    // Nudge shown to a reader whose browser language matches this locale.
-    translationHint: string
-    translationCta: string
     // End-of-post block: who wrote this, and where to go next.
-    authorRole: string
+    // The role line is not here: a job title reads in English in every language.
     authorNote: string
     cvCta: string
     moreTitle: string
@@ -121,9 +125,6 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         notFoundTitle: 'Запіс не знойдзены',
         notFoundText: 'Старонка недаступная. Абяры іншы запіс са спісу.',
         switchLabel: 'Мова',
-        translationHint: 'Гэты запіс ёсць па-беларуску',
-        translationCta: 'Чытаць па-беларуску',
-        authorRole: 'UI-інжынер / фронтэнд-распрацоўшчык',
         authorNote: 'Пішу пра ровар, здымкі і ўласныя невялікія праекты.',
         cvCta: 'Паглядзець рэзюмэ',
         moreTitle: 'Яшчэ нататкі',
@@ -146,9 +147,6 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         notFoundTitle: 'Запись не найдена',
         notFoundText: 'Страница недоступна. Выбери другую запись из списка.',
         switchLabel: 'Язык',
-        translationHint: 'Эта заметка есть на русском',
-        translationCta: 'Читать по-русски',
-        authorRole: 'UI-инженер / фронтенд-разработчик',
         authorNote: 'Пишу про велосипед, съёмки и свои небольшие проекты.',
         cvCta: 'Посмотреть резюме',
         moreTitle: 'Ещё заметки',

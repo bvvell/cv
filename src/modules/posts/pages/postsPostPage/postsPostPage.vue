@@ -42,7 +42,7 @@
             class="posts-lang__link"
             :to="{name: postRouteName[translationLocale], params: {slug: post.slug}}"
             :hreflang="translationLocale"
-            @click="trackEvent('lang-switch', {from: locale, to: translationLocale, slug: post.slug, source: 'top'})"
+            @click="selectLocale(translationLocale, post.slug)"
           >
             {{ postsCopy[translationLocale].langName }}
           </router-link>
@@ -80,19 +80,6 @@
             </div>
           </div>
         </header>
-        <p
-          v-if="hintLocale"
-          class="post-translation"
-        >
-          <span>{{ postsCopy[hintLocale].translationHint }}</span>
-          <router-link
-            :to="{name: postRouteName[hintLocale], params: {slug: post.slug}}"
-            :hreflang="hintLocale"
-            @click="trackEvent('lang-switch', {from: locale, to: hintLocale, slug: post.slug, source: 'hint'})"
-          >
-            {{ postsCopy[hintLocale].translationCta }}
-          </router-link>
-        </p>
         <article class="post-article">
           <component
             :is="post.component"
@@ -121,11 +108,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {findPost, hasTranslation} from '@/modules/posts/data/posts'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {trackEvent} from '@/utils/analytics'
+import {storeLocale} from '@/utils/localePreference'
 import PageShell from '@/components/PageShell.vue'
 import {PostFooter} from '@/modules/posts/components'
 import {
@@ -150,28 +138,13 @@ const translationLocale = computed<PostLocale | null>(() => {
   return hasTranslation(slug.value, other) ? other : null
 })
 
-// Why: most readers arrive from a social link in one language while their browser is
-// set to the other. The switch at the top is easy to miss, so when a translation
-// exists we say so in their language. Resolved after mount, so the prerendered HTML
-// stays the same for everyone (and for crawlers).
-const browserLocale = ref<PostLocale | null>(null)
-
-onMounted(() => {
-  const language = navigator.language?.toLowerCase() ?? ''
-  if (language.startsWith('be')) {
-    browserLocale.value = 'be'
-    return
-  }
-  if (language.startsWith('ru')) {
-    browserLocale.value = 'ru'
-  }
-})
-
-const hintLocale = computed<PostLocale | null>(() => (
-  translationLocale.value && browserLocale.value === translationLocale.value
-    ? translationLocale.value
-    : null
-))
+// Why the switcher writes to storage: it is the same switcher as on the home page,
+// and a reader who picks Russian over a post means it for the whole site, not just
+// for this URL. The link itself still goes to the Russian version of this post.
+const selectLocale = (next: PostLocale, postSlug: string) => {
+    storeLocale(next)
+    trackEvent('lang-switch', {from: locale.value, to: next, slug: postSlug, source: 'top'})
+}
 
 const formatDate = (value: string) => formatPostDate(locale.value, value)
 

@@ -12,10 +12,13 @@
       >
       <div>
         <p class="post-footer__name">
-          {{ authorName }}
+          {{ name }}
         </p>
-        <p class="post-footer__role">
-          {{ copy.authorRole }}
+        <p
+          class="post-footer__role"
+          lang="en"
+        >
+          {{ role }}
         </p>
         <p class="post-footer__note">
           {{ copy.authorNote }}
@@ -84,6 +87,7 @@ import {RouteName} from '@/router/routeNames'
 import {trackEvent} from '@/utils/analytics'
 import postsIndex from '@/modules/posts/posts-index.json'
 import {
+    authorName,
     feedPath,
     formatPostDate,
     indexRouteName,
@@ -107,7 +111,10 @@ const props = defineProps<{
     slug: string
 }>()
 
-const authorName = useCvData().personal.name
+// The name follows the language of the post; the role line stays English, the way a
+// job title is read in this trade — see `src/modules/home/data/homeCopy.ts`.
+const name = computed(() => authorName[props.locale])
+const role = useCvData().personal.homeSubtitle
 const copy = computed(() => postsCopy[props.locale])
 
 const morePosts = computed(() => (postsIndex as PostsIndexItem[])
