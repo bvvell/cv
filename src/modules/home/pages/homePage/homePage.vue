@@ -183,9 +183,9 @@ import {
   formatPostDate,
   indexRouteName,
   postRouteName,
-  postsCopy,
-  type PostLocale
+  postsCopy
 } from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 import {
   EN_LANG_NAME,
   HOME_LOCALES,
@@ -193,7 +193,8 @@ import {
   detectHomeLocale,
   homeCopy
 } from '@/modules/home/data/homeCopy'
-import {readStoredLocale, storeLocale, type SiteLocale} from '@/utils/localePreference'
+import {readStoredLocale, storeLocale} from '@/utils/localePreference'
+import type {SiteLocale} from '@/utils/localePreference'
 
 type PostsIndexItem = {
   slug: string

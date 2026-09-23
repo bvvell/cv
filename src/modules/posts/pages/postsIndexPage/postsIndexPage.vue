@@ -118,9 +118,9 @@ import {
   indexRouteName,
   POST_LOCALES,
   postRouteName,
-  postsCopy,
-  type PostLocale
+  postsCopy
 } from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 
 const route = useRoute()
 const cvData = useCvData()

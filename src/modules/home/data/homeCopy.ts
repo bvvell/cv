@@ -17,7 +17,8 @@
  *   are what a reader scans for first, and in this trade they are read in English in
  *   every language. Translating them only makes the same thing harder to recognise.
  */
-import {POST_LOCALES, type PostLocale} from '@/modules/posts/data/locale'
+import {POST_LOCALES} from '@/modules/posts/data/locale'
+import type {PostLocale} from '@/modules/posts/data/locale'
 import type {SiteLocale} from '@/utils/localePreference'
 
 export const HOME_LOCALES: SiteLocale[] = ['en', ...POST_LOCALES]

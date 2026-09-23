@@ -12,8 +12,8 @@
     "deploy:metadata": "node scripts/generate-deploy-metadata.mjs",
     "deploy:check": "node scripts/check-deployment.mjs",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --max-warnings 0 --cache",
+    "lint:fix": "eslint . --fix --cache",
     "release": "standard-version",
     "prepare": "husky"
   },
@@ -25,32 +25,32 @@
     "vue-router": "^4.6.4"
   },
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@shikijs/markdown-it": "^4.0.2",
     "@types/markdown-it": "^14.1.2",
-    "@typescript-eslint/eslint-plugin": "^8.53.1",
-    "@typescript-eslint/parser": "^8.53.1",
+    "@typescript-eslint/eslint-plugin": "^8.70.1",
+    "@typescript-eslint/parser": "^8.70.1",
     "@vitejs/plugin-vue": "^6.0.3",
-    "@vitest/eslint-plugin": "^1.6.6",
+    "@vitest/eslint-plugin": "^1.6.27",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint": "^9.39.2",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-vue": "^10.7.0",
-    "globals": "^17.0.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-vue": "^10.11.0",
+    "globals": "^17.12.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
+    "lint-staged": "^16.4.0",
     "playwright": "^1.52.0",
     "sass-embedded": "^1.97.2",
     "sharp": "^0.34.5",
     "standard-version": "^9.5.0",
-    "typescript-eslint": "^8.53.1",
+    "typescript-eslint": "^8.70.1",
     "unplugin-vue-markdown": "^29.2.0",
     "vite": "^7.3.1",
     "vite-ssg": "^28.2.2",
-    "vue-eslint-parser": "^10.2.0"
+    "vue-eslint-parser": "^10.4.1"
   },
   "lint-staged": {
     "*.{js,ts,vue}": [

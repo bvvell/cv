@@ -14,3 +14,8 @@ declare module '*.md' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+interface ImportMetaEnv {
+  // Canonical origin for canonical/OG URLs; see `useSiteHead`.
+  readonly VITE_SITE_URL?: string
+}
