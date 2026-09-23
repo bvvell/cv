@@ -108,29 +108,6 @@ h1 {
   }
 }
 
-.post-translation {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.4rem;
-  max-width: 68ch;
-  margin: 0 0 2.25rem;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid var(--hairline);
-  border-radius: t.$radius-img;
-  color: var(--ink-2);
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-
-  a {
-    font-weight: 600;
-  }
-
-  @media (max-width: t.$bp-mobile) {
-    margin-bottom: 1.75rem;
-  }
-}
-
 .post-stats {
   display: flex;
   border-top: 1px solid var(--hairline-2);

@@ -59,6 +59,7 @@
             class="posts-lang__link"
             :to="{name: indexRouteName[otherLocale[locale]]}"
             :hreflang="otherLocale[locale]"
+            @click="selectLocale(otherLocale[locale])"
           >
             {{ postsCopy[otherLocale[locale]].langName }}
           </router-link>
@@ -94,6 +95,8 @@
 import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {usePageLoader} from '@/composables/usePageLoader'
+import {trackEvent} from '@/utils/analytics'
+import {storeLocale} from '@/utils/localePreference'
 import {useCvData} from '@/composables/useCvData'
 import PageShell from '@/components/PageShell.vue'
 import postsIndex from '@/modules/posts/posts-index.json'
@@ -120,6 +123,12 @@ const posts = computed(() => {
     .filter((item) => item.locale === locale.value)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 })
+
+// Same switcher, same meaning as on the home page and over a post: remember it.
+const selectLocale = (next: PostLocale) => {
+  storeLocale(next)
+  trackEvent('lang-switch', {from: locale.value, to: next, source: 'index'})
+}
 
 const formatDate = (value: string) => formatPostDate(locale.value, value)
 

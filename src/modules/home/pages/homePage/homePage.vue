@@ -35,11 +35,14 @@
             </template>
           </div>
 
-          <h1>{{ HOME_TITLE }}</h1>
+          <h1>{{ title }}</h1>
 
-          <p class="home__role">
+          <p
+            class="home__role"
+            lang="en"
+          >
             <router-link :to="{name: RouteName.Cv}">
-              {{ copy.role }}
+              {{ role }}
             </router-link>
           </p>
 
@@ -47,8 +50,11 @@
             {{ copy.meta }}
           </p>
 
-          <p class="home__value">
-            {{ copy.value }}
+          <p
+            class="home__value"
+            lang="en"
+          >
+            {{ HOME_VALUE }}
           </p>
 
           <nav
@@ -99,6 +105,20 @@
               Threads
             </a>
           </div>
+
+          <p
+            v-if="!notesLocale"
+            class="home__notes-hint"
+          >
+            Beyond the CV, I write about cycling, photography, and small tools I build.
+            The posts are in Belarusian.
+            <router-link
+              :to="{name: indexRouteName[DEFAULT_LOCALE]}"
+              @click="trackEvent('home-notes-hint')"
+            >
+              Read them →
+            </router-link>
+          </p>
 
           <section
             v-if="notesLocale && latestPosts.length"
@@ -158,6 +178,8 @@ import {trackEvent} from '@/utils/analytics'
 import PageShell from '@/components/PageShell.vue'
 import postsIndex from '@/modules/posts/posts-index.json'
 import {
+  DEFAULT_LOCALE,
+  authorName,
   formatPostDate,
   indexRouteName,
   postRouteName,
@@ -167,12 +189,11 @@ import {
 import {
   EN_LANG_NAME,
   HOME_LOCALES,
+  HOME_VALUE,
   detectHomeLocale,
-  homeCopy,
-  readStoredHomeLocale,
-  storeHomeLocale,
-  type HomeLocale
+  homeCopy
 } from '@/modules/home/data/homeCopy'
+import {readStoredLocale, storeLocale, type SiteLocale} from '@/utils/localePreference'
 
 type PostsIndexItem = {
   slug: string
@@ -185,36 +206,40 @@ type PostsIndexItem = {
 const LATEST_POSTS_LIMIT = 3
 
 const cvData = useCvData()
-const HOME_TITLE = cvData.personal.name
 const SOCIAL_LINKS = cvData.personal.contacts
+const role = cvData.personal.homeSubtitle
 
 // Why: the prerendered page is English — that is what Google indexes and what a
 // recruiter opens from LinkedIn. The language is resolved after mount so readers who
 // come from Threads get the page (and the notes) in a language they actually read.
-const locale = ref<HomeLocale>('en')
+const locale = ref<SiteLocale>('en')
 
 onMounted(() => {
   // Why both: `languages` is the ordered preference list, `language` the single
   // browser UI language — older in-app browsers only expose the latter.
-  locale.value = readStoredHomeLocale() ?? detectHomeLocale(navigator.languages ?? [navigator.language])
+  locale.value = readStoredLocale() ?? detectHomeLocale(navigator.languages ?? [navigator.language])
 })
 
-const selectLocale = (next: HomeLocale) => {
+const selectLocale = (next: SiteLocale) => {
   if (next === locale.value) return
   locale.value = next
-  storeHomeLocale(next)
+  storeLocale(next)
   trackEvent('home-lang-switch', {to: next})
 }
 
-const langName = (option: HomeLocale) =>
+const langName = (option: SiteLocale) =>
   (option === 'en' ? EN_LANG_NAME : homeCopy[option].langName)
+
+// Why the name is translated while the role above is not: a Belarusian reader who
+// came from Threads knows the person, not the transliteration — the Latin spelling
+// is for search and for recruiters, and it is what the English page keeps showing.
+const title = computed(() =>
+  (locale.value === 'en' ? cvData.personal.name : authorName[locale.value]))
 
 const copy = computed(() => {
   if (locale.value === 'en') {
     return {
-      role: cvData.personal.homeSubtitle,
       meta: cvData.personal.homeMeta ?? '',
-      value: 'Vue/TypeScript · UI engineering · performance-first.',
       downloadCv: 'Download CV',
       switchLabel: 'Language'
     }
@@ -222,8 +247,10 @@ const copy = computed(() => {
   return homeCopy[locale.value]
 })
 
-// Why: an English-speaking visitor came for the CV, and the notes are not in a
-// language they can read — so they are only offered to Belarusian/Russian readers.
+// Why the English page gets no list: the notes are not in a language that reader can
+// read, and eight Belarusian titles say nothing to them. They get one line instead —
+// a recruiter who only wants the CV loses nothing, and a curious one learns the notes
+// exist at all, which the bare switcher above the name never told them.
 const notesLocale = computed<PostLocale | null>(() => (locale.value === 'en' ? null : locale.value))
 
 const latestPosts = computed(() => {
