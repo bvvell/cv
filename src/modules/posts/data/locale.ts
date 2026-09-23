@@ -91,6 +91,8 @@ export type PostsCopy = {
     eyebrow: string
     listTitle: string
     intro: string
+    // Link to the home page: over the list, and over a post opened from home.
+    // Home link: over the list, and over a post opened from home.
     backHome: string
     // Post page.
     backToList: string
@@ -116,10 +118,10 @@ export type PostsCopy = {
 export const postsCopy: Record<PostLocale, PostsCopy> = {
     be: {
         langName: 'Беларуская',
-        eyebrow: 'Нататкі',
+        eyebrow: 'Запісы',
         listTitle: 'Запісы',
-        intro: 'Невялікія нататкі пра жыццё, творчасць і не толькі.',
-        backHome: 'Назад',
+        intro: 'Невялікія запісы пра жыццё, творчасць і не толькі.',
+        backHome: 'На галоўную',
         backToList: 'Назад да запісаў',
         toList: 'Да спісу запісаў',
         notFoundTitle: 'Запіс не знойдзены',
@@ -127,35 +129,35 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         switchLabel: 'Мова',
         authorNote: 'Пішу пра ровар, здымкі і ўласныя невялікія праекты.',
         cvCta: 'Паглядзець рэзюмэ',
-        moreTitle: 'Яшчэ нататкі',
+        moreTitle: 'Яшчэ запісы',
         allPosts: 'Усе запісы',
         rssLabel: 'RSS',
         siteName: 'Uladzimir Biarnatski',
         titleSuffix: 'bvvell.site',
         shareHint: 'Поўны тэкст і прыклады — на маім сайце.',
-        seoNotFoundTitle: 'Запіс не знойдзены — Нататкі — Uladzimir Biarnatski',
+        seoNotFoundTitle: 'Запіс не знойдзены — Запісы — Uladzimir Biarnatski',
         seoNotFoundDescription: 'Старонка недаступная.'
     },
     ru: {
         langName: 'Русский',
         eyebrow: 'Заметки',
-        listTitle: 'Записи',
+        listTitle: 'Заметки',
         intro: 'Небольшие заметки о жизни, творчестве и не только.',
-        backHome: 'Назад',
-        backToList: 'Назад к записям',
-        toList: 'К списку записей',
-        notFoundTitle: 'Запись не найдена',
-        notFoundText: 'Страница недоступна. Выбери другую запись из списка.',
+        backHome: 'На главную',
+        backToList: 'Назад к заметкам',
+        toList: 'К списку заметок',
+        notFoundTitle: 'Заметка не найдена',
+        notFoundText: 'Страница недоступна. Выбери другую заметку из списка.',
         switchLabel: 'Язык',
         authorNote: 'Пишу про велосипед, съёмки и свои небольшие проекты.',
         cvCta: 'Посмотреть резюме',
         moreTitle: 'Ещё заметки',
-        allPosts: 'Все записи',
+        allPosts: 'Все заметки',
         rssLabel: 'RSS',
         siteName: 'Uladzimir Biarnatski',
         titleSuffix: 'bvvell.site',
         shareHint: 'Полный текст и примеры — на моём сайте.',
-        seoNotFoundTitle: 'Запись не найдена — Заметки — Uladzimir Biarnatski',
+        seoNotFoundTitle: 'Заметка не найдена — Заметки — Uladzimir Biarnatski',
         seoNotFoundDescription: 'Страница недоступна.'
     }
 }

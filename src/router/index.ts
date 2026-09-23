@@ -50,8 +50,8 @@ export const routes = [
         pathToRegexpOptions: {strict: true},
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
-            title: 'Нататкі — Uladzimir Biarnatski',
-            description: 'Невялікія нататкі пра жыццё, творчасць і не толькі.',
+            title: 'Запісы — Uladzimir Biarnatski',
+            description: 'Невялікія запісы пра жыццё, творчасць і не толькі.',
             locale: 'be'
         }
     },
@@ -105,8 +105,8 @@ export const routes = [
         pathToRegexpOptions: {strict: true},
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
-            title: 'Нататкі — Uladzimir Biarnatski',
-            description: 'Нататка.',
+            title: 'Запісы — Uladzimir Biarnatski',
+            description: 'Запіс.',
             locale: 'be'
         }
     },

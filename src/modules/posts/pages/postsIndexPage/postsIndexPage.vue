@@ -6,13 +6,15 @@
     <PageShell>
       <header class="posts-hero">
         <div class="posts-eyebrow-row">
-          <p class="eyebrow">
-            {{ copy.eyebrow }}
-          </p>
-          <div
-            v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
-            class="posts-socials"
-          >
+          <div class="posts-socials">
+            <router-link :to="{name: RouteName.Home}">
+              {{ copy.backHome }}
+            </router-link>
+            <span
+              v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
+              class="posts-socials__dot"
+              aria-hidden="true"
+            >·</span>
             <a
               v-if="SOCIAL_LINKS.instagram"
               :href="SOCIAL_LINKS.instagram"
@@ -45,24 +47,33 @@
           :aria-label="copy.switchLabel"
         >
           <span class="posts-lang__label">{{ copy.switchLabel }}:</span>
-          <span
-            class="posts-lang__current"
-            aria-current="true"
+          <!-- Fixed order, same as over a post: options don't swap on switch. -->
+          <template
+            v-for="(option, index) in POST_LOCALES"
+            :key="option"
           >
-            {{ postsCopy[locale].langName }}
-          </span>
-          <span
-            class="posts-lang__sep"
-            aria-hidden="true"
-          >·</span>
-          <router-link
-            class="posts-lang__link"
-            :to="{name: indexRouteName[otherLocale[locale]]}"
-            :hreflang="otherLocale[locale]"
-            @click="selectLocale(otherLocale[locale])"
-          >
-            {{ postsCopy[otherLocale[locale]].langName }}
-          </router-link>
+            <span
+              v-if="index"
+              class="posts-lang__sep"
+              aria-hidden="true"
+            >·</span>
+            <span
+              v-if="option === locale"
+              class="posts-lang__current"
+              aria-current="true"
+            >
+              {{ postsCopy[option].langName }}
+            </span>
+            <router-link
+              v-else
+              class="posts-lang__link"
+              :to="{name: indexRouteName[option]}"
+              :hreflang="option"
+              @click="selectLocale(option)"
+            >
+              {{ postsCopy[option].langName }}
+            </router-link>
+          </template>
         </nav>
       </header>
 
@@ -94,6 +105,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
+import {RouteName} from '@/router/routeNames'
 import {usePageLoader} from '@/composables/usePageLoader'
 import {trackEvent} from '@/utils/analytics'
 import {storeLocale} from '@/utils/localePreference'
@@ -104,7 +116,7 @@ import {
   DEFAULT_LOCALE,
   formatPostDate,
   indexRouteName,
-  otherLocale,
+  POST_LOCALES,
   postRouteName,
   postsCopy,
   type PostLocale

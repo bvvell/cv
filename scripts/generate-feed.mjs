@@ -70,8 +70,8 @@ const posts = fs.existsSync(indexPath)
 const FEEDS = {
     be: {
         file: 'feed.xml',
-        title: 'Нататкі — Uladzimir Biarnatski',
-        description: 'Невялікія нататкі пра жыццё, творчасць і не толькі.',
+        title: 'Запісы — Uladzimir Biarnatski',
+        description: 'Невялікія запісы пра жыццё, творчасць і не толькі.',
         indexPath: '/posts/'
     },
     ru: {
