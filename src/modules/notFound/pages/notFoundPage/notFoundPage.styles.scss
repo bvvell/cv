@@ -12,7 +12,7 @@
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: var(--color-notfound-eyebrow);
+    color: var(--muted);
   }
 
   h1 {
@@ -41,7 +41,7 @@
     right: 10vw;
     bottom: 12vh;
     font-size: clamp(5rem, 12vw, 9rem);
-    color: var(--color-notfound-ghost);
+    color: var(--hairline);
     transition: transform 0.8s ease;
     pointer-events: none;
   }
