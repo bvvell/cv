@@ -21,6 +21,13 @@ cover: /images/posts/ru/kaspersky-race.jpg
 А в голове сидела очень простая и очень дурацкая мысль: только бы не опозориться и не приехать последним.
 
 <figure>
+  <img src="/images/posts/kaspersky-race/start-me.jpg" alt="Я перед стартом Kaspersky Race, на руле номер 1320">
+  <figcaption>
+    Я перед стартом. Лицо человека, который очень старается не думать о последнем месте. Фото: <a href="https://www.instagram.com/neverovskid/" target="_blank" rel="noopener noreferrer">Дмитрий Неверовский</a>.
+  </figcaption>
+</figure>
+
+<figure>
   <img src="/images/posts/kaspersky-race/start-camp.jpg" alt="Палатки стартового городка Kaspersky Race на поле возле леса">
   <figcaption>
     Стартовый городок. Отсюда всё начиналось и сюда же все возвращались.
@@ -122,3 +129,10 @@ Kaspersky Race был первой официальной гравийной г�
 Без больших выводов, преодоления себя и историй про то, как 123 километра изменили мою жизнь.
 
 Просто очень хорошо покатался.
+
+<figure>
+  <img src="/images/posts/kaspersky-race/finish-me.jpg" alt="Я на финише Kaspersky Race под аркой, улыбаюсь">
+  <figcaption>
+    Финиш. Тяжело — да. Разобран в ноль — нет. Фото: <a href="https://www.instagram.com/neverovskid/" target="_blank" rel="noopener noreferrer">Дмитрий Неверовский</a>.
+  </figcaption>
+</figure>
