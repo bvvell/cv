@@ -9,6 +9,7 @@
 import {nextTick} from 'vue'
 import {ViteSSG} from 'vite-ssg'
 import {lifeCalendar} from '@/modules/posts/components'
+import LetterPlay from '@/modules/posts/components/letterPlay/letterPlay.vue'
 import {trackPageview} from '@/utils/analytics'
 import {ensureTrailingSlash} from '@/utils/url'
 import App from './App.vue'
@@ -21,6 +22,7 @@ export const createApp = ViteSSG(
     {routes},
     ({app, router, isClient}) => {
         app.component('LifeCalendar', lifeCalendar)
+        app.component('LetterPlay', LetterPlay)
 
         // Normalize client-side navigation to always include a trailing slash.
         if (isClient) {
