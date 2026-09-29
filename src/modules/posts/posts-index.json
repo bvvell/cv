@@ -1,5 +1,21 @@
 [
   {
+    "slug": "slovarik-quiz-bot",
+    "locale": "be",
+    "title": "Бот для слоўнікавых слоў у Telegram",
+    "date": "2026-09-29",
+    "excerpt": "Зрабіў Telegram-бота, каб паўтараць слоўнікавыя словы з дзіцем, а потым дадаў рэжым для чата з аднакласнікамі. Віктарыны, статыстыка і некалькі грабляў па дарозе.",
+    "cover": "/images/posts/slovarik-quiz-bot.jpg"
+  },
+  {
+    "slug": "slovarik-quiz-bot",
+    "locale": "ru",
+    "title": "Бот для словарных слов в Telegram",
+    "date": "2026-09-29",
+    "excerpt": "Сделал Telegram-бота, чтобы повторять словарные слова с ребёнком, а потом добавил режим для чата с одноклассниками. Викторины, статистика и немного грабель по дороге.",
+    "cover": "/images/posts/ru/slovarik-quiz-bot.jpg"
+  },
+  {
     "slug": "letter-play",
     "locale": "be",
     "title": "Літары на прагулцы",
