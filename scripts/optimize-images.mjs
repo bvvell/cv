@@ -3,15 +3,15 @@ import path from 'node:path'
 import sharp from 'sharp'
 
 /**
- * Walks `public/images/posts/` and generates a resized `.webp` sibling for every
+ * Walks `public/images/posts/` and generates resized `.webp` siblings for every
  * `.jpg`/`.jpeg`/`.png`.
  *
  * Why:
  * - The build-time Markdown plugin serves `.webp` through `<picture>` whenever a
  *   sibling exists, so the WebP size is what every modern visitor actually pays.
- * - Resizing to a max width keeps the WebP small without touching the source file
- *   (the source remains the non-WebP fallback).
- * - Idempotent: skips work when the `.webp` sibling is already newer than its source.
+ * - A full-size WebP plus a few fixed-width variants let the plugin emit a proper
+ *   `srcset`, so phones download a small image instead of the full one.
+ * - Idempotent: skips work when a derived file is already newer than its source.
  *
  * Note: we deliberately do NOT auto-generate `.jpg` copies from PNGs. That used to
  * produce orphan files nothing referenced, because posts keep referencing the `.png`
@@ -21,7 +21,8 @@ const root = process.cwd()
 const targetDir = path.join(root, 'public', 'images', 'posts')
 
 const WEBP_QUALITY = 78
-const MAX_WIDTH = 1600
+// Widths emitted for `srcset` (exact pixel widths; see `vite.config.js`).
+const SRCSET_WIDTHS = [480, 800, 1200]
 
 const isSourceImage = (file) => /\.(jpe?g|png)$/i.test(file)
 
@@ -41,15 +42,25 @@ const needsRebuild = (source, derived) => {
     return fs.statSync(source).mtimeMs > fs.statSync(derived).mtimeMs
 }
 
-const ensureWebp = async (source) => {
-    const derived = source.replace(/\.(jpe?g|png)$/i, '.webp')
-    if (!needsRebuild(source, derived)) return {skipped: true, derived}
-    await sharp(source)
+const renderWebp = (source, derived, width) =>
+    sharp(source)
         .rotate()
-        .resize({width: MAX_WIDTH, withoutEnlargement: true})
+        .resize({width})
         .webp({quality: WEBP_QUALITY})
         .toFile(derived)
-    return {skipped: false, derived}
+
+const ensureWebp = async (source) => {
+    const generated = []
+
+    for (const width of SRCSET_WIDTHS) {
+        const variant = source.replace(/\.(jpe?g|png)$/i, `-${width}.webp`)
+        if (needsRebuild(source, variant)) {
+            await renderWebp(source, variant, width)
+            generated.push(variant)
+        }
+    }
+
+    return generated
 }
 
 const formatBytes = (bytes) => {
@@ -64,12 +75,12 @@ let webpGenerated = 0
 
 for (const source of sources) {
     const rel = path.relative(root, source)
-    const webp = await ensureWebp(source)
-    if (!webp.skipped) {
+    const generated = await ensureWebp(source)
+    for (const derived of generated) {
         webpGenerated += 1
         const sourceSize = fs.statSync(source).size
-        const derivedSize = fs.statSync(webp.derived).size
-        console.log(`webp: ${rel} → ${path.basename(webp.derived)} (${formatBytes(sourceSize)} → ${formatBytes(derivedSize)})`)
+        const derivedSize = fs.statSync(derived).size
+        console.log(`webp: ${rel} → ${path.basename(derived)} (${formatBytes(sourceSize)} → ${formatBytes(derivedSize)})`)
     }
 }
 
