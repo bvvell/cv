@@ -100,6 +100,8 @@ To update your CV, simply edit the `cv.json` file.
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Lint code
 - `pnpm lint:fix` - Auto-fix linting errors
+- `pnpm typecheck` - Type-check the app (including Vue templates) with `vue-tsc`
+- `pnpm test` - Run unit tests (Vitest)
 - `pnpm deploy:metadata` - Write `dist/version.json` with the deployed revision
 - `pnpm deploy:check` - Verify the live site serves that revision
 
@@ -108,6 +110,10 @@ To update your CV, simply edit the `cv.json` file.
 Pushes to `main` build and deploy to **https://bvvell.site** (hoster.by, SFTP) via
 `.github/workflows/deploy.yml`. The domain is not a secret — it lives in the workflow
 as `SITE_URL` and is passed to the build as `VITE_SITE_URL`.
+
+Each push to `main` first runs a `release` job that bumps the patch version
+(`standard-version`), tags it, and stamps that version into `dist/version.json`, so
+every deploy carries a fresh, monotonically increasing version.
 
 Required secrets (repository, or scoped to the `production` environment):
 

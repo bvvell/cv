@@ -13,14 +13,14 @@ This document describes all optimizations applied to the CV project.
   - Vendor split by library family (vue / router / vendor) for better long-term caching
 
 **Result (gzip)**:
-- `app`: 7.55 KB
-- `vue`: 24.59 KB (rarely changes)
+- `app`: 14.60 KB
+- `vue`: 25.55 KB (rarely changes)
 - `router`: 10.03 KB (rarely changes)
-- `vendor`: 6.62 KB (rest of node_modules)
-- `homePage`: 0.97 KB (lazy)
-- `cvPage`: 2.09 KB (lazy)
-- `postsIndexPage`: 1.33 KB (lazy)
-- `postsPostPage`: 9.57 KB (lazy, includes markdown components)
+- `vendor`: 6.63 KB (rest of node_modules)
+- `homePage`: 2.32 KB (lazy)
+- `cvPage`: 2.05 KB (lazy)
+- `postsIndexPage`: 1.29 KB (lazy)
+- `postsPostPage`: 51.67 KB (lazy, includes all posts + Shiki)
 
 ### 2. **Improved TypeScript Types**
 - **Before**: Used `@ts-expect-error` for router meta
@@ -75,11 +75,46 @@ This document describes all optimizations applied to the CV project.
 - **Added**: `actions/cache@v4` for `~/.cache/ms-playwright`, keyed on resolved Playwright version.
 - **Benefit**: Skips Chromium re-download on warm runs; still installs apt deps on cache hit.
 
+### 11. **Image Budget**
+- Replaced the multi-megabyte RGBA PNG photos (the `kamni-200` post shipped ~32 MB of
+  PNGs) with resized JPEGs, regenerated their WebP siblings, and removed orphan images
+  (including `.jpg` copies the old pipeline generated but nothing referenced).
+- `optimize-images.mjs` now resizes WebP to a 1600 px max width and no longer emits
+  `.jpg` orphans.
+- **Result**: `public/images` 61 MB → ~19 MB.
+
+### 12. **Life Calendar SSR Bloat**
+- The "life in weeks" widget used to prerender `52 × N years` cells — thousands of DOM
+  nodes and ~300 KB of HTML per locale. It now defaults to an empty birth date (the
+  correct "enter YOUR date" behaviour) and renders the grid only once the reader inputs
+  a valid date.
+- **Result**: the `kalendar-zhyccia` page HTML went from 313 KB → ~18 KB per locale.
+
+### 13. **Type Checking + Tests**
+- Added `vue-tsc` (`pnpm typecheck`) and Vitest (`pnpm test`), both wired into CI.
+- `vue-tsc` immediately caught a latent bug: `pathToRegexpOptions` is ignored by
+  vue-router 4.6 (the option is now top-level `strict`), so the trailing-slash
+  strictness was silently dropped.
+- Added 37 unit tests covering URL normalization, date formatting, locale detection,
+  storage, the analytics queue, and the life-calendar math.
+
+### 14. **Version Bump on Every Push**
+- CI now runs a `release` job on each push to `main` that bumps the patch version
+  (standard-version), tags it, and the deploy job stamps the bumped version into
+  `dist/version.json` via `APP_VERSION`.
+
+### 15. **Housekeeping**
+- Deduplicated `.env` parsing into `scripts/lib/site-env.mjs`.
+- Removed dead HTML (`meta keywords`, `X-UA-Compatible`) and added real PWA manifest
+  icons (192/512 px).
+
 ### Improvements:
 - ✅ Faster initial page load
 - ✅ Better code splitting
 - ✅ Improved caching strategy
-- ✅ Type safety improvements
+- ✅ Type safety improvements (incl. `vue-tsc`)
+- ✅ Automated tests (Vitest)
+- ✅ Smaller images and prerendered HTML
 - ✅ Better maintainability
 
 ## 🚀 Future Optimization Opportunities
@@ -88,11 +123,16 @@ This document describes all optimizations applied to the CV project.
    - Add `srcset` / `sizes` for content images (sharp can emit multiple widths).
 
 2. **Service Worker / PWA**
-   - `vite-plugin-pwa` for offline precache; manifest already in place.
+   - `vite-plugin-pwa` for offline precache; the manifest now has real 192/512 icons.
 
 3. **Performance monitoring**
-   - Hook Core Web Vitals into the existing Umami analytics.
+   - Hook Core Web Vitals into the existing Umami analytics (the tracker already
+     collects them via `data-performance`).
 
 4. **CSS strategy**
    - Re-evaluate `cssCodeSplit: false` against per-route split now that critical CSS
      is already inlined and the rest is preloaded.
+
+5. **Per-post code splitting**
+   - `postsPostPage` still bundles every post plus Shiki (51.67 KB gzip); split it so
+     each post lazy-loads its own markdown.
