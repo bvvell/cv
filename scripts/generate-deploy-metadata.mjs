@@ -16,6 +16,11 @@ const packageJson = JSON.parse(
     fs.readFileSync(path.join(root, 'package.json'), 'utf8')
 )
 
+// Why: the release job bumps the version AFTER this build's checkout, so CI passes
+// the bumped version explicitly. Locally (or when CI has not bumped yet) we fall back
+// to the version in package.json.
+const appVersion = process.env.APP_VERSION || packageJson.version
+
 const currentRevision = () => {
     const revision = process.env.GITHUB_SHA
         || execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim()
@@ -27,7 +32,7 @@ const currentRevision = () => {
 
 const revision = currentRevision()
 const metadata = {
-    appVersion: packageJson.version,
+    appVersion,
     revision,
     shortRevision: revision.slice(0, 7),
     deployedAt: new Date().toISOString(),

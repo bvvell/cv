@@ -44,7 +44,7 @@ cover: /images/posts/ru/seryja-kazhny-dzen-2026.jpg
 <figure>
   <a href="https://www.instagram.com/p/DV0RprgjAI-/" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="/images/posts/series-2026/g9.webp" type="image/webp" />
+      <source srcset="/images/posts/series-2026/g9-480.webp 480w, /images/posts/series-2026/g9-800.webp 800w, /images/posts/series-2026/g9-1200.webp 1200w" sizes="(min-width: 720px) 680px, 100vw" type="image/webp" />
       <img src="/images/posts/series-2026/g9.jpg" alt="Первый удачный кадр на Canon G9 из серии" loading="lazy" decoding="async" />
     </picture>
   </a>
@@ -93,7 +93,7 @@ cover: /images/posts/ru/seryja-kazhny-dzen-2026.jpg
 <figure>
   <a href="https://www.instagram.com/p/DVoELJcjG9m/" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="/images/posts/series-2026/archive.webp" type="image/webp" />
+      <source srcset="/images/posts/series-2026/archive-480.webp 480w, /images/posts/series-2026/archive-800.webp 800w, /images/posts/series-2026/archive-1200.webp 1200w" sizes="(min-width: 720px) 680px, 100vw" type="image/webp" />
       <img src="/images/posts/series-2026/archive.jpg" alt="Кадр, снятый на Зенит" loading="lazy" decoding="async" />
     </picture>
   </a>
@@ -107,7 +107,7 @@ cover: /images/posts/ru/seryja-kazhny-dzen-2026.jpg
 <figure>
   <a href="https://www.instagram.com/p/DUTn87ijP3B/" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="/images/posts/series-2026/shadows.webp" type="image/webp" />
+      <source srcset="/images/posts/series-2026/shadows-480.webp 480w, /images/posts/series-2026/shadows-800.webp 800w, /images/posts/series-2026/shadows-1200.webp 1200w" sizes="(min-width: 720px) 680px, 100vw" type="image/webp" />
       <img src="/images/posts/series-2026/shadows.jpg" alt="Кадр с игрой теней на Canon 550D" loading="lazy" decoding="async" />
     </picture>
   </a>

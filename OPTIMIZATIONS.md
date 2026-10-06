@@ -13,14 +13,14 @@ This document describes all optimizations applied to the CV project.
   - Vendor split by library family (vue / router / vendor) for better long-term caching
 
 **Result (gzip)**:
-- `app`: 7.55 KB
-- `vue`: 24.59 KB (rarely changes)
+- `app`: 14.60 KB
+- `vue`: 25.55 KB (rarely changes)
 - `router`: 10.03 KB (rarely changes)
-- `vendor`: 6.62 KB (rest of node_modules)
-- `homePage`: 0.97 KB (lazy)
-- `cvPage`: 2.09 KB (lazy)
-- `postsIndexPage`: 1.33 KB (lazy)
-- `postsPostPage`: 9.57 KB (lazy, includes markdown components)
+- `vendor`: 6.63 KB (rest of node_modules)
+- `homePage`: 2.32 KB (lazy)
+- `cvPage`: 2.05 KB (lazy)
+- `postsIndexPage`: 1.29 KB (lazy)
+- `postsPostPage`: 51.67 KB (lazy, includes all posts + Shiki)
 
 ### 2. **Improved TypeScript Types**
 - **Before**: Used `@ts-expect-error` for router meta
@@ -75,24 +75,84 @@ This document describes all optimizations applied to the CV project.
 - **Added**: `actions/cache@v4` for `~/.cache/ms-playwright`, keyed on resolved Playwright version.
 - **Benefit**: Skips Chromium re-download on warm runs; still installs apt deps on cache hit.
 
+### 11. **Image Budget**
+- Replaced the multi-megabyte RGBA PNG photos (the `kamni-200` post shipped ~32 MB of
+  PNGs) with resized JPEGs, regenerated their WebP siblings, and removed orphan images
+  (including `.jpg` copies the old pipeline generated but nothing referenced).
+- `optimize-images.mjs` now resizes WebP to a 1600 px max width and no longer emits
+  `.jpg` orphans.
+- **Result**: `public/images` 61 MB → ~19 MB.
+
+### 12. **Life Calendar SSR Bloat**
+- The "life in weeks" widget used to prerender `52 × N years` cells — thousands of DOM
+  nodes and ~300 KB of HTML per locale. It now defaults to an empty birth date (the
+  correct "enter YOUR date" behaviour) and renders the grid only once the reader inputs
+  a valid date.
+- **Result**: the `kalendar-zhyccia` page HTML went from 313 KB → ~18 KB per locale.
+
+### 13. **Type Checking + Tests**
+- Added `vue-tsc` (`pnpm typecheck`) and Vitest (`pnpm test`), both wired into CI.
+- `vue-tsc` immediately caught a latent bug: `pathToRegexpOptions` is ignored by
+  vue-router 4.6 (the option is now top-level `strict`), so the trailing-slash
+  strictness was silently dropped.
+- Added 37 unit tests covering URL normalization, date formatting, locale detection,
+  storage, the analytics queue, and the life-calendar math.
+
+### 14. **Version Bump on Every Push**
+- CI now runs a `release` job on each push to `main` that bumps the patch version
+  (`scripts/bump-version.mjs` — a dependency-free replacement for the deprecated
+  `standard-version`), tags it, and the deploy job stamps the bumped version into
+  `dist/version.json` via `APP_VERSION`.
+
+### 15. **Housekeeping**
+- Deduplicated `.env` parsing into `scripts/lib/site-env.mjs`.
+- Removed dead HTML (`meta keywords`, `X-UA-Compatible`) and added real PWA manifest
+  icons (192/512 px).
+
+### 16. **SEO / Meta**
+- Sitemap now emits `<lastmod>` (post date for posts, build date for static pages).
+- Richer Open Graph / Twitter: `og:site_name`, `og:image:alt`, `twitter:image:alt`,
+  `og:image:width/height` (1200×630 for the shared card), `article:published_time` /
+  `article:modified_time` for posts.
+- Default social card is now a generated 1200×630 image instead of the 200×200 avatar.
+- JSON-LD: `Person` gained `worksFor`, `alumniOf`, `knowsLanguage`; `BlogPosting`
+  gained `dateModified`.
+
+### 17. **Per-Post Code Splitting**
+- Posts are lazy-loaded (`defineAsyncComponent`) instead of eagerly bundled with
+  Shiki. `postsPostPage` went from 51.67 KB → 3.41 KB gzip; each post is its own chunk.
+
+### 18. **Responsive Images**
+- `optimize-images.mjs` emits 480/800/1200 WebP variants; the Markdown plugin wraps
+  images in `<picture>` with a `srcset` + `sizes`, so phones download a small image.
+
+### 19. **Tests & CI Gates**
+- PR workflow (`ci.yml`) runs lint/typecheck/test on every pull request.
+- E2E browser smoke test (Playwright) walks home/CV/posts/letter-play.
+- Bundle-size guard fails the build if any JS chunk exceeds 60 KB gzip.
+- Component mount tests (@vue/test-utils) cover the CV sections.
+
 ### Improvements:
 - ✅ Faster initial page load
 - ✅ Better code splitting
 - ✅ Improved caching strategy
-- ✅ Type safety improvements
+- ✅ Type safety improvements (incl. `vue-tsc`)
+- ✅ Automated tests (Vitest + component + E2E)
+- ✅ Smaller images and prerendered HTML
+- ✅ Richer SEO / social meta
 - ✅ Better maintainability
 
 ## 🚀 Future Optimization Opportunities
 
-1. **Responsive images**
-   - Add `srcset` / `sizes` for content images (sharp can emit multiple widths).
+1. **Service Worker / PWA**
+   - `vite-plugin-pwa` for offline precache; the manifest now has real 192/512 icons.
 
-2. **Service Worker / PWA**
-   - `vite-plugin-pwa` for offline precache; manifest already in place.
+2. **Performance monitoring**
+   - Hook Core Web Vitals into the existing Umami analytics (the tracker already
+     collects them via `data-performance`).
 
-3. **Performance monitoring**
-   - Hook Core Web Vitals into the existing Umami analytics.
-
-4. **CSS strategy**
-   - Re-evaluate `cssCodeSplit: false` against per-route split now that critical CSS
-     is already inlined and the rest is preloaded.
+3. **CSS strategy (reviewed, keeping as-is)**
+   - The single CSS bundle is already small (~6.25 KB gzip) and cached across SPA
+     navigation; per-route splitting would add requests for ~1–3 KB of route CSS.
+   - Critical CSS is inlined and the rest is preloaded, so there is no render-blocking
+     request. Revisit only if the stylesheet grows substantially.

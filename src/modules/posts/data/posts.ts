@@ -5,7 +5,10 @@
  * - `scripts/generate-posts-index.mjs` creates `posts-index.json` (slug/locale/title/date/excerpt/cover).
  * - Vite compiles `/src/modules/posts/posts/**.md` to Vue components via `unplugin-vue-markdown`.
  * - This file merges the two so routing can resolve `/posts/:slug` (be) and `/posts/ru/:slug` (ru).
+ * - Components are lazy (async): bundling every post + Shiki into `postsPostPage` made a
+ *   50 KB gzip chunk; each post now splits into its own chunk and loads on demand.
  */
+import {defineAsyncComponent} from 'vue'
 import type {DefineComponent} from 'vue'
 import postsIndex from '@/modules/posts/posts-index.json'
 import {DEFAULT_LOCALE} from '@/modules/posts/data/locale'
@@ -24,12 +27,8 @@ export type Post = {
 type PostsIndexItem = Omit<Post, 'component'>
 
 // Why: `*.md` does not cross `/`, so the be glob excludes files under `ru/`.
-const beModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/*.md', {
-    eager: true
-})
-const ruModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/ru/*.md', {
-    eager: true
-})
+const beModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/*.md')
+const ruModules = import.meta.glob<{default: DefineComponent}>('/src/modules/posts/posts/ru/*.md')
 
 // Why: Vite's glob keys are full paths; we map them to the URL slug.
 const extractSlug = (path: string) => {
@@ -39,12 +38,17 @@ const extractSlug = (path: string) => {
 
 const keyOf = (locale: PostLocale, slug: string) => `${locale}:${slug}`
 
+// Why the explicit `.default` unwrap: the lazy glob loader resolves to a module,
+// while `defineAsyncComponent` wants the component itself.
+const toAsyncComponent = (loader: () => Promise<{default: DefineComponent}>) =>
+    defineAsyncComponent(async () => (await loader()).default)
+
 const componentByKey = new Map<string, DefineComponent>([
     ...Object.entries(beModules).map(
-        ([path, module]) => [keyOf('be', extractSlug(path)), module.default] as const
+        ([path, loader]) => [keyOf('be', extractSlug(path)), toAsyncComponent(loader)] as const
     ),
     ...Object.entries(ruModules).map(
-        ([path, module]) => [keyOf('ru', extractSlug(path)), module.default] as const
+        ([path, loader]) => [keyOf('ru', extractSlug(path)), toAsyncComponent(loader)] as const
     )
 ])
 

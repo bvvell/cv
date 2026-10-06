@@ -2,7 +2,7 @@
 title: Камни 200, или как я решил проверить себя
 date: 2026-07-02
 excerpt: "“Камни 200” — неофициальный гравийный заезд на 200+ км от Минска. Про 209 км гравия, жару, песок, гребёнку, мысли об эвакуации и финиш, до которого я всё же доехал."
-cover: /images/posts/kamni-20-og-ru.png
+cover: /images/posts/kamni-20-og-ru.jpg
 ---
 
 “Камни 200” — это неофициальная гравийная поездка на 200+ км от Минска. Не совсем гонка в строгом смысле, скорее большая велосипедная тусовка для людей, которым хочется проверить себя, покрутить по красивым белорусским дорогам и в какой-то момент задать себе простой вопрос: “А зачем я вообще сюда полез?”
@@ -14,7 +14,7 @@ cover: /images/posts/kamni-20-og-ru.png
 И вот анонс на этот год. Значит, знак.
 
 <figure>
-  <img src="/images/posts/kamni-200/start-bike.png" alt="Велосипед перед стартом Камни 200">
+  <img src="/images/posts/kamni-200/start-bike.jpg" alt="Велосипед перед стартом Камни 200">
   <figcaption>
     Утро перед стартом. Всё уже на велосипеде, назад отступать не очень хочется.
   </figcaption>
@@ -57,14 +57,14 @@ cover: /images/posts/kamni-20-og-ru.png
 Спойлер: не только хорошая.
 
 <figure>
-  <img src="/images/posts/kamni-200/rowing-canal-morning.png" alt="Утренний туман возле воды на старте Камни 200">
+  <img src="/images/posts/kamni-200/rowing-canal-morning.jpg" alt="Утренний туман возле воды на старте Камни 200">
   <figcaption>
     Начало было очень красивым: вода, туман и ещё довольно свежие ноги.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="/images/posts/kamni-200/early-asphalt.png" alt="Асфальтовый участок в начале маршрута Камни 200">
+  <img src="/images/posts/kamni-200/early-asphalt.jpg" alt="Асфальтовый участок в начале маршрута Камни 200">
   <figcaption>
     Первые километры ещё были спокойными: асфальт, утро и ощущение, что всё под контролем.
   </figcaption>
@@ -75,7 +75,7 @@ cover: /images/posts/kamni-20-og-ru.png
 Потом выскочили на Вилейско-Минскую водную систему. Первый настоящий грейдер. Интересное ощущение: едешь 5–10 км, а вид почти не меняется. С одной стороны канал, с другой лес.
 
 <figure>
-  <img src="/images/posts/kamni-200/forest-road.png" alt="Вилейско-Минская водная система на маршруте Камни 200">
+  <img src="/images/posts/kamni-200/forest-road.jpg" alt="Вилейско-Минская водная система на маршруте Камни 200">
   <figcaption>
     Тут был очень красивый лес. Как раз из тех мест, где пока ещё едешь и просто радуешься.
   </figcaption>
@@ -88,7 +88,7 @@ cover: /images/posts/kamni-20-og-ru.png
 Так добрались до первой большой точки — Ильи. В магазине добрали булочек и воды. Солнце уже начинало нормально припекать, а ехать оставалось ещё очень-очень далеко.
 
 <figure>
-  <img src="/images/posts/kamni-200/ilya-stop.png" alt="Точка Илья на маршруте Камни 200">
+  <img src="/images/posts/kamni-200/ilya-stop.jpg" alt="Точка Илья на маршруте Камни 200">
   <figcaption>
     Илья. Первая нормальная остановка, вода, булочки и понимание, что это ещё только начало.
   </figcaption>
@@ -105,28 +105,28 @@ cover: /images/posts/kamni-20-og-ru.png
 Это был примерно 100-й километр трека. Психологически очень странная точка: ты уже проехал много, но до дома осталось примерно столько же.
 
 <figure>
-  <img src="/images/posts/kamni-200/vileika-minsk-canal.png" alt="Вилейско-Минская водная система на маршруте Камни 200">
+  <img src="/images/posts/kamni-200/vileika-minsk-canal.jpg" alt="Вилейско-Минская водная система на маршруте Камни 200">
   <figcaption>
     Вилейско-Минская водная система. Канал сбоку, лес рядом и длинный ровный кусок впереди.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="/images/posts/kamni-200/wild-strawberries-stop.png" alt="Дорога на маршруте Камни 200">
+  <img src="/images/posts/kamni-200/wild-strawberries-stop.jpg" alt="Дорога на маршруте Камни 200">
   <figcaption>
     Небольшая остановка и немного земляники. На такой дистанции даже это уже маленький праздник.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="/images/posts/kamni-200/gravel-before-140.png" alt="Участок маршрута Камни 200 до 140-го километра">
+  <img src="/images/posts/kamni-200/gravel-before-140.jpg" alt="Участок маршрута Камни 200 до 140-го километра">
   <figcaption>
     До 140-го километра ещё хватало сил замечать дорогу и то, что происходит вокруг.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="/images/posts/kamni-200/field-before-140.png" alt="Гравийный участок маршрута Камни 200 до 140-го километра">
+  <img src="/images/posts/kamni-200/field-before-140.jpg" alt="Гравийный участок маршрута Камни 200 до 140-го километра">
   <figcaption>
     Красивое поле из первой половины трека. Такие места очень хорошо держат настроение.
   </figcaption>
@@ -183,7 +183,7 @@ cover: /images/posts/kamni-20-og-ru.png
 Не идеально, не быстро, не без кризисов. Но не сдался и доехал.
 
 <figure>
-  <img src="/images/posts/kamni-200/finish.png" alt="Финиш Камни 200">
+  <img src="/images/posts/kamni-200/finish.jpg" alt="Финиш Камни 200">
   <figcaption>
     Финиш. Момент, в котором уже не так важны цифры. Важно, что ты всё же доехал.
   </figcaption>
@@ -192,7 +192,7 @@ cover: /images/posts/kamni-20-og-ru.png
 По моему треку получилось:
 
 <figure>
-  <img src="/images/posts/kamni-200/ride-stats.png" alt="Статистика поездки Камни 200: 208,72 км, 11:35:58, 1 647 м набора">
+  <img src="/images/posts/kamni-200/ride-stats.jpg" alt="Статистика поездки Камни 200: 208,72 км, 11:35:58, 1 647 м набора">
   <figcaption>
     Фактическая статистика моего трека: немного лишних километров, почти 12 часов в дороге и нормальный такой набор.
   </figcaption>

@@ -172,16 +172,22 @@ export default defineConfig(() => ({
 
                 // Why: posts may use either `![alt](url.jpg)` (markdown image tokens)
                 // or raw HTML `<img>` inside `<figure>` (html_block/html_inline tokens).
-                // We want both to auto-upgrade to `<picture>` with a `.webp` source when
-                // a sibling `.webp` exists on disk. Authors who already hand-wrote
-                // `<picture>` blocks should not get double-wrapping.
-                const webpExistsFor = (src) => {
+                // We want both to auto-upgrade to `<picture>` with a responsive
+                // `.webp` `srcset` when the width siblings exist on disk. Authors who
+                // already hand-wrote `<picture>` blocks should not get double-wrapping.
+                const SRCSET_WIDTHS = [480, 800, 1200]
+                const SRCSET_SIZES = '(min-width: 720px) 680px, 100vw'
+
+                const webpSrcsetFor = (src) => {
                     if (!src || !src.startsWith('/')) return null
                     const match = src.match(/^(.*)\.(jpe?g|png)$/i)
                     if (!match) return null
-                    const webpUrl = `${match[1]}.webp`
-                    const absolute = path.join(publicDir, webpUrl)
-                    return fs.existsSync(absolute) ? webpUrl : null
+                    const base = match[1]
+                    const entries = SRCSET_WIDTHS
+                        .map((width) => ({width, url: `${base}-${width}.webp`}))
+                        .filter(({url}) => fs.existsSync(path.join(publicDir, url)))
+                    if (entries.length === 0) return null
+                    return entries.map(({width, url}) => `${url} ${width}w`).join(', ')
                 }
 
                 const wrapStandaloneImgs = (html) => {
@@ -192,13 +198,13 @@ export default defineConfig(() => ({
                             if (match.startsWith('<picture')) return match
                             const srcMatch = match.match(/\bsrc=["']([^"']+)["']/i)
                             if (!srcMatch) return match
-                            const webpUrl = webpExistsFor(srcMatch[1])
+                            const webpSrcset = webpSrcsetFor(srcMatch[1])
                             let imgTag = match
                             if (!/\bloading=/i.test(imgTag)) {
                                 imgTag = imgTag.replace(/<img\b/i, '<img loading="lazy" decoding="async"')
                             }
-                            if (!webpUrl) return imgTag
-                            return `<picture><source srcset="${webpUrl}" type="image/webp">${imgTag}</picture>`
+                            if (!webpSrcset) return imgTag
+                            return `<picture><source srcset="${webpSrcset}" sizes="${SRCSET_SIZES}" type="image/webp">${imgTag}</picture>`
                         }
                     )
                 }
@@ -209,12 +215,12 @@ export default defineConfig(() => ({
                     token.attrSet('loading', 'lazy')
                     token.attrSet('decoding', 'async')
                     const src = token.attrGet('src')
-                    const webpUrl = webpExistsFor(src)
+                    const webpSrcset = webpSrcsetFor(src)
                     const img = defaultImage
                         ? defaultImage(tokens, idx, options, env, self)
                         : self.renderToken(tokens, idx, options)
-                    if (!webpUrl) return img
-                    return `<picture><source srcset="${webpUrl}" type="image/webp">${img}</picture>`
+                    if (!webpSrcset) return img
+                    return `<picture><source srcset="${webpSrcset}" sizes="${SRCSET_SIZES}" type="image/webp">${img}</picture>`
                 }
 
                 const wrapHtmlTokenRule = (ruleName) => {

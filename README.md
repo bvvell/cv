@@ -100,6 +100,8 @@ To update your CV, simply edit the `cv.json` file.
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Lint code
 - `pnpm lint:fix` - Auto-fix linting errors
+- `pnpm typecheck` - Type-check the app (including Vue templates) with `vue-tsc`
+- `pnpm test` - Run unit tests (Vitest)
 - `pnpm deploy:metadata` - Write `dist/version.json` with the deployed revision
 - `pnpm deploy:check` - Verify the live site serves that revision
 
@@ -108,6 +110,10 @@ To update your CV, simply edit the `cv.json` file.
 Pushes to `main` build and deploy to **https://bvvell.site** (hoster.by, SFTP) via
 `.github/workflows/deploy.yml`. The domain is not a secret — it lives in the workflow
 as `SITE_URL` and is passed to the build as `VITE_SITE_URL`.
+
+Each push to `main` first runs a `release` job that bumps the patch version
+(`standard-version`), tags it, and stamps that version into `dist/version.json`, so
+every deploy carries a fresh, monotonically increasing version.
 
 Required secrets (repository, or scoped to the `production` environment):
 
@@ -141,12 +147,8 @@ SITE_URL=https://bvvell.site DEPLOY_CHECK_BASE_URL=http://127.0.0.1:4173 pnpm de
 **bvvell.ru** is retired: the old hosting account answers every path with a 301 to
 the matching URL on bvvell.site, so nothing is deployed or served there any more.
 That redirect lives in the `.htaccess` of the *old* account and is not managed from
-this repository.
-
-One leftover: `index.html` carries two `google-site-verification` tokens. The first
-belongs to the bvvell.ru property, which Google re-checks through the 301 — so the
-tag has to stay on this site until the Search Console Change of Address is done.
-Drop it afterwards.
+this repository. Its `google-site-verification` token has been dropped from
+`index.html`; only the bvvell.site token remains.
 
 ## 🧠 SEO / `<head>`
 

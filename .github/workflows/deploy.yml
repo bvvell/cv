@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: production
@@ -16,8 +16,54 @@ env:
   SITE_URL: https://bvvell.site
 
 jobs:
+  release:
+    name: Bump version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.28.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.21.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Bump version and tag
+        id: bump
+        env:
+          HUSKY: "0"
+        run: |
+          # Why the guard: GITHUB_TOKEN pushes do not re-trigger workflows, so this
+          # runs exactly once per human push. The guard still protects against a
+          # manual re-run of the release job producing a second bump.
+          if git log -1 --pretty=%s | grep -q '^chore(release):'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Already a release commit; skipping bump."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            pnpm release
+            git push --follow-tags origin HEAD:main
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
   deploy:
     name: Verify and deploy
+    needs: release
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -63,6 +109,12 @@ jobs:
       - name: Lint
         run: pnpm run lint
 
+      - name: Type-check
+        run: pnpm run typecheck
+
+      - name: Test
+        run: pnpm run test
+
       - name: Verify posts index is up to date
         run: |
           node scripts/generate-posts-index.mjs
@@ -73,11 +125,19 @@ jobs:
         env:
           VITE_SITE_URL: ${{ env.SITE_URL }}
 
+      - name: Browser smoke test
+        run: pnpm run test:e2e
+
+      - name: Check bundle size
+        run: pnpm run test:bundle
+
       - name: Generate CV PDF (A4)
         run: pnpm run cv:pdf
 
       - name: Generate deployment metadata
         run: pnpm run deploy:metadata
+        env:
+          APP_VERSION: ${{ needs.release.outputs.version }}
 
       - name: Check deployment configuration
         id: deployment

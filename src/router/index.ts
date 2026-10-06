@@ -1,4 +1,4 @@
-import type {RouteLocation} from 'vue-router'
+import type {RouteLocation, RouteRecordRaw} from 'vue-router'
 import {NotFoundPage} from '@/modules/notFound/pages'
 import {RouteName} from './routeNames'
 
@@ -17,7 +17,7 @@ declare module 'vue-router' {
     }
 }
 
-export const routes = [
+export const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: RouteName.Home,
@@ -34,7 +34,7 @@ export const routes = [
     {
         path: '/cv/',
         name: RouteName.Cv,
-        pathToRegexpOptions: {strict: true},
+        strict: true,
         component: () => import('@/modules/cv/pages/cvPage/cvPage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — CV',
@@ -48,7 +48,7 @@ export const routes = [
     {
         path: '/posts/',
         name: RouteName.Posts,
-        pathToRegexpOptions: {strict: true},
+        strict: true,
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Запісы — Uladzimir Biarnatski',
@@ -63,7 +63,7 @@ export const routes = [
     {
         path: '/posts/ru/',
         name: RouteName.PostsRu,
-        pathToRegexpOptions: {strict: true},
+        strict: true,
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Заметки — Uladzimir Biarnatski',
@@ -83,7 +83,7 @@ export const routes = [
     {
         path: '/posts/ru/:slug/',
         name: RouteName.PostsRuPost,
-        pathToRegexpOptions: {strict: true},
+        strict: true,
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
             title: 'Заметки — Uladzimir Biarnatski',
@@ -103,7 +103,7 @@ export const routes = [
     {
         path: '/posts/:slug/',
         name: RouteName.PostsPost,
-        pathToRegexpOptions: {strict: true},
+        strict: true,
         component: () => import('@/modules/posts/pages/postsPostPage/postsPostPage.vue'),
         meta: {
             title: 'Запісы — Uladzimir Biarnatski',

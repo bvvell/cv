@@ -27,7 +27,10 @@
       >
         Дата нараджэння не можа быць у будучыні.
       </p>
-      <div class="life-calendar__stats">
+      <div
+        v-if="isValidDate && !hasFutureDate"
+        class="life-calendar__stats"
+      >
         <span>Пражыта: {{ livedWeeks }} тыдняў</span>
         <span>Наперадзе: {{ remainingWeeks }} тыдняў</span>
       </div>
@@ -48,10 +51,10 @@
           </div>
           <div class="life-calendar__weeks">
             <span
-              v-for="weekIndex in weeksInYear"
+              v-for="weekIndex in WEEKS_IN_YEAR"
               :key="`${yearIndex}-${weekIndex}`"
               class="life-calendar__cell"
-              :class="cellClass(yearIndex - 1, weekIndex - 1)"
+              :class="`is-${cellClass(yearIndex - 1, weekIndex - 1)}`"
             />
           </div>
         </div>
@@ -61,11 +64,22 @@
 </template>
 
 <script setup lang="ts">
-// Why: interactive “life in weeks” calendar; helps visualize time and drive reflection.
+// Why: interactive "life in weeks" calendar; helps visualize time and drive reflection.
+// Why the grid is not prerendered: 52 weeks × N years is thousands of DOM nodes
+// (the prerendered post used to weigh ~300 KB of HTML). The default is an empty
+// birth date, so nothing renders until the reader enters their own — which is also
+// the correct behaviour for a "enter YOUR date" tool.
 import {computed, ref} from 'vue'
+import {
+    WEEKS_IN_YEAR,
+    clampYears,
+    parseBirthDate,
+    weekOffsetInYear,
+    weeksSinceBirth,
+    weekState
+} from './lifeCalendar.logic'
 
-const weeksInYear = 52
-const birthDate = ref('1990-12-06')
+const birthDate = ref('')
 const totalYearsInput = ref(80)
 
 const maxDate = computed(() => {
@@ -73,79 +87,34 @@ const maxDate = computed(() => {
     return today.toISOString().split('T')[0]
 })
 
-const birth = computed(() => new Date(`${birthDate.value}T00:00:00`))
-const isValidDate = computed(() => birthDate.value !== '' && !Number.isNaN(birth.value.getTime()))
-const hasFutureDate = computed(() => isValidDate.value && birth.value.getTime() > Date.now())
-const birthYear = computed(() => birth.value.getFullYear())
+const birth = computed(() => parseBirthDate(birthDate.value))
+const isValidDate = computed(() => birth.value !== null)
+const hasFutureDate = computed(() => isValidDate.value && (birth.value as Date).getTime() > Date.now())
+const birthYear = computed(() => birth.value?.getFullYear() ?? 0)
 const today = computed(() => new Date())
 const currentYear = computed(() => today.value.getFullYear())
 
-const weeksSinceBirth = computed(() => {
-    // Why: main metric for “lived” cells; recalculates whenever date changes.
-    if (hasFutureDate.value) {
-        return 0
-    }
-    const diffMs = today.value.getTime() - birth.value.getTime()
-    return Math.max(0, Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000)))
+const weeksSince = computed(() => {
+    if (!isValidDate.value || hasFutureDate.value) return 0
+    return weeksSinceBirth(birth.value as Date, today.value)
 })
 
-const totalYears = computed(() => {
-    const value = Number.isFinite(totalYearsInput.value)
-        ? totalYearsInput.value
-        : 0
-    return Math.min(200, Math.max(0, Math.round(value)))
+const totalYears = computed(() => clampYears(totalYearsInput.value))
+
+const livedWeeks = computed(() => Math.min(weeksSince.value, totalYears.value * WEEKS_IN_YEAR))
+const remainingWeeks = computed(() => Math.max(0, totalYears.value * WEEKS_IN_YEAR - livedWeeks.value))
+
+const startOffset = computed(() => (birth.value ? weekOffsetInYear(birth.value) : 0))
+const currentOffset = computed(() => weekOffsetInYear(today.value))
+
+const cellClass = (yearIndex: number, weekIndex: number) => weekState({
+    yearIndex,
+    weekIndex,
+    birthYear: birthYear.value,
+    currentYear: currentYear.value,
+    startOffset: startOffset.value,
+    currentOffset: currentOffset.value
 })
-
-const livedWeeks = computed(() => Math.min(weeksSinceBirth.value, totalYears.value * weeksInYear))
-const remainingWeeks = computed(() => Math.max(0, totalYears.value * weeksInYear - livedWeeks.value))
-
-const startOffset = computed(() => {
-    // Why: align birth date to week index within its year (Monday-based week start).
-    const birthDateValue = birth.value
-    const yearStart = new Date(birthDateValue.getFullYear(), 0, 1)
-    const msInDay = 24 * 60 * 60 * 1000
-    const dayOfYear = Math.floor((birthDateValue.getTime() - yearStart.getTime()) / msInDay)
-    const yearStartDay = yearStart.getDay()
-    const yearStartOffset = (yearStartDay + 6) % 7
-    return Math.floor((dayOfYear + yearStartOffset) / 7)
-})
-
-const currentOffset = computed(() => {
-    // Why: same as `startOffset`, but for the current date so we can mark the current week.
-    const date = today.value
-    const yearStart = new Date(date.getFullYear(), 0, 1)
-    const msInDay = 24 * 60 * 60 * 1000
-    const dayOfYear = Math.floor((date.getTime() - yearStart.getTime()) / msInDay)
-    const yearStartDay = yearStart.getDay()
-    const yearStartOffset = (yearStartDay + 6) % 7
-    return Math.floor((dayOfYear + yearStartOffset) / 7)
-})
-
-const cellClass = (yearIndex: number, weekIndex: number) => {
-    const year = birthYear.value + yearIndex
-
-    if (year === birthYear.value && weekIndex < startOffset.value) {
-        return 'is-prebirth'
-    }
-
-    if (year < currentYear.value) {
-        return 'is-lived'
-    }
-
-    if (year > currentYear.value) {
-        return 'is-future'
-    }
-
-    if (weekIndex < currentOffset.value) {
-        return 'is-lived'
-    }
-
-    if (weekIndex === currentOffset.value) {
-        return 'is-current'
-    }
-
-    return 'is-future'
-}
 </script>
 
 <style scoped lang="scss">
