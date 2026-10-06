@@ -15,14 +15,15 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "node scripts/e2e-smoke.mjs",
     "lint": "eslint . --max-warnings 0 --cache",
     "lint:fix": "eslint . --fix --cache",
-    "release": "standard-version",
+    "release": "node scripts/bump-version.mjs",
     "prepare": "husky"
   },
   "dependencies": {
     "@fontsource-variable/public-sans": "^5.2.7",
-    "@unhead/vue": "^2.1.2",
+    "@unhead/vue": "^2.1.17",
     "markdown-it": "^14.1.0",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4"
@@ -49,7 +50,6 @@
     "playwright": "^1.52.0",
     "sass-embedded": "^1.97.2",
     "sharp": "^0.34.5",
-    "standard-version": "^9.5.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.70.1",
     "unplugin-vue-markdown": "^29.2.0",
