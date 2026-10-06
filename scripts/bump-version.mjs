@@ -28,8 +28,10 @@ fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 
 // Why commit+tag here: CI runs this after configuring the bot identity, then pushes
 // with `--follow-tags`. Locally it mirrors what `standard-version` used to do.
+// Why an annotated tag (`-a`): `git push --follow-tags` only pushes annotated tags,
+// not lightweight ones, so a plain `git tag` would never reach the remote.
 execFileSync('git', ['add', 'package.json'], {cwd: root})
 execFileSync('git', ['commit', '-m', `chore(release): ${next}`], {cwd: root})
-execFileSync('git', ['tag', `v${next}`], {cwd: root})
+execFileSync('git', ['tag', '-a', `v${next}`, '-m', `chore(release): ${next}`], {cwd: root})
 
 console.log(`bumped ${bump}: ${pkg.version} → ${next}`)
