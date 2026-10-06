@@ -1,12 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-    versioning-strategy: "increase"
-
+  # Why no `npm` ecosystem: Dependabot's pnpm support cannot process this project's
+  # pnpm 10 setup (it fails on `pnpm install` with `HelperSubprocessFailed`), so the
+  # npm update job was producing red runs without opening any PR. Dependencies are
+  # updated manually (`pnpm up`), and `pnpm audit` is run locally instead.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
