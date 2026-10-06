@@ -100,7 +100,8 @@ This document describes all optimizations applied to the CV project.
 
 ### 14. **Version Bump on Every Push**
 - CI now runs a `release` job on each push to `main` that bumps the patch version
-  (standard-version), tags it, and the deploy job stamps the bumped version into
+  (`scripts/bump-version.mjs` — a dependency-free replacement for the deprecated
+  `standard-version`), tags it, and the deploy job stamps the bumped version into
   `dist/version.json` via `APP_VERSION`.
 
 ### 15. **Housekeeping**
@@ -108,31 +109,50 @@ This document describes all optimizations applied to the CV project.
 - Removed dead HTML (`meta keywords`, `X-UA-Compatible`) and added real PWA manifest
   icons (192/512 px).
 
+### 16. **SEO / Meta**
+- Sitemap now emits `<lastmod>` (post date for posts, build date for static pages).
+- Richer Open Graph / Twitter: `og:site_name`, `og:image:alt`, `twitter:image:alt`,
+  `og:image:width/height` (1200×630 for the shared card), `article:published_time` /
+  `article:modified_time` for posts.
+- Default social card is now a generated 1200×630 image instead of the 200×200 avatar.
+- JSON-LD: `Person` gained `worksFor`, `alumniOf`, `knowsLanguage`; `BlogPosting`
+  gained `dateModified`.
+
+### 17. **Per-Post Code Splitting**
+- Posts are lazy-loaded (`defineAsyncComponent`) instead of eagerly bundled with
+  Shiki. `postsPostPage` went from 51.67 KB → 3.41 KB gzip; each post is its own chunk.
+
+### 18. **Responsive Images**
+- `optimize-images.mjs` emits 480/800/1200 WebP variants; the Markdown plugin wraps
+  images in `<picture>` with a `srcset` + `sizes`, so phones download a small image.
+
+### 19. **Tests & CI Gates**
+- PR workflow (`ci.yml`) runs lint/typecheck/test on every pull request.
+- E2E browser smoke test (Playwright) walks home/CV/posts/letter-play.
+- Bundle-size guard fails the build if any JS chunk exceeds 60 KB gzip.
+- Component mount tests (@vue/test-utils) cover the CV sections.
+
 ### Improvements:
 - ✅ Faster initial page load
 - ✅ Better code splitting
 - ✅ Improved caching strategy
 - ✅ Type safety improvements (incl. `vue-tsc`)
-- ✅ Automated tests (Vitest)
+- ✅ Automated tests (Vitest + component + E2E)
 - ✅ Smaller images and prerendered HTML
+- ✅ Richer SEO / social meta
 - ✅ Better maintainability
 
 ## 🚀 Future Optimization Opportunities
 
-1. **Responsive images**
-   - Add `srcset` / `sizes` for content images (sharp can emit multiple widths).
-
-2. **Service Worker / PWA**
+1. **Service Worker / PWA**
    - `vite-plugin-pwa` for offline precache; the manifest now has real 192/512 icons.
 
-3. **Performance monitoring**
+2. **Performance monitoring**
    - Hook Core Web Vitals into the existing Umami analytics (the tracker already
      collects them via `data-performance`).
 
-4. **CSS strategy**
-   - Re-evaluate `cssCodeSplit: false` against per-route split now that critical CSS
-     is already inlined and the rest is preloaded.
-
-5. **Per-post code splitting**
-   - `postsPostPage` still bundles every post plus Shiki (51.67 KB gzip); split it so
-     each post lazy-loads its own markdown.
+3. **CSS strategy (reviewed, keeping as-is)**
+   - The single CSS bundle is already small (~6.25 KB gzip) and cached across SPA
+     navigation; per-route splitting would add requests for ~1–3 KB of route CSS.
+   - Critical CSS is inlined and the rest is preloaded, so there is no render-blocking
+     request. Revisit only if the stylesheet grows substantially.
