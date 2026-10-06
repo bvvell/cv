@@ -73,7 +73,7 @@ export function useSiteHead() {
     })
 
     const fallbackImage = computed(() => {
-        return baseUrl.value ? `${baseUrl.value}/av.png` : '/av.png'
+        return baseUrl.value ? `${baseUrl.value}/images/og-default.jpg` : '/images/og-default.jpg'
     })
 
     const resolvedMeta = computed(() => {
@@ -110,6 +110,8 @@ export function useSiteHead() {
                     description: descriptionForShare,
                     url: baseUrl.value ? `${baseUrl.value}${postUrlPath}` : '',
                     image,
+                    imageAlt: post.title,
+                    publishedTime: post.date,
                     type
                 }
             }
@@ -119,11 +121,13 @@ export function useSiteHead() {
                 description: copy.seoNotFoundDescription,
                 url: baseUrl.value ? `${baseUrl.value}${postUrlPath}` : '',
                 image,
+                imageAlt: cvData.personal.name,
+                publishedTime: undefined,
                 type: 'website'
             }
         }
 
-        return {title, description, url, image, type}
+        return {title, description, url, image, imageAlt: cvData.personal.name, publishedTime: undefined, type}
     })
 
     useHead(() => {
@@ -153,7 +157,14 @@ export function useSiteHead() {
             knowsAbout: [
                 ...(cvData.skills?.items ?? []),
                 ...(cvData.technologies?.items ?? [])
-            ]
+            ],
+            knowsLanguage: ['be', 'ru', 'en'],
+            worksFor: cvData.experience?.[0]
+                ? {'@type': 'Organization', name: cvData.experience[0].company}
+                : undefined,
+            alumniOf: cvData.education?.[0]
+                ? {'@type': 'CollegeOrUniversity', name: cvData.education[0].school}
+                : undefined
         })
 
         ldGraph.push({
@@ -220,6 +231,7 @@ export function useSiteHead() {
                     description: post.excerpt,
                     image: postImage,
                     datePublished: post.date,
+                    dateModified: post.date,
                     inLanguage: htmlLang[locale],
                     author: {'@id': personId},
                     publisher: {'@id': personId},
@@ -260,16 +272,37 @@ export function useSiteHead() {
 
         const metaTags = [
             {name: 'description', content: meta.description},
+            {property: 'og:site_name', content: cvData.personal.name},
             {property: 'og:title', content: meta.title},
             {property: 'og:description', content: meta.description},
             {property: 'og:type', content: meta.type},
             {property: 'og:image', content: meta.image},
+            {property: 'og:image:alt', content: meta.imageAlt},
             {property: 'og:locale', content: postLocale.value ? ogLocale[postLocale.value] : 'en_US'},
             {name: 'twitter:card', content: meta.image ? 'summary_large_image' : 'summary'},
             {name: 'twitter:title', content: meta.title},
             {name: 'twitter:description', content: meta.description},
-            {name: 'twitter:image', content: meta.image}
+            {name: 'twitter:image', content: meta.image},
+            {name: 'twitter:image:alt', content: meta.imageAlt}
         ]
+
+        // Why dims only for the shared fallback: it is generated at exactly 1200×630,
+        // while each post cover has its own (varying) dimensions.
+        if (meta.image === fallbackImage.value) {
+            metaTags.push(
+                {property: 'og:image:width', content: '1200'},
+                {property: 'og:image:height', content: '630'}
+            )
+        }
+
+        // Why article:* only on posts: they mirror the BlogPosting JSON-LD below.
+        if (meta.publishedTime) {
+            const publishedIso = new Date(meta.publishedTime).toISOString()
+            metaTags.push(
+                {property: 'article:published_time', content: publishedIso},
+                {property: 'article:modified_time', content: publishedIso}
+            )
+        }
 
         // Declare the sibling language so social scrapers know a translation exists.
         if (postLocale.value && alternateLocales.length > 1) {

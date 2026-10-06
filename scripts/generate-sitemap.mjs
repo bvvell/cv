@@ -54,18 +54,30 @@ const postRoutes = posts.map(postPath)
 
 const routes = Array.from(new Set([...staticRoutes, ...postRoutes])).map(withTrailingSlash)
 
+// Why lastmod: post pages change on their publish date; every other page reflects the
+// current build (CV copy, latest-posts list), so it gets today's date.
+const dateByRoute = new Map()
+for (const post of posts) {
+    const route = postPath(post)
+    const existing = dateByRoute.get(route)
+    if (!existing || post.date > existing) dateByRoute.set(route, post.date)
+}
+const buildDate = new Date().toISOString().slice(0, 10)
+const lastmodFor = (route) => dateByRoute.get(route) || buildDate
+
 const toUrl = (route) => `${baseUrl}${route}`
 
 const renderUrl = (route) => {
-  const alternates = alternatesFor(route)
-  if (!alternates) {
-    return `  <url><loc>${toUrl(route)}</loc></url>`
-  }
-  const links = Object.entries(alternates)
-      .map(([locale, path]) => `\n    <xhtml:link rel="alternate" hreflang="${locale}" href="${toUrl(path)}"/>`)
-      .join('')
-  const xDefault = alternates.be || Object.values(alternates)[0]
-  return `  <url><loc>${toUrl(route)}</loc>${links}\n    <xhtml:link rel="alternate" hreflang="x-default" href="${toUrl(xDefault)}"/>\n  </url>`
+    const lastmod = lastmodFor(route)
+    const alternates = alternatesFor(route)
+    if (!alternates) {
+        return `  <url><loc>${toUrl(route)}</loc><lastmod>${lastmod}</lastmod></url>`
+    }
+    const links = Object.entries(alternates)
+        .map(([locale, path]) => `\n    <xhtml:link rel="alternate" hreflang="${locale}" href="${toUrl(path)}"/>`)
+        .join('')
+    const xDefault = alternates.be || Object.values(alternates)[0]
+    return `  <url><loc>${toUrl(route)}</loc><lastmod>${lastmod}</lastmod>${links}\n    <xhtml:link rel="alternate" hreflang="x-default" href="${toUrl(xDefault)}"/>\n  </url>`
 }
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
