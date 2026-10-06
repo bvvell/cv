@@ -3,19 +3,25 @@ import path from 'node:path'
 import sharp from 'sharp'
 
 /**
- * Walks `public/images/posts/` and generates `.webp` siblings for `.jpg`/`.jpeg`/`.png`.
+ * Walks `public/images/posts/` and generates a resized `.webp` sibling for every
+ * `.jpg`/`.jpeg`/`.png`.
  *
  * Why:
- * - We want a cheap, idempotent step that authors can run after dropping a new image.
- * - Skips work when the `.webp` sibling already exists and is newer than the source.
- * - Does NOT replace source files; the build-time markdown plugin picks up `.webp` siblings
- *   when present and wraps `<img>` into `<picture>`.
+ * - The build-time Markdown plugin serves `.webp` through `<picture>` whenever a
+ *   sibling exists, so the WebP size is what every modern visitor actually pays.
+ * - Resizing to a max width keeps the WebP small without touching the source file
+ *   (the source remains the non-WebP fallback).
+ * - Idempotent: skips work when the `.webp` sibling is already newer than its source.
+ *
+ * Note: we deliberately do NOT auto-generate `.jpg` copies from PNGs. That used to
+ * produce orphan files nothing referenced, because posts keep referencing the `.png`
+ * and the `<picture>` wrapper already prefers `.webp`.
  */
 const root = process.cwd()
 const targetDir = path.join(root, 'public', 'images', 'posts')
 
 const WEBP_QUALITY = 78
-const JPEG_QUALITY = 82
+const MAX_WIDTH = 1600
 
 const isSourceImage = (file) => /\.(jpe?g|png)$/i.test(file)
 
@@ -38,18 +44,11 @@ const needsRebuild = (source, derived) => {
 const ensureWebp = async (source) => {
     const derived = source.replace(/\.(jpe?g|png)$/i, '.webp')
     if (!needsRebuild(source, derived)) return {skipped: true, derived}
-    await sharp(source).webp({quality: WEBP_QUALITY}).toFile(derived)
-    return {skipped: false, derived}
-}
-
-const ensureJpgFromPng = async (source) => {
-    // Why: PNG photos without alpha bloat — generate a JPG sibling for OG/social use
-    // and let the markdown wrapper prefer .webp via <picture>.
-    const meta = await sharp(source).metadata()
-    if (meta.hasAlpha) return null
-    const derived = source.replace(/\.png$/i, '.jpg')
-    if (!needsRebuild(source, derived)) return {skipped: true, derived}
-    await sharp(source).jpeg({quality: JPEG_QUALITY, mozjpeg: true}).toFile(derived)
+    await sharp(source)
+        .rotate()
+        .resize({width: MAX_WIDTH, withoutEnlargement: true})
+        .webp({quality: WEBP_QUALITY})
+        .toFile(derived)
     return {skipped: false, derived}
 }
 
@@ -62,7 +61,6 @@ const formatBytes = (bytes) => {
 const sources = listFilesRecursive(targetDir).filter(isSourceImage)
 
 let webpGenerated = 0
-let jpgGenerated = 0
 
 for (const source of sources) {
     const rel = path.relative(root, source)
@@ -73,15 +71,6 @@ for (const source of sources) {
         const derivedSize = fs.statSync(webp.derived).size
         console.log(`webp: ${rel} → ${path.basename(webp.derived)} (${formatBytes(sourceSize)} → ${formatBytes(derivedSize)})`)
     }
-    if (/\.png$/i.test(source)) {
-        const jpg = await ensureJpgFromPng(source)
-        if (jpg && !jpg.skipped) {
-            jpgGenerated += 1
-            const sourceSize = fs.statSync(source).size
-            const derivedSize = fs.statSync(jpg.derived).size
-            console.log(`jpg : ${rel} → ${path.basename(jpg.derived)} (${formatBytes(sourceSize)} → ${formatBytes(derivedSize)})`)
-        }
-    }
 }
 
-console.log(`done. webp: ${webpGenerated}, jpg-from-png: ${jpgGenerated}, scanned: ${sources.length}`)
+console.log(`done. webp: ${webpGenerated}, scanned: ${sources.length}`)
