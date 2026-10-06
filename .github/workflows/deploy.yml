@@ -55,7 +55,7 @@ jobs:
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            pnpm release -- --release-as patch
+            pnpm release
             git push --follow-tags origin HEAD:main
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
@@ -124,6 +124,9 @@ jobs:
         run: pnpm run build
         env:
           VITE_SITE_URL: ${{ env.SITE_URL }}
+
+      - name: Browser smoke test
+        run: pnpm run test:e2e
 
       - name: Generate CV PDF (A4)
         run: pnpm run cv:pdf
