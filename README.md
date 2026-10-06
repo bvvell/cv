@@ -147,12 +147,8 @@ SITE_URL=https://bvvell.site DEPLOY_CHECK_BASE_URL=http://127.0.0.1:4173 pnpm de
 **bvvell.ru** is retired: the old hosting account answers every path with a 301 to
 the matching URL on bvvell.site, so nothing is deployed or served there any more.
 That redirect lives in the `.htaccess` of the *old* account and is not managed from
-this repository.
-
-One leftover: `index.html` carries two `google-site-verification` tokens. The first
-belongs to the bvvell.ru property, which Google re-checks through the 301 — so the
-tag has to stay on this site until the Search Console Change of Address is done.
-Drop it afterwards.
+this repository. Its `google-site-verification` token has been dropped from
+`index.html`; only the bvvell.site token remains.
 
 ## 🧠 SEO / `<head>`
 
