@@ -29,6 +29,16 @@
   RewriteRule ^ https://bvvell.site%{REQUEST_URI} [R=301,L,NE]
 
   # --------------------------------------------------
+  # Leaked filesystem paths from the retired bvvell.ru redirect
+  #
+  # The old account 301'd relative targets, which leaked its document root
+  # (/var/www/h203612/data/www/bvvell.ru/) into Location. Those bogus URLs now
+  # land here and would soft-404 through the SPA fallback. Answer 410 so
+  # Google drops them instead of keeping them as 200s.
+  # --------------------------------------------------
+  RewriteRule ^var/www/ - [G,L]
+
+  # --------------------------------------------------
   # Explicit index.html -> the directory itself
   #
   # /index.html           -> /
@@ -74,6 +84,21 @@
   RewriteCond %{REQUEST_URI} !\.[^./]+$ [NC]
   RewriteCond %{REQUEST_URI} !/$
   RewriteRule ^ https://bvvell.site%{REQUEST_URI}/ [R=301,L,NE]
+
+  # --------------------------------------------------
+  # HTTP -> HTTPS
+  #
+  # Safety net for requests the rules above leave on http: an apex-host URL
+  # with no .html that already carries its trailing slash (/, /cv/, /posts/foo/).
+  # The www, index.html, *.html and trailing-slash rules above already emit an
+  # https:// target, so those normalize in one hop; this catches the rest.
+  #
+  # Both conditions guard against a redirect loop on hosts that terminate TLS
+  # at a proxy and report %{HTTPS} off for https requests (X-Forwarded-Proto).
+  # --------------------------------------------------
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://bvvell.site%{REQUEST_URI} [R=301,L,NE]
 
   # --------------------------------------------------
   # Existing SSG directories
