@@ -70,4 +70,4 @@ cover: /images/posts/ru/padvodka-kaspersky-race.jpg
 
 В субботу проверим, насколько хорошо работает эта методика.
 
-**UPD.** Проверили — вот <a href="/posts/ru/kaspersky-race">что из этого получилось</a>.
+**UPD.** Проверили — вот <a href="/posts/ru/kaspersky-race/">что из этого получилось</a>.
