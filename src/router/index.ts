@@ -1,5 +1,6 @@
 import type {RouteLocation, RouteRecordRaw} from 'vue-router'
 import {NotFoundPage} from '@/modules/notFound/pages'
+import {EXPERIENCE_YEARS} from '@/data/cvData'
 import {RouteName} from './routeNames'
 
 /**
@@ -24,7 +25,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/modules/home/pages/homePage/homePage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — UI Engineer / Front-end Developer',
-            description: 'Front-end developer with 9+ years of experience building responsive websites and modern web apps. CV, selected work, and short posts.'
+            description: `Front-end developer with ${EXPERIENCE_YEARS} years of experience building responsive websites and modern web apps. CV, selected work, and short posts.`
         }
     },
     {

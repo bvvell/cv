@@ -1,6 +1,6 @@
 import {inject, provide, readonly} from 'vue'
 import type {DeepReadonly, InjectionKey} from 'vue'
-import cvData from '@/data/cv.json'
+import {cvData} from '@/data/cvData'
 
 export type CvData = typeof cvData
 

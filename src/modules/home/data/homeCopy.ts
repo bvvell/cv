@@ -17,6 +17,7 @@
  *   are what a reader scans for first, and in this trade they are read in English in
  *   every language. Translating them only makes the same thing harder to recognise.
  */
+import {EXPERIENCE_YEARS} from '@/data/cvData'
 import {POST_LOCALES} from '@/modules/posts/data/locale'
 import type {PostLocale} from '@/modules/posts/data/locale'
 import type {SiteLocale} from '@/utils/localePreference'
@@ -34,13 +35,13 @@ export type HomeCopy = {
 export const homeCopy: Record<PostLocale, HomeCopy> = {
     be: {
         langName: 'Беларуская',
-        meta: '9+ гадоў · Аддалена · Жыву ў Менску · Заўсёды рады пагаварыць',
+        meta: `${EXPERIENCE_YEARS} гадоў · Аддалена · Жыву ў Менску · Заўсёды рады пагаварыць`,
         downloadCv: 'Спампаваць рэзюмэ',
         switchLabel: 'Мова'
     },
     ru: {
         langName: 'Русский',
-        meta: '9+ лет · Удалённо · Живу в Минске · Всегда рад поговорить',
+        meta: `${EXPERIENCE_YEARS} лет · Удалённо · Живу в Минске · Всегда рад поговорить`,
         downloadCv: 'Скачать резюме',
         switchLabel: 'Язык'
     }

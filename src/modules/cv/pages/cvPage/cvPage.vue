@@ -33,6 +33,7 @@
         <cv-education
           :education="cvData.education"
           :courses="cvData.courses"
+          :languages="cvData.languages"
         />
         <cv-footer :contacts="cvData.personal.contacts" />
       </article>

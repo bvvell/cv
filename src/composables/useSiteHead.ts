@@ -2,7 +2,7 @@ import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {useHead} from '@unhead/vue'
 import postsIndex from '@/modules/posts/posts-index.json'
-import cvData from '@/data/cv.json'
+import {cvData} from '@/data/cvData'
 import {ensureTrailingSlash} from '@/utils/url'
 import {
     POST_LOCALES,
