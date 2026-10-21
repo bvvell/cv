@@ -67,7 +67,7 @@
       "period": "Apr 2019 — Present",
       "description": [
         "Develop and maintain an internal back-office platform: 15+ Vue micro-frontends loaded by a single-spa shell, used daily by marketing and support teams",
-        "Worked on the monolithic back office (2019–2021), then moved to the micro-frontend platform that replaced it",
+        "Before the move to micro-frontends (2019–2021): maintained an AngularJS project, built a Vue 2 storefront for virtual products, worked on the monolithic back office",
         "Primary developer on 7 of these apps, from first screens to production support",
         "Built configuration workflows for marketing campaigns, reward and eligibility rules, user tiers and balances, promo codes, plus reporting views with filters, charts and Excel/CSV export",
         "Implemented RBAC with Keycloak: permission-aware routes, actions and forms"
@@ -90,12 +90,11 @@
       "position": "Front-end Developer",
       "period": "Sep 2016 — Feb 2019",
       "description": [
-        "Developed and maintained websites and internal web applications",
-        "Built UI with Vue and AngularJS 1.6",
-        "Built a custom WordPress theme for the company blog",
-        "Built responsive HTML email newsletters",
-        "Integrated authentication and reporting features",
-        "Worked with AWS S3 and Firebase for data storage and synchronization"
+        "Developed and maintained websites, including a company blog on a custom WordPress theme",
+        "Built UI with Vue alongside AngularJS 1.6",
+        "Built a user dashboard with AngularJS: filters and sorting, interactive charts, PDF report export (wkhtmltopdf), sign-in via Google, Facebook and email",
+        "Built responsive, cross-client HTML email newsletters",
+        "Worked with AWS S3 for media storage and Firebase for real-time data sync between clients"
       ],
       "tags": [
         "Vue",
