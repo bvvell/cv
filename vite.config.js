@@ -75,7 +75,10 @@ function ssgHtmlPerf({distDir = 'dist', criticalCssPath = 'src/critical.css'} = 
             const criticalCss = await fs.promises.readFile(criticalCssAbs, 'utf8')
             const criticalStyleTag = `<style data-critical="true">${escapeHtmlStyle(criticalCss)}</style>`
 
-            const htmlFiles = (await listFilesRecursive(outDir)).filter((file) => file.endsWith('.html'))
+            // Why: search-engine ownership proofs (`google*.html`, `yandex_*.html` in `public/`)
+            // must be served byte-for-byte; the same pattern is exempt in `.htaccess` and the deploy prune.
+            const isOwnershipProof = (file) => /^(google[^/]*|yandex_[^/]*)\.html$/i.test(path.relative(outDir, file))
+            const htmlFiles = (await listFilesRecursive(outDir)).filter((file) => file.endsWith('.html') && !isOwnershipProof(file))
 
             // Optional: preload local woff2 fonts if present under `public/fonts`.
             const fontsDir = path.resolve('public/fonts')
