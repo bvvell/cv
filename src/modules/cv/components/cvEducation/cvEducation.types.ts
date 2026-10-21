@@ -1,5 +1,5 @@
 /**
- * Types for education and course items.
+ * Types for education, course and language items.
  *
  * Why:
  * - Keep `cv.json` data shape and component props aligned.
@@ -14,4 +14,9 @@ export interface Course {
   title: string
   url?: string
   year?: string
+}
+
+export interface Language {
+  name: string
+  level: string
 }

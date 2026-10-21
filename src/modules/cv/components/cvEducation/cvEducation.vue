@@ -33,6 +33,16 @@
             <span v-if="course.year"> — {{ course.year }}</span>
           </li>
         </ul>
+
+        <h2>Languages</h2>
+        <ul>
+          <li
+            v-for="lang in languages"
+            :key="lang.name"
+          >
+            <b>{{ lang.name }}</b> — {{ lang.level }}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -40,11 +50,12 @@
 
 <script setup lang="ts">
 // Why: show background/education in a compact, scannable format.
-import type {Course, Education} from './cvEducation.types'
+import type {Course, Education, Language} from './cvEducation.types'
 
 defineProps<{
   education: readonly Education[]
   courses: readonly Course[]
+  languages: readonly Language[]
 }>()
 </script>
 

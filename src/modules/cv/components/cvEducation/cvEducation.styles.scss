@@ -6,6 +6,10 @@
     margin: 0 0 var(--space-3);
   }
 
+  ul + h2 {
+    margin-top: var(--space-6);
+  }
+
   .columns {
     @include m.two-col-to-one(var(--space-8), var(--space-6));
   }
