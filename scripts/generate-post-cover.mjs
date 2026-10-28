@@ -35,7 +35,7 @@ const TOKENS = {
   paper: '#f8f6f1',
   ink: '#1a1815',
   inkBody: '#3a3631',
-  muted: '#77726a',
+  muted: '#6f6a62',
   highlight: '#e0533a',
   dot: '#bdb8ae',
   hairline: 'rgba(40, 30, 20, 0.13)'
