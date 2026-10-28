@@ -31,14 +31,9 @@
           <!-- Why a fixed order: the options stay put when the reader switches,
                so the language is where they last saw it. -->
           <template
-            v-for="(option, index) in POST_LOCALES"
+            v-for="option in POST_LOCALES"
             :key="option"
           >
-            <span
-              v-if="index"
-              class="posts-lang__sep"
-              aria-hidden="true"
-            >·</span>
             <span
               v-if="option === locale"
               class="posts-lang__current"

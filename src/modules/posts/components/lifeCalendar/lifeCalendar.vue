@@ -66,10 +66,10 @@
 <script setup lang="ts">
 // Why: interactive "life in weeks" calendar; helps visualize time and drive reflection.
 // Why the grid is not prerendered: 52 weeks × N years is thousands of DOM nodes
-// (the prerendered post used to weigh ~300 KB of HTML). The default is an empty
-// birth date, so nothing renders until the reader enters their own — which is also
-// the correct behaviour for a "enter YOUR date" tool.
-import {computed, ref} from 'vue'
+// (the prerendered post used to weigh ~300 KB of HTML). The author's own date is
+// filled in only after mount, so the reader sees a worked example while the
+// prerendered HTML stays light; any date they type replaces it.
+import {computed, onMounted, ref} from 'vue'
 import {
     WEEKS_IN_YEAR,
     clampYears,
@@ -79,8 +79,14 @@ import {
     weekState
 } from './lifeCalendar.logic'
 
+const EXAMPLE_BIRTH_DATE = '1990-12-06'
+
 const birthDate = ref('')
 const totalYearsInput = ref(80)
+
+onMounted(() => {
+    birthDate.value = EXAMPLE_BIRTH_DATE
+})
 
 const maxDate = computed(() => {
     const today = new Date()

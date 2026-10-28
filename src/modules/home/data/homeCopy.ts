@@ -13,9 +13,9 @@
  *   ("which region, which timezone") and stays at "Based in Europe", while be/ru answers
  *   a reader who came from Threads and names the city. Minsk is in Europe, so neither
  *   version contradicts the other — they are the same fact at a different zoom.
- * - The role line and the tagline are not translated at all: a job title and a stack
- *   are what a reader scans for first, and in this trade they are read in English in
- *   every language. Translating them only makes the same thing harder to recognise.
+ * - The role line is not translated at all: a job title is what a reader scans for
+ *   first, and in this trade it is read in English in every language. The stack sits
+ *   in the meta sentence, with only the joining words translated.
  */
 import {EXPERIENCE_YEARS} from '@/data/cvData'
 import {POST_LOCALES} from '@/modules/posts/data/locale'
@@ -35,22 +35,19 @@ export type HomeCopy = {
 export const homeCopy: Record<PostLocale, HomeCopy> = {
     be: {
         langName: 'Беларуская',
-        meta: `${EXPERIENCE_YEARS} гадоў · Аддалена · Жыву ў Менску · Заўсёды рады пагаварыць`,
+        meta: `${EXPERIENCE_YEARS} гадоў у фронтэндзе, працую аддалена з Менску. Vue і TypeScript, UI engineering, performance-first.`,
         downloadCv: 'Спампаваць рэзюмэ',
         switchLabel: 'Мова'
     },
     ru: {
         langName: 'Русский',
-        meta: `${EXPERIENCE_YEARS} лет · Удалённо · Живу в Минске · Всегда рад поговорить`,
+        meta: `${EXPERIENCE_YEARS} лет во фронтенде, работаю удалённо из Минска. Vue и TypeScript, UI engineering, performance-first.`,
         downloadCv: 'Скачать резюме',
         switchLabel: 'Язык'
     }
 }
 
 export const EN_LANG_NAME = 'English'
-
-// Shown under the role line in every language — see the note at the top of the file.
-export const HOME_VALUE = 'Vue/TypeScript · UI engineering · performance-first.'
 
 
 /**

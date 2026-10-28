@@ -5,6 +5,22 @@
   @include m.back-link;
 }
 
+// Language switcher over the list and over a post: the current language is simply
+// ink and heavier; the other one is muted and draws the coral line on hover.
+.posts-lang__link {
+  @include m.link-fill;
+
+  &,
+  &:visited {
+    color: var(--muted);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ink);
+  }
+}
+
 .posts-socials {
   display: flex;
   align-items: center;
@@ -13,7 +29,7 @@
   color: var(--color-text-muted);
 
   a {
-    border-bottom-color: transparent;
+    @include m.link-fill;
     font-weight: 600;
   }
 

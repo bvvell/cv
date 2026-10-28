@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/golos-text':
+        specifier: 5.3.0
+        version: 5.3.0
       '@fontsource-variable/public-sans':
         specifier: ^5.2.7
         version: 5.2.7
@@ -447,6 +450,9 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource-variable/golos-text@5.3.0':
+    resolution: {integrity: sha512-D+Evz5yqXYh6tsalc537FS+cPDWn2FTdO8j/K1ZZuFAvA7ib6WnusTiihciq7mMnm6GBo6XTlh0JXPrhBsam2g==}
 
   '@fontsource-variable/public-sans@5.2.7':
     resolution: {integrity: sha512-4mvade2J3slKkvwRkS+p8T3szet/0vhWoSnuUJTVU81Uo2pRpSZY/Y8bSLRqpSwzIPxjVmRJ53oq6JKP/l/PSg==}
@@ -2869,6 +2875,8 @@ snapshots:
   '@exodus/bytes@1.16.0': {}
 
   '@exodus/bytes@1.9.0': {}
+
+  '@fontsource-variable/golos-text@5.3.0': {}
 
   '@fontsource-variable/public-sans@5.2.7': {}
 

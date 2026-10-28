@@ -21,7 +21,7 @@
 }
 
 .cv-back {
-  @include m.back-link($font-weight: 700, $font-size: 0.95rem, $letter-spacing: 0.02em, $line-height: 1);
+  @include m.back-link($font-weight: 500, $font-size: 0.95rem, $letter-spacing: 0.02em, $line-height: 1);
 
   display: inline-flex;
   margin-bottom: 2rem;
