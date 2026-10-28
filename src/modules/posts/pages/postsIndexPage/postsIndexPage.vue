@@ -10,11 +10,6 @@
             <router-link :to="{name: RouteName.Home}">
               {{ copy.backHome }}
             </router-link>
-            <span
-              v-if="SOCIAL_LINKS.instagram || SOCIAL_LINKS.threads"
-              class="posts-socials__dot"
-              aria-hidden="true"
-            >·</span>
             <a
               v-if="SOCIAL_LINKS.instagram"
               :href="SOCIAL_LINKS.instagram"
@@ -23,11 +18,6 @@
             >
               Instagram
             </a>
-            <span
-              v-if="SOCIAL_LINKS.instagram && SOCIAL_LINKS.threads"
-              class="posts-socials__dot"
-              aria-hidden="true"
-            >·</span>
             <a
               v-if="SOCIAL_LINKS.threads"
               :href="SOCIAL_LINKS.threads"
@@ -49,14 +39,9 @@
           <span class="posts-lang__label">{{ copy.switchLabel }}:</span>
           <!-- Fixed order, same as over a post: options don't swap on switch. -->
           <template
-            v-for="(option, index) in POST_LOCALES"
+            v-for="option in POST_LOCALES"
             :key="option"
           >
-            <span
-              v-if="index"
-              class="posts-lang__sep"
-              aria-hidden="true"
-            >·</span>
             <span
               v-if="option === locale"
               class="posts-lang__current"
@@ -79,7 +64,7 @@
 
       <section class="posts-list">
         <article
-          v-for="(post, index) in posts"
+          v-for="post in posts"
           :key="post.slug"
           class="post-card"
         >
@@ -88,7 +73,6 @@
             :to="{name: postRouteName[locale], params: {slug: post.slug}}"
           >
             <p class="post-card__topline">
-              <span class="post-card__number">{{ String(index + 1).padStart(2, '0') }}</span>
               <span class="post-card__date">{{ formatDate(post.date) }}</span>
             </p>
             <h2>{{ post.title }}</h2>

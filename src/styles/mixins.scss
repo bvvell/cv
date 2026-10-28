@@ -9,6 +9,12 @@ $bp-lg: 1024px;
   }
 }
 
+// A link that rests without an underline; the global hover line still draws in.
+@mixin link-fill {
+  padding-bottom: 2px;
+  border-bottom: 0;
+}
+
 @mixin back-link(
   $font-weight: 600,
   $font-size: null,
@@ -21,6 +27,8 @@ $bp-lg: 1024px;
   margin: 0;
   padding: 0.25rem 0;
   border: none;
+  // The arrow already moves on hover; a line under arrow and text would be noise.
+  background-image: none;
   font-weight: $font-weight;
 
   @if $font-size != null {

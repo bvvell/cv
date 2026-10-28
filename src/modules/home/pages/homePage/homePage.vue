@@ -14,25 +14,17 @@
             role="group"
             :aria-label="copy.switchLabel"
           >
-            <template
-              v-for="(option, index) in HOME_LOCALES"
+            <button
+              v-for="option in HOME_LOCALES"
               :key="option"
+              type="button"
+              class="home__lang-option"
+              :class="{'home__lang-option--current': option === locale}"
+              :aria-pressed="option === locale"
+              @click="selectLocale(option)"
             >
-              <span
-                v-if="index"
-                class="home__lang-sep"
-                aria-hidden="true"
-              >·</span>
-              <button
-                type="button"
-                class="home__lang-option"
-                :class="{'home__lang-option--current': option === locale}"
-                :aria-pressed="option === locale"
-                @click="selectLocale(option)"
-              >
-                {{ langName(option) }}
-              </button>
-            </template>
+              {{ langName(option) }}
+            </button>
           </div>
 
           <h1>{{ title }}</h1>
@@ -48,13 +40,6 @@
 
           <p class="home__meta">
             {{ copy.meta }}
-          </p>
-
-          <p
-            class="home__value"
-            lang="en"
-          >
-            {{ HOME_VALUE }}
           </p>
 
           <nav
@@ -116,7 +101,7 @@
               :to="{name: indexRouteName[DEFAULT_LOCALE]}"
               @click="trackEvent('home-notes-hint')"
             >
-              Read them →
+              Read them
             </router-link>
           </p>
 
@@ -151,7 +136,7 @@
               :to="{name: indexRouteName[notesLocale]}"
               @click="trackEvent('home-all-posts', {locale: notesLocale})"
             >
-              {{ postsCopy[notesLocale].allPosts }} →
+              {{ postsCopy[notesLocale].allPosts }}
             </router-link>
           </section>
         </div>
@@ -189,7 +174,6 @@ import type {PostLocale} from '@/modules/posts/data/locale'
 import {
   EN_LANG_NAME,
   HOME_LOCALES,
-  HOME_VALUE,
   detectHomeLocale,
   homeCopy
 } from '@/modules/home/data/homeCopy'

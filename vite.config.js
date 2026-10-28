@@ -4,6 +4,7 @@ import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Markdown from 'unplugin-vue-markdown/vite'
 import Shiki from '@shikijs/markdown-it'
+import {glueDashes, typograph} from './scripts/typography.mjs'
 
 async function listFilesRecursive(dir) {
     const entries = await fs.promises.readdir(dir, {withFileTypes: true})
@@ -226,11 +227,26 @@ export default defineConfig(() => ({
                     return `<picture><source srcset="${webpSrcset}" sizes="${SRCSET_SIZES}" type="image/webp">${img}</picture>`
                 }
 
+                // Why: no dash at the start of a line, no short word left at the end of
+                // one; see `scripts/typography.mjs`.
+                md.core.ruler.push('typograph', (state) => {
+                    for (const token of state.tokens) {
+                        if (token.type !== 'inline' || !token.children) continue
+                        for (const child of token.children) {
+                            if (child.type === 'text') child.content = typograph(child.content)
+                        }
+                    }
+                })
+
                 const wrapHtmlTokenRule = (ruleName) => {
                     const original = md.renderer.rules[ruleName]
                     md.renderer.rules[ruleName] = (tokens, idx, options, env, self) => {
-                        if (original) return wrapStandaloneImgs(original(tokens, idx, options, env, self))
-                        return wrapStandaloneImgs(tokens[idx].content)
+                        const html = original
+                            ? original(tokens, idx, options, env, self)
+                            : tokens[idx].content
+                        // Raw HTML only gets the dash rule: it is safe inside attributes,
+                        // while short-word gluing could touch tag and attribute names.
+                        return glueDashes(wrapStandaloneImgs(html))
                     }
                 }
                 wrapHtmlTokenRule('html_block')

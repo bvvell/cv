@@ -28,7 +28,11 @@
           :to="{name: RouteName.Cv}"
           @click="trackEvent('post-cv-click', {slug, locale})"
         >
-          {{ copy.cvCta }} →
+          {{ copy.cvCta }}
+          <span
+            class="post-footer__cv-arrow"
+            aria-hidden="true"
+          >→</span>
         </router-link>
       </div>
     </section>

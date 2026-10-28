@@ -1,7 +1,7 @@
 @use '@/styles/tokens';
 
 // Self-hosted font — bundled by Vite, served from same origin (no external requests)
-@import '@fontsource-variable/public-sans/index.css';
+@import '@fontsource-variable/golos-text/index.css';
 
 // ── Spacing tokens ─────────────────────────────────────────────
 :root {
@@ -39,11 +39,22 @@ body {
 }
 
 // ── Typography ─────────────────────────────────────────────────
+// Why: the browser re-breaks lines so a paragraph does not end on one short word
+// and headings split evenly; the no-break spaces from `scripts/typography.mjs`
+// handle dashes and short words.
+p,
+li,
+figcaption,
+blockquote {
+  text-wrap: pretty;
+}
+
 h1,
 h2,
 h3 {
+  text-wrap: balance;
   font-family: var(--font-sans);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: var(--tracking-tight);
 }
 
@@ -62,7 +73,7 @@ h2 {
 h3 {
   margin: 1.25rem 0 0.25rem;
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -72,21 +83,31 @@ li + li {
 }
 
 // ── Links ──────────────────────────────────────────────────────
+// One link behaviour everywhere: a thin coral underline at rest, and on hover a
+// thicker coral line draws itself left to right. Links that rest without an
+// underline (`m.link-fill`) get the same hover; whole-row links opt out.
 a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid var(--link-underline);
-  transition: color var(--ease), border-color var(--ease);
+  background-image: linear-gradient(var(--highlight), var(--highlight));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: color var(--ease), background-size 0.3s ease;
 
   &:hover,
-  &:focus {
+  &:focus-visible {
     color: var(--accent-ink);
-    border-bottom-color: var(--accent-ink);
+    background-size: 100% 2px;
   }
 
   &:visited {
     color: var(--accent-ink);
-    border-bottom-color: var(--link-underline);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 

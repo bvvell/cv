@@ -1,36 +1,41 @@
 // bvvell.site design tokens: shared editorial redesign values.
-$font-sans: 'Public Sans', system-ui, -apple-system, sans-serif;
+$font-sans: 'Golos Text Variable', system-ui, -apple-system, sans-serif;
 
 // ── Light palette ──────────────────────────────────────────────
-$ink:        #2a271f;
-$ink-body:   #4d483d;
-$ink-2:      #6b6455;
-$muted:      #766f60;
-$muted-2:    #9a9384;
-$accent:     #b45d3c;
-$accent-ink: #9a4a2e;
-$paper:      #f5f2ec;
+// Monochrome: links are ink, the only colour is the coral underline and the
+// highlighted numbers in posts.
+$ink:        #1a1815;
+$ink-body:   #3a3631;
+$ink-2:      #57524b;
+$muted:      #77726a;
+$muted-2:    #9a958c;
+$accent:     #1a1815;
+$accent-ink: #1a1815;
+$highlight:  #e0533a;
+$paper:      #f8f6f1;
 
-$link-underline: rgba(180, 93, 60, 0.3);
-$hairline:       rgba(60, 54, 42, 0.12);
-$hairline-2:     rgba(60, 54, 42, 0.14);
-$dot:            #c0b8a6;
+$link-underline: #{$highlight};
+$hairline:       rgba(40, 30, 20, 0.11);
+$hairline-2:     rgba(40, 30, 20, 0.13);
+$dot:            #bdb8ae;
 
+// A faint warm glow in one corner rhymes with the dark theme's ground.
 $bg-gradient:
-  radial-gradient(130% 130% at 0% 0%,    #f8ecdd 0%, rgba(248, 236, 221, 0) 46%),
-  radial-gradient(130% 130% at 100% 100%, #e4efe8 0%, rgba(228, 239, 232, 0) 52%),
+  radial-gradient(120% 120% at 0% 0%, #f3ece0 0%, rgba(243, 236, 224, 0) 45%),
   #{$paper};
 
 // ── Dark palette ───────────────────────────────────────────────
+// Dark keeps the warm ground of the earlier theme; links follow the same rule as light.
 $dark-ink:            #f0ece3;
 $dark-ink-body:       #cdc6b8;
 $dark-ink-2:          #a8a08f;
-$dark-muted:          #7b7364;
+$dark-muted:          #8f8778;
 $dark-muted-2:        #7a7365;
-$dark-accent:         #d97a52;
-$dark-accent-ink:     #e89268;
+$dark-accent:         #f0ece3;
+$dark-accent-ink:     #f0ece3;
+$dark-highlight:      #e8634a;
 $dark-paper:          #17150f;
-$dark-link-underline: rgba(217, 122, 82, 0.35);
+$dark-link-underline: #{$dark-highlight};
 $dark-hairline:       rgba(240, 236, 227, 0.12);
 $dark-hairline-2:     rgba(240, 236, 227, 0.14);
 $dark-dot:            #5a5448;
@@ -81,6 +86,7 @@ $bp-tablet: 960px;
   --muted-2: #{$muted-2};
   --accent: #{$accent};
   --accent-ink: #{$accent-ink};
+  --highlight: #{$highlight};
   --paper: #{$paper};
   --link-underline: #{$link-underline};
   --hairline: #{$hairline};
@@ -118,6 +124,7 @@ $bp-tablet: 960px;
   --muted-2: #{$dark-muted-2};
   --accent: #{$dark-accent};
   --accent-ink: #{$dark-accent-ink};
+  --highlight: #{$dark-highlight};
   --paper: #{$dark-paper};
   --link-underline: #{$dark-link-underline};
   --hairline: #{$dark-hairline};

@@ -16,6 +16,10 @@ import path from 'node:path'
  *     --subtitle "План максімальна складаны." \
  *     --caption "HRV за 11 дзён" --data 39,49,48,40,43,46,62,35,45
  *
+ *   node scripts/generate-post-cover.mjs --all
+ *     re-renders every cover listed in `scripts/post-covers.json` — keep a new
+ *     cover's arguments there so a palette change is one command, not archaeology.
+ *
  * `--out` overrides the derived path; run `pnpm images:optimize` afterwards
  * to get the `.webp` sibling.
  */
@@ -25,22 +29,25 @@ const WIDTH = 1200
 const HEIGHT = 630
 const JPEG_QUALITY = 90
 
-// Mirrors the light palette in `src/styles/_tokens.scss`.
+// Mirrors the light palette in `src/styles/_tokens.scss`; `highlight` is the one
+// colour, used for the data the card carries.
 const TOKENS = {
-  paper: '#f5f2ec',
-  ink: '#2a271f',
-  inkBody: '#4d483d',
-  muted: '#766f60',
-  accent: '#b45d3c',
-  accentInk: '#9a4a2e',
-  dot: '#c0b8a6',
-  hairline: 'rgba(60, 54, 42, 0.14)'
+  paper: '#f8f6f1',
+  ink: '#1a1815',
+  inkBody: '#3a3631',
+  muted: '#77726a',
+  highlight: '#e0533a',
+  dot: '#bdb8ae',
+  hairline: 'rgba(40, 30, 20, 0.13)'
 }
 
-const FONT_PATH = path.join(
-  root,
-  'node_modules/@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2'
-)
+// Same face as the site; titles are mostly Belarusian, so Cyrillic is not optional.
+const FONT_DIR = path.join(root, 'node_modules/@fontsource-variable/golos-text/files')
+const FONT_SUBSETS = [
+  ['latin', 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212'],
+  ['cyrillic', 'U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116']
+]
+const COVERS_PATH = path.join(root, 'scripts/post-covers.json')
 
 const usage = `Usage: node scripts/generate-post-cover.mjs --title <text> (--slug <slug> | --out <path>)
 
@@ -52,6 +59,8 @@ const usage = `Usage: node scripts/generate-post-cover.mjs --title <text> (--slu
   --subtitle   Sentence under the title
   --caption    Small line under the sparkline
   --data       Comma-separated numbers; omit to render the card without a chart
+  --letters    Space-separated letters set along a wave instead of a chart
+  --all        Re-render every cover in scripts/post-covers.json
 `
 
 const parseArgs = (argv) => {
@@ -107,8 +116,8 @@ const renderChart = (values) => {
   const lowIndex = values.indexOf(min)
   const dots = points
     .map(([px, py], index) => (index === lowIndex
-      ? `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="9" fill="${TOKENS.accent}"/>`
-      : `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="${TOKENS.paper}" stroke="${TOKENS.accent}" stroke-width="3"/>`))
+      ? `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="9" fill="${TOKENS.highlight}"/>`
+      : `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="${TOKENS.paper}" stroke="${TOKENS.highlight}" stroke-width="3"/>`))
     .join('')
 
   // The dashed rule marks the series average, so the dips read as dips.
@@ -117,33 +126,57 @@ const renderChart = (values) => {
   return `
     <svg class="chart" viewBox="-12 -16 ${w + 24} ${h + 32}" width="${w}" height="${h + 16}">
       <line x1="0" y1="${y(average).toFixed(1)}" x2="${w}" y2="${y(average).toFixed(1)}"
-            stroke="rgba(60,54,42,0.18)" stroke-width="2" stroke-dasharray="6 8"/>
-      <polyline points="${line}" fill="none" stroke="${TOKENS.accent}" stroke-width="5"
+            stroke="${TOKENS.hairline}" stroke-width="2" stroke-dasharray="6 8"/>
+      <polyline points="${line}" fill="none" stroke="${TOKENS.highlight}" stroke-width="5"
                 stroke-linejoin="round" stroke-linecap="round"/>
       ${dots}
     </svg>`
 }
 
-const renderPage = ({fontData, eyebrow, title, subtitle, caption, values}) => {
-  const chart = renderChart(values)
+// Letters walk along a wave, each turned to its slope, as on the worksheets.
+const renderLetters = (raw) => {
+  if (!raw) {
+    return ''
+  }
+  const letters = raw.split(/\s+/).filter(Boolean)
+  const wave = 'M0,110 C140,-10 260,-10 400,80 S660,220 800,140 S960,60 1040,100'
+  return `
+    <svg class="chart" viewBox="0 -20 1040 240" width="1040" height="220">
+      <path id="wave" d="${wave}" fill="none" stroke="${TOKENS.highlight}" stroke-width="2.5"/>
+      ${letters.map((letter, index) => `
+        <text font-size="62" font-weight="600" fill="${TOKENS.ink}" text-anchor="middle" dominant-baseline="central">
+          <textPath href="#wave" startOffset="${(4 + (index * 92) / Math.max(letters.length - 1, 1)).toFixed(2)}%">${escapeHtml(letter)}</textPath>
+        </text>`).join('')}
+    </svg>`
+}
+
+const renderFontFaces = () => FONT_SUBSETS
+  .map(([subset, range]) => {
+    const data = fs.readFileSync(path.join(FONT_DIR, `golos-text-${subset}-wght-normal.woff2`)).toString('base64')
+    return `@font-face {
+    font-family: 'Golos Text';
+    src: url(data:font/woff2;base64,${data}) format('woff2-variations');
+    font-weight: 400 900;
+    unicode-range: ${range};
+  }`
+  })
+  .join('\n')
+
+const renderPage = ({eyebrow, title, subtitle, caption, values, letters}) => {
+  const chart = letters ? renderLetters(letters) : renderChart(values)
   const foot = caption
     ? `<div class="foot"><span class="caption">${escapeHtml(caption)}</span></div>`
     : ''
 
   return `
 <style>
-  @font-face {
-    font-family: 'Public Sans';
-    src: url(data:font/woff2;base64,${fontData}) format('woff2-variations');
-    font-weight: 100 900;
-  }
+  ${renderFontFaces()}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     width: ${WIDTH}px; height: ${HEIGHT}px; position: relative; overflow: hidden;
-    font-family: 'Public Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Golos Text', -apple-system, 'Helvetica Neue', Arial, sans-serif;
     background:
-      radial-gradient(130% 130% at 0% 0%,     #f8ecdd 0%, rgba(248, 236, 221, 0) 46%),
-      radial-gradient(130% 130% at 100% 100%, #e4efe8 0%, rgba(228, 239, 232, 0) 52%),
+      radial-gradient(120% 120% at 0% 0%, #f3ece0 0%, rgba(243, 236, 224, 0) 45%),
       ${TOKENS.paper};
   }
   /* Dot grid echoes the gravel motif of the Камні 200 cover. */
@@ -160,12 +193,12 @@ const renderPage = ({fontData, eyebrow, title, subtitle, caption, values}) => {
     padding: 72px 80px 64px;
   }
   .eyebrow {
-    font-size: 19px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-    color: ${TOKENS.accentInk};
+    font-size: 22px; font-weight: 600;
+    color: ${TOKENS.muted};
   }
   h1 {
     margin-top: 26px;
-    font-size: 88px; font-weight: 800; letter-spacing: -0.035em; line-height: 1;
+    font-size: 88px; font-weight: 600; letter-spacing: -0.035em; line-height: 1;
     color: ${TOKENS.ink};
   }
   .subtitle {
@@ -206,15 +239,7 @@ const resolveOutPath = ({out, slug, locale}) => {
   return path.join(root, 'public', 'images', localeDir, `${slug}.jpg`)
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2))
-
-  if (!args.title) {
-    process.stdout.write(usage)
-    process.exitCode = 1
-    return
-  }
-
+const renderCover = async (browser, sharp, args) => {
   const locale = args.locale || 'be'
   if (locale !== 'be' && locale !== 'ru') {
     throw new Error(`--locale must be be or ru, got: ${locale}`)
@@ -222,39 +247,58 @@ async function main() {
 
   const outPath = resolveOutPath({out: args.out, slug: args.slug, locale})
   const values = parseSeries(args.data)
-  const fontData = fs.readFileSync(FONT_PATH).toString('base64')
+
+  // Render at 2x so text stays crisp after the downscale to 1200x630.
+  const page = await browser.newPage({
+    viewport: {width: WIDTH, height: HEIGHT},
+    deviceScaleFactor: 2
+  })
+  await page.setContent(renderPage({
+    eyebrow: args.eyebrow,
+    title: args.title,
+    subtitle: args.subtitle,
+    caption: args.caption,
+    values,
+    letters: args.letters
+  }), {waitUntil: 'load'})
+  await page.evaluate(() => document.fonts.ready)
+
+  const shot = await page.screenshot({type: 'png'})
+  fs.mkdirSync(path.dirname(outPath), {recursive: true})
+  await sharp(shot)
+    .resize(WIDTH, HEIGHT)
+    .jpeg({quality: JPEG_QUALITY, chromaSubsampling: '4:4:4'})
+    .toFile(outPath)
+  await page.close()
+
+  console.log(`cover: ${path.relative(root, outPath)}`)
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2))
+  const covers = 'all' in args
+    ? JSON.parse(fs.readFileSync(COVERS_PATH, 'utf-8'))
+    : [args]
+
+  if (covers.some((cover) => !cover.title)) {
+    process.stdout.write(usage)
+    process.exitCode = 1
+    return
+  }
 
   const {chromium} = await import('playwright')
   const sharp = (await import('sharp')).default
 
   const browser = await chromium.launch()
   try {
-    // Render at 2x so text stays crisp after the downscale to 1200x630.
-    const page = await browser.newPage({
-      viewport: {width: WIDTH, height: HEIGHT},
-      deviceScaleFactor: 2
-    })
-    await page.setContent(renderPage({
-      fontData,
-      eyebrow: args.eyebrow,
-      title: args.title,
-      subtitle: args.subtitle,
-      caption: args.caption,
-      values
-    }), {waitUntil: 'load'})
-    await page.evaluate(() => document.fonts.ready)
-
-    const shot = await page.screenshot({type: 'png'})
-    fs.mkdirSync(path.dirname(outPath), {recursive: true})
-    await sharp(shot)
-      .resize(WIDTH, HEIGHT)
-      .jpeg({quality: JPEG_QUALITY, chromaSubsampling: '4:4:4'})
-      .toFile(outPath)
+    for (const cover of covers) {
+      await renderCover(browser, sharp, cover)
+    }
   } finally {
     await browser.close()
   }
 
-  console.log(`cover: ${path.relative(root, outPath)} — run \`pnpm images:optimize\` for the webp sibling`)
+  console.log('run `pnpm images:optimize` for the webp siblings')
 }
 
 await main()

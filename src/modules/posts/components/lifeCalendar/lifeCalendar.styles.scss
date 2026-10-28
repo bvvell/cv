@@ -94,11 +94,11 @@
     background: var(--hairline-2);
 
     &.is-lived {
-      background: color-mix(in srgb, var(--accent) 45%, transparent);
+      background: color-mix(in srgb, var(--highlight) 45%, transparent);
     }
 
     &.is-current {
-      background: var(--accent-ink);
+      background: var(--highlight);
     }
 
     &.is-future {

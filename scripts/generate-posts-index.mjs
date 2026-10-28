@@ -1,6 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+import {typograph} from './typography.mjs'
+
 /**
  * Generates `src/modules/posts/posts-index.json` from Markdown files.
  *
@@ -101,9 +103,9 @@ const readPosts = ({locale, dir}) => {
     return {
       slug,
       locale,
-      title: frontMatter.title || slug,
+      title: typograph(frontMatter.title || slug),
       date: frontMatter.date || '1970-01-01',
-      excerpt: frontMatter.excerpt || extractExcerpt(body),
+      excerpt: typograph(frontMatter.excerpt || extractExcerpt(body)),
       cover: frontMatter.cover || `/images/posts/${slug}.jpg`
     }
   })

@@ -57,33 +57,40 @@
 .home__lang {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 1rem;
   margin: 0 0 1.5rem;
   font-family: var(--font-sans);
   font-size: 0.75rem;
 }
 
-.home__lang-sep {
-  color: var(--dot);
-}
-
+// Same as the language switcher over the notes: the current language is ink and
+// heavier, the others draw the coral line on hover.
 .home__lang-option {
-  padding: 0;
+  padding: 0 0 2px;
   border: 0;
-  background: none;
+  background: linear-gradient(var(--highlight), var(--highlight)) no-repeat 0 100% / 0% 2px;
   color: var(--muted);
   font: inherit;
   cursor: pointer;
-  transition: color t.$ease;
+  transition: color t.$ease, background-size 0.3s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: var(--ink);
+    background-size: 100% 2px;
   }
 
-  &--current {
+  &--current,
+  &--current:hover,
+  &--current:focus-visible {
     color: var(--ink);
     font-weight: 600;
+    background-size: 0% 2px;
     cursor: default;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
@@ -99,21 +106,13 @@ h1 {
   margin: 0 0 1.75rem;
   color: var(--accent);
   font-size: clamp(1.125rem, 3.4vw, 1.4375rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
 
 .home__meta {
-  max-width: none;
-  margin: 0 0 0.75rem;
-  color: var(--muted);
-  font-family: var(--font-sans);
-  font-size: var(--fs-meta);
-  line-height: 1.6;
-}
-
-.home__value {
+  max-width: 640px;
   margin: 0 0 2rem;
   color: var(--ink-body);
   font-size: 1.0625rem;
@@ -126,11 +125,8 @@ h1 {
   gap: 1.375rem;
   margin: 0 0 1.25rem;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
 
-  a {
-    border-bottom-style: dashed;
-  }
 }
 
 .home__social {
@@ -152,9 +148,8 @@ h1 {
   border-top: 1px solid var(--hairline);
 
   a {
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
-    border-bottom-style: dashed;
   }
 
   @media (max-width: t.$bp-mobile) {
@@ -178,10 +173,8 @@ h1 {
   margin: 0 0 0.35rem;
   color: var(--muted);
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .home__notes-list {
@@ -207,6 +200,7 @@ h1 {
   padding: 0.75rem 0;
   color: inherit;
   border-bottom: 0;
+  background-image: none;
   transition: color t.$ease;
 
   &:visited {
@@ -217,14 +211,14 @@ h1 {
   &:hover,
   &:focus-visible {
     .home__note-title {
-      color: var(--accent);
+      color: var(--highlight);
     }
   }
 }
 
 .home__note-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.25;
   transition: color t.$ease;
 }
@@ -240,6 +234,5 @@ h1 {
   display: inline-block;
   margin-top: 1rem;
   font-size: 0.875rem;
-  font-weight: 600;
-  border-bottom-style: dashed;
+  font-weight: 500;
 }
