@@ -1,9 +1,5 @@
 /* Why: readable hierarchy + compact tags while staying print-friendly. */
 .cv-experience {
-  h2 {
-    margin: 0 0 var(--space-3);
-  }
-
   dl {
     dd {
       margin: var(--space-2) 0 var(--space-4);

@@ -14,14 +14,6 @@ defineProps<{
 
 <style scoped lang="scss">
 .cv-summary {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-
-  h2 {
-    margin: 0;
-  }
-
   p {
     max-width: 75ch;
     margin: 0;
