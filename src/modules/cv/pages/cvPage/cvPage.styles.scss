@@ -95,8 +95,9 @@
   line-height: 1.7;
 }
 
+// Why: the one place for the heading-to-content gap; sections must not override it.
 :deep(h2) {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--space-4);
   color: var(--ink);
   font-size: 1.625rem;
   line-height: 1.15;
@@ -170,10 +171,6 @@ a {
 @media print {
   .cv-body {
     gap: 1rem;
-  }
-
-  :deep(h2) {
-    margin: 1rem 0 0.5rem;
   }
 
   :deep(h3) {

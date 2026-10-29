@@ -1,9 +1,5 @@
 /* Why: projects need readable spacing between summary, bullets, and “impact/stack” lines. */
 .cv-projects {
-  h2 {
-    margin: 0 0 var(--space-3);
-  }
-
   dl {
     dd {
       margin: var(--space-2) 0 var(--space-4);
