@@ -16,4 +16,6 @@ export interface Project {
   contribution: readonly string[]
   impact?: string
   stack?: string
+  // A longer text about the project (a post), shown as a link under the stack.
+  writeup?: {label: string; url: string}
 }

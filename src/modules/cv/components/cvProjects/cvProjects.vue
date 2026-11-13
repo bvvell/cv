@@ -41,6 +41,13 @@
             >
               <span class="muted">Stack:</span> {{ project.stack }}
             </p>
+            <p
+              v-if="project.writeup"
+              class="stack"
+            >
+              <span class="muted">Write-up:</span>
+              <a :href="project.writeup.url">{{ project.writeup.label }}</a>
+            </p>
           </dd>
         </template>
       </dl>
