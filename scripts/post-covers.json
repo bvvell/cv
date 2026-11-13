@@ -68,5 +68,21 @@
     "subtitle": "Узнавай буквы, читай по линии, печатай задания.",
     "caption": "Свой текст, новая дорожка, печать",
     "letters": "А Б В Г Д Е Ё Ж З И"
+  },
+  {
+    "slug": "i-checked-pad-kapotam",
+    "locale": "be",
+    "eyebrow": "I Checked — тэхнічны разбор",
+    "title": "Пад капотам",
+    "subtitle": "Афлайн без Workbox, бэкапы і дэплой, які правярае сябе.",
+    "caption": "Vue 3 · Ionic · Vite · GitHub Actions"
+  },
+  {
+    "slug": "i-checked-pad-kapotam",
+    "locale": "ru",
+    "eyebrow": "I Checked — технический разбор",
+    "title": "Под капотом",
+    "subtitle": "Офлайн без Workbox, бэкапы и деплой, который проверяет себя.",
+    "caption": "Vue 3 · Ionic · Vite · GitHub Actions"
   }
 ]

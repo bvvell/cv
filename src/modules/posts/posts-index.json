@@ -1,5 +1,21 @@
 [
   {
+    "slug": "i-checked-pad-kapotam",
+    "locale": "be",
+    "title": "I Checked пад капотам: афлайн без Workbox, бэкапы і дэплой, які правярае сябе",
+    "date": "2026-11-13",
+    "excerpt": "Тэхнічны разбор I Checked: сэрвіс-воркер са ста радкоў замест Workbox, праверка бэкапа да замены даных, бюджэт бандла і дэплой, які сам звярае рэвізію на продзе.",
+    "cover": "/images/posts/i-checked-pad-kapotam.jpg"
+  },
+  {
+    "slug": "i-checked-pad-kapotam",
+    "locale": "ru",
+    "title": "I Checked под капотом: офлайн без Workbox, бэкапы и деплой, который проверяет себя",
+    "date": "2026-11-13",
+    "excerpt": "Технический разбор I Checked: сервис-воркер из ста строк вместо Workbox, проверка бэкапа до замены данных, бюджет бандла и деплой, который сам сверяет ревизию на проде.",
+    "cover": "/images/posts/ru/i-checked-pad-kapotam.jpg"
+  },
+  {
     "slug": "slovarik-quiz-bot",
     "locale": "be",
     "title": "Бот для слоўнікавых слоў у Telegram",
