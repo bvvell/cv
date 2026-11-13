@@ -70,7 +70,9 @@
         "Develop and maintain an internal back-office platform: 15+ Vue micro-frontends loaded by a single-spa shell, used daily by marketing and support teams",
         "Primary developer on 7 of these apps, from first screens to production support",
         "Built configuration workflows for marketing campaigns, reward and eligibility rules, user tiers and balances, promo codes, plus reporting views with filters, charts and Excel/CSV export",
-        "Implemented RBAC with Keycloak: permission-aware routes, actions and forms",
+        "Implemented RBAC with Keycloak: routes, navigation, actions and forms adapt to the user's permissions and the selected brand",
+        "Review teammates' code (layout, logic, readability) and help new developers get into the codebase",
+        "Added AI review to merge requests: each project keeps its own rules and a prompt, and the reviewer checks the change against them; wrote Claude Code skills the team shares, such as a local pre-merge review",
         "Before the move to micro-frontends (2019–2021): maintained an AngularJS project, built a Vue 2 storefront for virtual products, worked on the monolithic back office"
       ],
       "tags": [
@@ -130,6 +132,7 @@
           "Built a catalog and order management app: offers with limits and schedules, orders, image upload, participant statistics",
           "Moved legacy apps from vue-cli to Vite, onto ESLint flat config with shared code-style rules and typed API clients, without stopping feature work",
           "Replaced unsafe v-html rendering with components, closing XSS vectors in audit tables and content views",
+          "Moved the styling of common UI elements into shared design tokens with per-app overrides, so the same elements look the same across apps; aligned the UI with the Figma designs",
           "Contributed to the shared layer: auth and error handling in the host shell, a shared date package (ESM + CJS)"
         ],
         "impact": "Business-critical tooling: when it is down, teams can't manage campaigns, issue rewards or open reports. Moving the apps to one template and one set of shared rules made new apps quicker to start and existing ones cheaper to maintain.",
