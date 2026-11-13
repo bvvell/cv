@@ -76,8 +76,8 @@
               <span>кіламетраў</span>
             </div>
             <div class="post-stats__item">
-              <strong>11</strong>
-              <span>гадзін у сядле</span>
+              <strong>11,5</strong>
+              <span>гадзін у дарозе</span>
             </div>
             <div class="post-stats__item">
               <strong>+34°</strong>

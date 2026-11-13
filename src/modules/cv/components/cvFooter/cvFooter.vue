@@ -17,6 +17,15 @@
         LinkedIn
       </a>
       &nbsp;•&nbsp;
+      <template v-if="contacts.github">
+        <a
+          :href="contacts.github"
+          target="_blank"
+          aria-label="GitHub"
+          rel="me noopener noreferrer"
+        >GitHub</a>
+        &nbsp;•&nbsp;
+      </template>
       <a
         :href="`${contacts.telegram}`"
         aria-label="Telegram"
@@ -33,6 +42,7 @@ defineProps<{
   contacts: {
     email: string
     linkedin: string
+    github?: string
     telegram: string
   }
 }>()

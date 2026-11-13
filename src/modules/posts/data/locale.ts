@@ -125,7 +125,7 @@ export const postsCopy: Record<PostLocale, PostsCopy> = {
         backToList: 'Назад да запісаў',
         toList: 'Да спісу запісаў',
         notFoundTitle: 'Запіс не знойдзены',
-        notFoundText: 'Старонка недаступная. Абяры іншы запіс са спісу.',
+        notFoundText: 'Старонка недаступная. Абяры іншы запіс са спіса.',
         switchLabel: 'Мова',
         authorNote: 'Пішу пра ровар, здымкі і ўласныя невялікія праекты.',
         cvCta: 'Паглядзець рэзюмэ',

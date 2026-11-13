@@ -67,6 +67,14 @@
               LinkedIn
             </a>
             <a
+              v-if="SOCIAL_LINKS.github"
+              :href="SOCIAL_LINKS.github"
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
               :href="SOCIAL_LINKS.telegram"
               target="_blank"
               rel="me noopener noreferrer"
@@ -96,7 +104,7 @@
             class="home__notes-hint"
           >
             Beyond the CV, I write about cycling, photography, and small tools I build.
-            The posts are in Belarusian.
+            The posts are in Belarusian and Russian.
             <router-link
               :to="{name: indexRouteName[DEFAULT_LOCALE]}"
               @click="trackEvent('home-notes-hint')"

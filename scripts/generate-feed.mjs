@@ -32,13 +32,13 @@ const FEEDS = {
     be: {
         file: 'feed.xml',
         title: 'Запісы — Uladzimir Biarnatski',
-        description: 'Невялікія запісы пра жыццё, творчасць і не толькі.',
+        description: 'Запісы пра ровар, здымкі і ўласныя невялікія праекты.',
         indexPath: '/posts/'
     },
     ru: {
         file: 'feed.ru.xml',
         title: 'Заметки — Uladzimir Biarnatski',
-        description: 'Небольшие заметки о жизни, творчестве и не только.',
+        description: 'Заметки про велосипед, съёмки и свои небольшие проекты.',
         indexPath: '/posts/ru/'
     }
 }

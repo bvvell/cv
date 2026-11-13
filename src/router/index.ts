@@ -25,7 +25,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/modules/home/pages/homePage/homePage.vue'),
         meta: {
             title: 'Uladzimir Biarnatski — UI Engineer / Front-end Developer',
-            description: `Front-end developer with ${EXPERIENCE_YEARS} years of experience building responsive websites and modern web apps. CV, selected work, and short posts.`
+            description: `Front-end developer with ${EXPERIENCE_YEARS} years of experience, building back-office platforms with Vue and TypeScript. CV, selected work, and short posts.`
         }
     },
     {
@@ -53,7 +53,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Запісы — Uladzimir Biarnatski',
-            description: 'Невялікія запісы пра жыццё, творчасць і не толькі.',
+            description: 'Запісы пра ровар, здымкі і ўласныя невялікія праекты.',
             locale: 'be'
         }
     },
@@ -68,7 +68,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/modules/posts/pages/postsIndexPage/postsIndexPage.vue'),
         meta: {
             title: 'Заметки — Uladzimir Biarnatski',
-            description: 'Небольшие заметки о жизни, творчестве и не только.',
+            description: 'Заметки про велосипед, съёмки и свои небольшие проекты.',
             locale: 'ru'
         }
     },
