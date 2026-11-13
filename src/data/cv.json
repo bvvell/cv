@@ -160,7 +160,11 @@
           "Dependency-free static generator for the marketing site in all four locales (BE, UK, RU, EN), with no runtime JavaScript",
           "GitHub Actions CI/CD that deploys two sites (landing and PWA): lint, unit and e2e tests, an enforced bundle budget, and a post-deploy check that production serves the deployed revision"
         ],
-        "stack": "Vue 3, TypeScript, Ionic, Capacitor, Vite, PWA, Vitest, Playwright, GitHub Actions"
+        "stack": "Vue 3, TypeScript, Ionic, Capacitor, Vite, PWA, Vitest, Playwright, GitHub Actions",
+        "writeup": {
+          "label": "How it works inside (in Russian)",
+          "url": "https://bvvell.site/posts/ru/i-checked-pad-kapotam/"
+        }
       }
     ]
   }
