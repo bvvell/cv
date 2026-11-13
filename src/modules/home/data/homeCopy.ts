@@ -35,7 +35,7 @@ export type HomeCopy = {
 export const homeCopy: Record<PostLocale, HomeCopy> = {
     be: {
         langName: 'Беларуская',
-        meta: `${EXPERIENCE_YEARS} гадоў у фронтэндзе, працую аддалена з Менску. Vue і TypeScript, UI engineering, performance-first.`,
+        meta: `${EXPERIENCE_YEARS} гадоў у фронтэндзе, працую аддалена з Мінска. Vue і TypeScript, UI engineering, performance-first.`,
         downloadCv: 'Спампаваць рэзюмэ',
         switchLabel: 'Мова'
     },

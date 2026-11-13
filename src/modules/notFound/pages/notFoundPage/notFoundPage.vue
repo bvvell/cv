@@ -10,7 +10,7 @@
         </p>
         <h1>Page not found</h1>
         <p class="intro">
-          This page does not exist. Try the home page
+          This page does not exist. Try the home page.
         </p>
         <div class="actions">
           <router-link :to="{name: RouteName.Home}">

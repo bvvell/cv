@@ -8,22 +8,23 @@
     "contacts": {
       "email": "vvbernacky@gmail.com",
       "linkedin": "https://www.linkedin.com/in/ubiarnatski/",
+      "github": "https://github.com/bvvell",
       "telegram": "https://t.me/biarnky",
       "instagram": "https://www.instagram.com/biarnky/",
       "threads": "https://www.threads.net/@biarnky"
     }
   },
-  "summary": "Front-end developer with {experienceYears} years of experience, the last 7 on internal back-office platforms built with Vue and TypeScript. Owns apps end to end in a micro-frontend architecture, from first screens to migrations and production support. Focused on maintainable code, reliable API integrations and consistent UI across many apps. Comfortable with design systems, performance-conscious builds (bundle budgets, offline precaching) and distributed teams.",
+  "summary": "Front-end developer with {experienceYears} years of experience, since 2019 on internal back-office platforms built with Vue and TypeScript. Owns apps end to end in a micro-frontend architecture, from first screens to migrations and production support. Focused on maintainable code, reliable API integrations and consistent UI across many apps. Comfortable with design systems, performance-conscious builds (bundle budgets, offline precaching) and distributed teams.",
   "skills": {
     "title": "Skills",
     "items": [
       "Responsive and adaptive layout, accessibility (a11y)",
       "UI component development, state management, routing",
-      "REST API integration, error handling, and data fetching",
+      "REST API integration, error handling and data fetching",
       "Bundle size control and offline caching",
-      "Code quality practices: ESLint, Prettier, Git, code reviews",
+      "Code quality practices: linting, shared code-style rules, code reviews",
       "CI/CD pipelines and environment configuration for front-end projects",
-      "AI-assisted development: prototyping, UI exploration, and code review (Claude Code, Claude Design)"
+      "AI-assisted development: prototyping, UI exploration and code review (Claude Code, Claude Design)"
     ]
   },
   "technologies": {
@@ -44,7 +45,7 @@
   "education": [
     {
       "school": "Belarusian State University",
-      "degree": "Engineer–programmer",
+      "degree": "Engineer-Programmer (Specialist degree)",
       "period": "2008 — 2013"
     }
   ],
@@ -67,10 +68,10 @@
       "period": "Apr 2019 — Present",
       "description": [
         "Develop and maintain an internal back-office platform: 15+ Vue micro-frontends loaded by a single-spa shell, used daily by marketing and support teams",
-        "Before the move to micro-frontends (2019–2021): maintained an AngularJS project, built a Vue 2 storefront for virtual products, worked on the monolithic back office",
         "Primary developer on 7 of these apps, from first screens to production support",
         "Built configuration workflows for marketing campaigns, reward and eligibility rules, user tiers and balances, promo codes, plus reporting views with filters, charts and Excel/CSV export",
-        "Implemented RBAC with Keycloak: permission-aware routes, actions and forms"
+        "Implemented RBAC with Keycloak: permission-aware routes, actions and forms",
+        "Before the move to micro-frontends (2019–2021): maintained an AngularJS project, built a Vue 2 storefront for virtual products, worked on the monolithic back office"
       ],
       "tags": [
         "Vue 3",
@@ -91,10 +92,10 @@
       "period": "Sep 2016 — Feb 2019",
       "description": [
         "Developed and maintained websites, including a company blog on a custom WordPress theme",
-        "Built UI with Vue alongside AngularJS 1.6",
+        "Built a Vue app with an interactive map of active events across the US",
         "Built a user dashboard with AngularJS: filters and sorting, interactive charts, PDF report export (wkhtmltopdf), sign-in via Google, Facebook and email",
         "Built responsive, cross-client HTML email newsletters",
-        "Worked with AWS S3 for media storage and Firebase for real-time data sync between clients"
+        "Front end deployed on AWS: hosting, PDF generation and S3 storage for user files; Firebase for real-time data sync between clients"
       ],
       "tags": [
         "Vue",
@@ -112,10 +113,10 @@
       "position": "Front-end Developer (HTML / CSS)",
       "period": "Apr 2012 — Sep 2016",
       "description": [
-        "Cross-browser and responsive layout for enterprise web projects",
-        "Development of email templates",
-        "JavaScript for UI interactions and form validation",
-        "Collaboration with designers and backend engineers"
+        "Built cross-browser, responsive layouts for enterprise web projects",
+        "Developed HTML email templates",
+        "Wrote JavaScript for UI interactions and form validation",
+        "Worked closely with designers and back-end engineers"
       ]
     }
   ],

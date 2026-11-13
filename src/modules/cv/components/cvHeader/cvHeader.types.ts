@@ -10,6 +10,7 @@ export interface Personal {
     contacts: {
         email: string
         linkedin: string
+        github?: string
         telegram: string
     }
 }

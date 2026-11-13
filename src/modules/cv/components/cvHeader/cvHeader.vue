@@ -11,6 +11,13 @@
           rel="me noopener noreferrer"
         >LinkedIn</a>
       </span>
+      <span v-if="personal.contacts.github">
+        <a
+          :href="personal.contacts.github"
+          target="_blank"
+          rel="me noopener noreferrer"
+        >GitHub</a>
+      </span>
     </div>
   </div>
 </template>

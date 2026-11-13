@@ -139,6 +139,7 @@ export function useSiteHead() {
 
         const sameAs = [
             cvData.personal.contacts.linkedin,
+            cvData.personal.contacts.github,
             cvData.personal.contacts.telegram,
             cvData.personal.contacts.instagram,
             cvData.personal.contacts.threads
