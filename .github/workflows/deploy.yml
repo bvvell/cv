@@ -64,7 +64,9 @@ jobs:
   deploy:
     name: Verify and deploy
     needs: release
-    runs-on: ubuntu-latest
+    # Why pinned: `ubuntu-latest` moved to Ubuntu 26, which Playwright 1.57 cannot
+    # install Chromium on. Unpin together with a Playwright upgrade.
+    runs-on: ubuntu-24.04
     environment:
       name: production
       url: https://bvvell.site
